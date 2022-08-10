@@ -11,6 +11,7 @@ namespace CyberCar
     public class CarCntrl: MonoBehaviour
     {
         public float MaxSpeed;
+        public float MaxNitroSpeed;
         public CarGameManager GameManager;
         public GameObject ExplodeCar;
         public bool inGame =true;
@@ -20,6 +21,7 @@ namespace CyberCar
         public GameObject CarModel;
         private float curspeed;
         private BonusEfect curBonus;
+        public int speedBoost;
         void Start()
         {
             List<GameObject> CarsObjs = Resources.LoadAll<GameObject>("Cars").ToList();
@@ -57,6 +59,11 @@ namespace CyberCar
                 {
                     GameManager.AddScore(bonus.Effect.ScoreCount);
                 }
+                if (bonus.Effect.NitroBonus)
+                {
+                    GameManager.NitroBonus+=bonus.Effect.NitroCount;
+                    GameManager._CarCanvas.UpdateNitroView();
+                }
 
             }
         }
@@ -89,5 +96,7 @@ namespace CyberCar
            curBonus = null;
 
        }
+
+     
     }
 }

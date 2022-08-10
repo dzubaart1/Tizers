@@ -27,6 +27,10 @@ namespace CyberCar.ModCanvas
         public void AddScore()
         {
             _view.ShowSCore(GameManager.Score);
+        } 
+        public void UpdateNitroView()
+        {
+            _view.ShowNitroBalance(GameManager.NitroBonus);
         }
     }
 }

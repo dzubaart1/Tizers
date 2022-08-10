@@ -10,8 +10,8 @@ namespace CyberCar.Bonuses
         public bool SpeedBonus;
         public int Speed;
         public int SpeedTime;
-        public bool FlyBonus;
-        public int FlyTime;
+        public bool NitroBonus;
+        public int NitroCount;
         
     }
 }

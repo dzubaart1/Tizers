@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CyberCar.ModCanvas
 {
@@ -16,7 +17,8 @@ namespace CyberCar.ModCanvas
         public TMP_Text BackScore;
         public TMP_Text StartTapText;
         public TMP_Text ScoreText;
-      
+        public Image NitroFill;
+        public CanvasGroup NitroEffect;
 
         private void Start()
         {
@@ -24,6 +26,12 @@ namespace CyberCar.ModCanvas
             CanvasGroupCntrl.ChangeStateCanvas(StartPanel,true);
             CanvasGroupCntrl.ChangeStateCanvas(GamePanle,false);
             CanvasGroupCntrl.ChangeStateCanvas(DiePanel,false);
+            CanvasGroupCntrl.ChangeStateCanvas(NitroEffect,false);
+        }
+
+        public void ShowNitroEffect(bool show)
+        {
+            CanvasGroupCntrl.ChangeStateCanvas(NitroEffect,show); 
         }
 
         public void ShowDiePanel()
@@ -57,6 +65,10 @@ namespace CyberCar.ModCanvas
         public void ShowSCore(int gameManagerScore)
         {
             ScoreText.text = gameManagerScore.ToString();
+        }
+        public void ShowNitroBalance(float NitroBalance)
+        {
+            NitroFill.fillAmount = NitroBalance/100;
         }
     }
 }

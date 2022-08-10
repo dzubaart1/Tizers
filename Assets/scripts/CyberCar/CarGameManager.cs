@@ -12,6 +12,7 @@ namespace CyberCar
         public CarCntrl Car;
         public RoadCntrl RoadCntrl;
         public int Score;
+        public float NitroBonus;
 
         private IEnumerator  Start()
         {
