@@ -43,7 +43,7 @@ namespace CyberCar
         }
         public void GoToMenuScene()
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("UiMenu");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("CyberCarMenu");
         }
 
         public void AddScore(int effectScoreCount)

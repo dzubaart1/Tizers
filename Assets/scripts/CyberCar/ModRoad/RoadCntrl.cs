@@ -53,10 +53,10 @@ namespace CyberCar
                 {
                     
                     prevRoad = Instantiate(TurnRightList[Random.Range(0,TurnRightList.Count-1)],
-                        new Vector3(position.x + 50, 0, position.z),
+                        new Vector3(position.x + 30, 0, position.z),
                         Quaternion.identity);
                     prevRoad.type = 4;
-                    prevRoad.SetPlane(new Vector3(position.x + 50, 0, position.z));
+                    prevRoad.SetPlane(new Vector3(position.x + 30, 0, position.z));
                     prevFront = false;
                     RoadList.Add(prevRoad);
                     prevRoad.transform.parent = RoadBox;
@@ -64,10 +64,10 @@ namespace CyberCar
                 else
                 {
                     prevRoad = Instantiate(RoadRightList[Random.Range(0,RoadRightList.Count-1)],
-                        new Vector3(position.x, 0, position.z - 50),
+                        new Vector3(position.x, 0, position.z - 30),
                         Quaternion.identity);
                     prevRoad.type = 2;
-                    prevRoad.SetPlane(new Vector3(position.x, 0, position.z - 50));
+                    prevRoad.SetPlane(new Vector3(position.x, 0, position.z - 30));
                     RoadList.Add(prevRoad);
                     prevRoad.transform.parent = RoadBox;
                 }
@@ -80,22 +80,22 @@ namespace CyberCar
                 if (!prevFront)
                 {
                     prevRoad = Instantiate(TurnFrontList[Random.Range(0,TurnFrontList.Count-1)],
-                        new Vector3(position.x, 0, position.z - 50),
+                        new Vector3(position.x, 0, position.z - 30),
                         Quaternion.identity);
                     prevFront = true;
                     prevRoad.type = 3;
-                    prevRoad.SetPlane(new Vector3(position.x, 0, position.z - 50));
+                    prevRoad.SetPlane(new Vector3(position.x, 0, position.z - 30));
                     RoadList.Add(prevRoad);
                     prevRoad.transform.parent = RoadBox;
                 }
                 else
                 {
                     prevRoad = Instantiate(RoadFrontList[Random.Range(0,RoadFrontList.Count-1)],
-                        new Vector3(position.x + 50, 0, position.z),
+                        new Vector3(position.x + 30, 0, position.z),
                         Quaternion.identity);
                     prevRoad.type = 1;
                     prevFront = true;
-                    prevRoad.SetPlane(new Vector3(position.x + 50, 0, position.z));
+                    prevRoad.SetPlane(new Vector3(position.x + 30, 0, position.z));
                     RoadList.Add(prevRoad);
                     prevRoad.transform.parent = RoadBox;
                 }

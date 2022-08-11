@@ -18,15 +18,16 @@ namespace CyberCar
         public Rigidbody _rb;
         private CarMoove _moove;
         public Animator Anim;
-        public GameObject CarModel;
+        public CarModelCntrl CarModel;
         private float curspeed;
         private BonusEfect curBonus;
         public int speedBoost;
         void Start()
         {
-            List<GameObject> CarsObjs = Resources.LoadAll<GameObject>("Cars").ToList();
-            CarModel = Instantiate(CarsObjs[Random.Range(0, CarsObjs.Count - 1)],transform);
+            List<CarParams> CarsObjs = Resources.LoadAll<CarParams>("CustomCars").ToList();
+            CarModel = Instantiate(CarsObjs[0].CarModel,transform);
             CarModel.transform.localPosition = new Vector3(0, 0.241f, 0);
+            CarModel.setData(CarsObjs[0].BackLights[1], CarsObjs[0].TexturesList[2]);
             _rb = GetComponent<Rigidbody>();
             _rb.isKinematic = true;
             _moove = GetComponent<CarMoove>();

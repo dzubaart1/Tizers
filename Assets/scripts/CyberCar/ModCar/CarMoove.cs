@@ -43,7 +43,7 @@ namespace CyberCar
             {
                 if (_carCntrl.GameManager.NitroBonus > 0)
                 {
-                    _carCntrl.GameManager.NitroBonus -= Time.deltaTime *100;
+                    _carCntrl.GameManager.NitroBonus -= Time.deltaTime *60;
                     speedBoost = _carCntrl.speedBoost;
                     _onNitro = true;
                     cview.ShowNitroBalance(_carCntrl.GameManager.NitroBonus );
