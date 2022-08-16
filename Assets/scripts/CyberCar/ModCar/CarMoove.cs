@@ -39,54 +39,20 @@ namespace CyberCar
               cview.ShowNitroEffect(false);
             }
 
-            if (Time.time - StartTime >longpress && StartTime!=0)
+            if (_carCntrl.GameManager.NitroBonus > 0 && _onNitro)
             {
-                if (_carCntrl.GameManager.NitroBonus > 0)
-                {
-                    _carCntrl.GameManager.NitroBonus -= Time.deltaTime *60;
-                    speedBoost = _carCntrl.speedBoost;
-                    _onNitro = true;
-                    cview.ShowNitroBalance(_carCntrl.GameManager.NitroBonus );
-                    cview.ShowNitroEffect(true);
-                }
-                else
-                {
-                    cview.ShowNitroEffect(false);
-                    _onNitro = false;
-                    speedBoost = 0;
-                    if (Speed > _carCntrl.MaxSpeed) Speed = _carCntrl.MaxSpeed;
-                }
+                _carCntrl.GameManager.NitroBonus -= Time.deltaTime *156;
+                speedBoost = _carCntrl.speedBoost;
+                _onNitro = true;
+                cview.ShowNitroBalance(_carCntrl.GameManager.NitroBonus );
+                cview.ShowNitroEffect(true);
             }
-
-
-            if (Input.GetMouseButtonDown(0) && isStarted)
+            else
             {
-                float timeSinceLastClick = Time.time - lastClickTime;
-
-                if (timeSinceLastClick <= doubleClickTime)
-                {
-                    TurnCar();
-                }
-                /*else if (timeSinceLastClick >= longpress)
-                {
-                    if (_carCntrl.GameManager.NitroBonus > 0)
-                    {
-                        _carCntrl.GameManager.NitroBonus -= (int) Time.deltaTime * 5;
-                        speedBoost = _carCntrl.speedBoost;
-                        _onNitro = true;
-                        Debug.Log("longPress");
-                    }
-                    else
-                    {
-                        _onNitro = false;
-                        speedBoost = 0;
-                    }
-                }*/
-
-                lastClickTime = Time.time;
+                _onNitro = false;
+                speedBoost = 0;
+                cview.ShowNitroEffect(false);
             }
-
-
             if (transform.position.y < -5)
             {
                 isStarted = false;
@@ -105,6 +71,15 @@ namespace CyberCar
 
 
             if (cview && isStarted) cview.SetSpeed((int) Speed);
+        }
+
+        public void NitroCar()
+        {
+            _onNitro = true;
+        }
+        public void StopNitroCar()
+        {
+            _onNitro = false;
         }
 
         public void TurnCar()
