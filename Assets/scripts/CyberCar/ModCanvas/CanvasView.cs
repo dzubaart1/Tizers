@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace CyberCar.ModCanvas
 {
    
-    public class CanvasView : MonoBehaviour
+    public class CanvasView : Singleton<CanvasView>
     {
         public CarCanvasCntrl _Cntrl;
         public CanvasGroup StartPanel;
@@ -19,6 +19,7 @@ namespace CyberCar.ModCanvas
         public TMP_Text ScoreText;
         public Image NitroFill;
         public CanvasGroup NitroEffect;
+        public GameObject EffectButton;
 
         private void Start()
         {
@@ -69,6 +70,11 @@ namespace CyberCar.ModCanvas
         public void ShowNitroBalance(float NitroBalance)
         {
             NitroFill.fillAmount = NitroBalance/100;
+        }
+
+        public void ShowEffectBtn()
+        {
+            EffectButton.SetActive(true);
         }
     }
 }

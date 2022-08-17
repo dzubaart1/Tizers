@@ -10,11 +10,11 @@ namespace CyberCar
         public bool isStarted;
         public float Speed = 5;
         bool front;
-        private CarCntrl _carCntrl;
+        public CarCntrl _carCntrl;
         public CanvasView cview;
         public float doubleClickTime = .2f, lastClickTime, longpress = 1f;
-        int speedBoost;
-        private bool _onNitro;
+        float speedBoost;
+        public bool _onNitro;
         private float StartTime, EndTime;
 
         void Start()
@@ -22,22 +22,12 @@ namespace CyberCar
             _carCntrl = GetComponent<CarCntrl>();
             StartTime = 0;
             EndTime = 0;
+            cview = CanvasView.Instance;
             cview.ShowNitroBalance(_carCntrl.GameManager.NitroBonus );
         }
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0) && isStarted)
-            {
-                StartTime = Time.time;
-            }
-            if (Input.GetMouseButtonUp(0) && isStarted)
-            {
-              EndTime = Time.time;
-              StartTime = 0;
-              _onNitro = false;
-              cview.ShowNitroEffect(false);
-            }
 
             if (_carCntrl.GameManager.NitroBonus > 0 && _onNitro)
             {
@@ -45,23 +35,26 @@ namespace CyberCar
                 speedBoost = _carCntrl.speedBoost;
                 _onNitro = true;
                 cview.ShowNitroBalance(_carCntrl.GameManager.NitroBonus );
-                cview.ShowNitroEffect(true);
             }
             else
             {
-                _onNitro = false;
-                speedBoost = 0;
                 cview.ShowNitroEffect(false);
+                _onNitro = false;
+                speedBoost = 1;
             }
             if (transform.position.y < -5)
             {
-                isStarted = false;
-                _carCntrl.DeadEnd();
+               isStarted = false;
+               _carCntrl.DeadEnd();
             }
 
             if (Speed < _carCntrl.MaxSpeed && isStarted)
             {
                 Speed += Time.deltaTime * 2;
+            }
+            else if (!_onNitro && Speed > _carCntrl.MaxSpeed)
+            {
+                Speed = _carCntrl.MaxSpeed;
             }
 
             if (Speed < _carCntrl.MaxNitroSpeed && isStarted && _onNitro)
@@ -84,7 +77,7 @@ namespace CyberCar
 
         public void TurnCar()
         {
-            Handheld.Vibrate();
+           // Handheld.Vibrate();
             if (!front)
             {
                 _carCntrl.Anim.SetTrigger("right");
@@ -106,8 +99,8 @@ namespace CyberCar
             {
                 if (_carCntrl.inGame)
                 {
-                    if (front) transform.Translate(Vector3.forward * Speed * Time.fixedDeltaTime);
-                    else transform.Translate(Vector3.forward * Speed * Time.fixedDeltaTime);
+                    if (front) transform.Translate(Vector3.forward * (Speed * Time.fixedDeltaTime * speedBoost));
+                    else transform.Translate(Vector3.forward * (Speed * Time.fixedDeltaTime * speedBoost));
                 }
             }
         }

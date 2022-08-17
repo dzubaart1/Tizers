@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -26,12 +27,13 @@ namespace CyberCar
             TurnFrontList = Resources.LoadAll<RoadPlaneCntrl>("turnF").ToList();
             TurnRightList = Resources.LoadAll<RoadPlaneCntrl>("turnR").ToList();
             prevFront = true;
+            StartRoad = Instantiate(RoadFrontList[0], new Vector3(0, 0, 0), Quaternion.identity);
             prevRoad = StartRoad;
+            Player = CarCntrl.Instance;
             for (int i = 0; i < 5; i++)
             {
                 CreateNewRoad();
             }
-
         }
 
         private void FixedUpdate()

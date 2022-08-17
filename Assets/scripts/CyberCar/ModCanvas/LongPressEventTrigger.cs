@@ -1,3 +1,6 @@
+using DefaultNamespace;
+using Zenject;
+
 namespace CyberCar.ModCanvas
 {
     using UnityEngine;
@@ -15,13 +18,25 @@ namespace CyberCar.ModCanvas
         private bool isPointerDown = false;
         private bool longPressTriggered = false;
         private float timePressStarted;
- 
- 
+        private bool Showed;
+        SignalBus _signalBus;
+        
+        [Inject]
+        public void Construct( SignalBus signalBus)
+        {
+            _signalBus = signalBus;
+            
+            
+        }
         private void Update( ) {
             if ( isPointerDown && !longPressTriggered ) {
                 if ( Time.time - timePressStarted > durationThreshold ) {
                     longPressTriggered = true;
-                    onLongPress.Invoke( );
+                    if (!Showed)
+                    {
+                        _signalBus.Fire<Signal_nitro>();
+                        Showed = true;
+                    }
                 }
             }
         }
@@ -35,9 +50,12 @@ namespace CyberCar.ModCanvas
         public void OnPointerUp( PointerEventData eventData ) {
             if (Time.time - timePressStarted < durationThreshold)
             {
-                onShortPress.Invoke( );
+                _signalBus.Fire<Signal_turn_car>();
+               // onShortPress.Invoke( );
             }
-            stopDataPress.Invoke( );
+            _signalBus.Fire<Signal_stop_nitro>();
+            Showed = false;
+          //  stopDataPress.Invoke( );
             isPointerDown = false;
         }
  

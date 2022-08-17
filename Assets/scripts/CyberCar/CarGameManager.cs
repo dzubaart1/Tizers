@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using CyberCar.ModCanvas;
+using DefaultNamespace;
 using UnityEngine;
+using Zenject;
 
 namespace CyberCar
 {
-    public class CarGameManager: MonoBehaviour
+    public class CarGameManager: Singleton<CarGameManager>
     {
         public bool GameStarted;
         public CarCanvasCntrl _CarCanvas;
@@ -13,11 +15,20 @@ namespace CyberCar
         public RoadCntrl RoadCntrl;
         public int Score;
         public float NitroBonus;
-
+        SignalBus _signalBus;
+        
+        [Inject]
+        public void Construct( SignalBus signalBus)
+        {
+            _signalBus = signalBus;
+            _signalBus.Subscribe<Signal_is_die>(isDie);
+            _signalBus.Subscribe<Signal_start_game>(StartGame);
+          
+        }
         private IEnumerator  Start()
         {
-            Car.GameManager = this;
-            _CarCanvas.GameManager = this;
+            /*Car.GameManager = this;
+            _CarCanvas.GameManager = this;*/
             yield return new WaitForSeconds(1);
             
         }
