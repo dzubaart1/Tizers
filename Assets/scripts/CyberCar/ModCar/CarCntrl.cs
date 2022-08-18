@@ -110,6 +110,7 @@ namespace CyberCar
             }
             if (other.tag == "effect")
             {
+                ObstacleCntrl effect = other.GetComponent<ObstacleCntrl>();
                 efectObj = Instantiate(new GameObject() ,CarModel.transform);
                 MeshFilter filter = efectObj.AddComponent<MeshFilter>();
                 filter.mesh = other.GetComponent<ObstacleCntrl>().givenEfect.mesh;
@@ -118,7 +119,8 @@ namespace CyberCar
                 MyEffect = other.GetComponent<ObstacleCntrl>().myType;
                 Destroy(other.GetComponent<BoxCollider>());
                 efectObj.SetActive(false);
-                _signalBus.Fire<Signal_Show_effect_button>();
+                _signalBus.Fire(new Signal_Show_effect_button(){showTime =effect.givenEfect.showBtnTime, effecticon = effect.givenEfect.DefenceIcon});
+                Debug.Log("fireSignal button");
             }
             if (other.tag == "border")
             {

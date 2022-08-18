@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Mazda
   id: 3
-  icon: {fileID: 21300000, guid: 19c3f8d0badf2ad42a11bb2632f822c4, type: 3}
+  icon: {fileID: 21300000, guid: d6b2a3242a6f22a44b1ed014aac58a00, type: 3}
   TexturesList:
   - {fileID: 2800000, guid: e424ad8592019ed46b9159eaa070ea16, type: 3}
   - {fileID: 2800000, guid: 3ada32b0e1eaf9b4d99328af5518ec1d, type: 3}

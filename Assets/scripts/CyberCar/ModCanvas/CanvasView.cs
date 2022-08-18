@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DefaultNamespace;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +20,7 @@ namespace CyberCar.ModCanvas
         public TMP_Text ScoreText;
         public Image NitroFill;
         public CanvasGroup NitroEffect;
-        public GameObject EffectButton;
+        public EfectButtonCntrl EffectButton;
 
         private void Start()
         {
@@ -72,9 +73,9 @@ namespace CyberCar.ModCanvas
             NitroFill.fillAmount = NitroBalance/100;
         }
 
-        public void ShowEffectBtn()
+        public void ShowEffectBtn(Signal_Show_effect_button effectButton)
         {
-            EffectButton.SetActive(true);
+            EffectButton.SetData(effectButton.effecticon,effectButton.showTime);
         }
     }
 }

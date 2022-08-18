@@ -68,15 +68,15 @@ namespace CyberCar.ModCanvas
             GameManager.GoToMenuScene();
         }
 
-        void ShowEffectBtn()
+        void ShowEffectBtn(Signal_Show_effect_button effectButton)
         {
-            _view.ShowEffectBtn();
+            _view.ShowEffectBtn(effectButton);
         }
 
         public void SetEfect()
         {
-            _view.EffectButton.SetActive(false);
             _signalBus.Fire<Signal_Show_Get_Effect>();
+            _view.EffectButton.EffectIsConfirmed();
         }
     }
 }

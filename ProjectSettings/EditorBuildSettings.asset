@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/UiMenu.unity
     guid: 999acf42f9bf2a74c8f7d835e4c7e6a7
   - enabled: 1
@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CyberCar.unity
     guid: 3515a9f32f8e5c74ab8b2b07f3236506
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/2048.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}

@@ -8,7 +8,7 @@ namespace Obstacles
     {
         public EffectParams givenEfect;
         public EfectType myType;
-        public float timeCd;
+       
         public enum EfectType
         {
             none,
