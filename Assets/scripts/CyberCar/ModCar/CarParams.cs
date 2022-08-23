@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace CyberCar
         public string Name;
         public int id;
         public Sprite icon;
+        public List<Color> TexturesColor;
         public List<Texture> TexturesList;
         public List<GameObject> BackLights;
         public CarModelCntrl CarModel;

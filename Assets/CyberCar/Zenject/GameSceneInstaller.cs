@@ -35,8 +35,6 @@ namespace CyberCar.Zenject
             //Bindings
             Container.Bind<CarCntrl>().FromInstance(car).AsSingle();
             Container.Bind<CarGameManager>().FromInstance(manager).AsSingle();
-            // Container.Bind<ResourcesView>().FromInstance(res).AsSingle();
-            // Container.Bind<StartCntrl>().AsSingle();
        
 
             void InitialSignals()
@@ -46,8 +44,9 @@ namespace CyberCar.Zenject
                 Container.DeclareSignal<Signal_turn_car>();
                 Container.DeclareSignal<Signal_nitro>();
                 Container.DeclareSignal<Signal_stop_nitro>();
-                Container.DeclareSignal<Signal_Show_effect_button>();
-                Container.DeclareSignal<Signal_Show_Get_Effect>();
+                Container.DeclareSignal<Signal_Show_alert_icon>();
+                Container.DeclareSignal<SignalSetEfect>();
+                Container.DeclareSignal<SignalStopEfect>();
                
             }
 

@@ -20,8 +20,7 @@ namespace CyberCar.ModCanvas
         public TMP_Text ScoreText;
         public Image NitroFill;
         public CanvasGroup NitroEffect;
-        public EfectButtonCntrl EffectButton;
-
+        public AlertIconCntrl AlertIcon;
         private void Start()
         {
             BackScore.gameObject.SetActive(false);
@@ -73,9 +72,9 @@ namespace CyberCar.ModCanvas
             NitroFill.fillAmount = NitroBalance/100;
         }
 
-        public void ShowEffectBtn(Signal_Show_effect_button effectButton)
+        public void AlertOnRoad(Sprite icon)
         {
-            EffectButton.SetData(effectButton.effecticon,effectButton.showTime);
+            AlertIcon.setData(icon);
         }
     }
 }

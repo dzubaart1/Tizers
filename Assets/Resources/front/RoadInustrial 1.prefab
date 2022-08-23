@@ -105,6 +105,7 @@ MonoBehaviour:
   isStart: 0
   speed: 10
   Bonus: {fileID: 0}
+  Obstacle: {fileID: 0}
   type: 0
 --- !u!95 &4446212929764756057
 Animator:
@@ -547,14 +548,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4117049621587070, guid: ecf8d246db05b9f4796136974bec298b, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117049621587070, guid: ecf8d246db05b9f4796136974bec298b, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117049621587070, guid: ecf8d246db05b9f4796136974bec298b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -592,16 +585,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4117049621587070, guid: ecf8d246db05b9f4796136974bec298b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 65824892577441716, guid: ecf8d246db05b9f4796136974bec298b,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 205543792200253540, guid: ecf8d246db05b9f4796136974bec298b,
-        type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -10,11 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac04ff5be85749b8ac0c9c91176fb586, type: 3}
-  m_Name: Mazda_Savanne_RX7 3
+  m_Name: Lambo
   m_EditorClassIdentifier: 
-  Name: Mazda
-  id: 2
-  icon: {fileID: 21300000, guid: d6b2a3242a6f22a44b1ed014aac58a00, type: 3}
+  Name: Lambo
+  id: 1
+  icon: {fileID: 21300000, guid: 8225049835f9bc34cba4ca0eafbfad4c, type: 3}
+  TexturesColor:
+  - {r: 0.19645181, g: 0.22493105, b: 0.8113208, a: 1}
+  - {r: 0.9528302, g: 0.059926324, b: 0.8569613, a: 1}
+  - {r: 0.058823552, g: 0.9529412, b: 0.40526944, a: 1}
+  - {r: 0.9528302, g: 0, b: 0.06532479, a: 1}
+  - {r: 0.9529412, g: 0.8158775, b: 0, a: 1}
   TexturesList:
   - {fileID: 2800000, guid: e424ad8592019ed46b9159eaa070ea16, type: 3}
   - {fileID: 2800000, guid: 3ada32b0e1eaf9b4d99328af5518ec1d, type: 3}
@@ -24,5 +30,4 @@ MonoBehaviour:
   - {fileID: 995543726506482059, guid: cb5bc08dd9ec19341bda028edf3999fe, type: 3}
   - {fileID: 995543726506482059, guid: d340d625160c309428c2041700817ac8, type: 3}
   - {fileID: 995543726506482059, guid: ede81f5c18a1dce4e967bca274f6bd19, type: 3}
-  CarModel: {fileID: 1201290541146329089, guid: 6b2d78e72059f6842b781defc2ef2051,
-    type: 3}
+  CarModel: {fileID: 912379431680310616, guid: eb2fb8dd3c90ee74c985e4e734f69ac1, type: 3}

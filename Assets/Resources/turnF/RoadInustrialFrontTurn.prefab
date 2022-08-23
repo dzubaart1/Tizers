@@ -103,6 +103,7 @@ MonoBehaviour:
   isStart: 0
   speed: 10
   Bonus: {fileID: 0}
+  Obstacle: {fileID: 0}
   type: 0
 --- !u!1001 &1219307417325449526
 PrefabInstance:
@@ -331,14 +332,6 @@ PrefabInstance:
     - target: {fileID: 4117049621587070, guid: ecf8d246db05b9f4796136974bec298b, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117049621587070, guid: ecf8d246db05b9f4796136974bec298b, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117049621587070, guid: ecf8d246db05b9f4796136974bec298b, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4117049621587070, guid: ecf8d246db05b9f4796136974bec298b, type: 3}
       propertyPath: m_LocalPosition.x

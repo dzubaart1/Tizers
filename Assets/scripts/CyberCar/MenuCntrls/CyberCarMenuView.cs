@@ -1,15 +1,24 @@
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
+using Zenject;
 
 namespace CyberCar.MenuCntrls
 {
     public class CyberCarMenuView: MonoBehaviour
     {
-        public List<CyberCarMenuPanel> PanelsList;
         public CyberCarMenuCntrl MenuCntrl = new CyberCarMenuCntrl();
+        SignalBus _signalBus;
+        [Inject]
+        public void Construct( SignalBus signalBus)
+        {
+            _signalBus = signalBus;
+            //_signalBus.Subscribe<Signal_start_game>(StartGame);
+          
+        }
         void Start()
         {
-            PanelsList[0].ActivatePanel(true);
+            ShowPanel(1);
         }
         public void StartGame()
         {
@@ -17,16 +26,9 @@ namespace CyberCar.MenuCntrls
         }
         public void ShowPanel(int id)
         {
-            foreach (var VARIABLE in PanelsList)
-            {
-                VARIABLE.ActivatePanel(false);
-            }
-            PanelsList[id].ActivatePanel(true);
-            if (PanelsList[id].isShop)
-            {
-                PanelsList[id]._view =this;
-                PanelsList[id].SetShop();
-            }
+            ShowMenuPanle panel = new ShowMenuPanle();
+            panel.idPanel = id;
+            _signalBus.Fire(panel);
         }
 
       

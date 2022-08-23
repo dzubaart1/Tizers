@@ -12,6 +12,7 @@ namespace CyberCar.Bonuses
         public Sprite DefenceIcon;
         public float EffectTime;
         public float showBtnTime;
+        public ObstacleCntrl.EfectType myType;
     
     }
 }

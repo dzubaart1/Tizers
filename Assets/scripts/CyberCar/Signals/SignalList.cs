@@ -1,3 +1,4 @@
+using CyberCar.Bonuses;
 using UnityEngine;
 
 namespace DefaultNamespace
@@ -18,9 +19,19 @@ namespace DefaultNamespace
     public class Signal_turn_car { }
     public class Signal_nitro { }
     public class Signal_stop_nitro { }
-    public class Signal_Show_effect_button {
-        public float showTime =0;
+    public class Signal_Show_alert_icon {
         public Sprite effecticon = null;
     }
-    public class Signal_Show_Get_Effect { }
+
+    public class SignalSetEfect
+    {
+        public EffectParams effect;
+    }
+
+    public class SignalStopEfect
+    {
+        public EffectParams effect;  
+    }
+
+    
 }

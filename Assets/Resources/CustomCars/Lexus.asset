@@ -10,11 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac04ff5be85749b8ac0c9c91176fb586, type: 3}
-  m_Name: Mazda_Savanne_RX7 1
+  m_Name: Lexus
   m_EditorClassIdentifier: 
-  Name: Mazda
-  id: 4
-  icon: {fileID: 21300000, guid: d6b2a3242a6f22a44b1ed014aac58a00, type: 3}
+  Name: Lexus
+  id: 2
+  icon: {fileID: 21300000, guid: 8697bfeb088b74947a1142cea0eb21ac, type: 3}
+  TexturesColor:
+  - {r: 0.9716981, g: 0.0061111883, b: 0.0061111883, a: 1}
+  - {r: 0.972549, g: 0.82798785, b: 0.007843129, a: 1}
+  - {r: 0.007843129, g: 0.13532159, b: 0.972549, a: 1}
+  - {r: 0.20392154, g: 0.9137255, b: 0.21570912, a: 1}
+  - {r: 0.8207547, g: 0.09807753, b: 0.7035565, a: 1}
   TexturesList:
   - {fileID: 2800000, guid: e424ad8592019ed46b9159eaa070ea16, type: 3}
   - {fileID: 2800000, guid: 3ada32b0e1eaf9b4d99328af5518ec1d, type: 3}
@@ -24,5 +30,5 @@ MonoBehaviour:
   - {fileID: 995543726506482059, guid: cb5bc08dd9ec19341bda028edf3999fe, type: 3}
   - {fileID: 995543726506482059, guid: d340d625160c309428c2041700817ac8, type: 3}
   - {fileID: 995543726506482059, guid: ede81f5c18a1dce4e967bca274f6bd19, type: 3}
-  CarModel: {fileID: 1201290541146329089, guid: 6b2d78e72059f6842b781defc2ef2051,
+  CarModel: {fileID: 2323089544999520706, guid: 02fef41af78b17f4fa9bb69acc83d20e,
     type: 3}

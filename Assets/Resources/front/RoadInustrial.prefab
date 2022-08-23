@@ -105,6 +105,7 @@ MonoBehaviour:
   isStart: 0
   speed: 10
   Bonus: {fileID: 0}
+  Obstacle: {fileID: 0}
   type: 0
 --- !u!95 &1859755469
 Animator:

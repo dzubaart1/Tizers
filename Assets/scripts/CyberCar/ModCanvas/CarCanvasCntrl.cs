@@ -18,9 +18,15 @@ namespace CyberCar.ModCanvas
             _signalBus = signalBus;
             _signalBus.Subscribe<Signal_nitro>(ShowNitro);
             _signalBus.Subscribe<Signal_stop_nitro>(HideNitro);
-            _signalBus.Subscribe<Signal_Show_effect_button>(ShowEffectBtn);
+            _signalBus.Subscribe<Signal_Show_alert_icon>(ShowAlertIcon);
           
         }
+
+        private void ShowAlertIcon(Signal_Show_alert_icon signal)
+        {
+            _view.AlertOnRoad(signal.effecticon);
+        }
+
         public void StartUiGame()
         {
             if (readytoStart)  return ;
@@ -68,15 +74,6 @@ namespace CyberCar.ModCanvas
             GameManager.GoToMenuScene();
         }
 
-        void ShowEffectBtn(Signal_Show_effect_button effectButton)
-        {
-            _view.ShowEffectBtn(effectButton);
-        }
-
-        public void SetEfect()
-        {
-            _signalBus.Fire<Signal_Show_Get_Effect>();
-            _view.EffectButton.EffectIsConfirmed();
-        }
+        
     }
 }

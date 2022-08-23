@@ -6,10 +6,21 @@ namespace CyberCar.MenuCntrls
     public class ShopItemCntrl: MonoBehaviour
     {
         public Image IconImage;
-
-        public void SetData(Sprite iconSprite)
+        public Button _Button;
+        public CarParams myCar;
+        public ShopView View;
+        public void SetData(CarParams car,ShopView view)
         {
-            IconImage.sprite = iconSprite;
+            View = view;
+            myCar = car;
+            IconImage.sprite = car.icon;
+            _Button = GetComponent<Button>();
+            _Button.onClick.AddListener(SetMyCar);
+        }
+
+        void SetMyCar()
+        {
+            View.setShopCar(myCar);
         }
     }
 }

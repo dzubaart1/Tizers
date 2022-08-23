@@ -18,3 +18,4 @@ MonoBehaviour:
   DefenceIcon: {fileID: 21300000, guid: 24136605733917149bcceb8d378f7360, type: 3}
   EffectTime: 4
   showBtnTime: 2
+  myType: 1
