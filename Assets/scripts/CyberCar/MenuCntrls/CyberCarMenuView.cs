@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DefaultNamespace;
+using TMPro;
 using UnityEngine;
 using Zenject;
 
@@ -8,6 +9,7 @@ namespace CyberCar.MenuCntrls
     public class CyberCarMenuView: MonoBehaviour
     {
         public CyberCarMenuCntrl MenuCntrl = new CyberCarMenuCntrl();
+        public TMP_Text CoinScore;
         SignalBus _signalBus;
         [Inject]
         public void Construct( SignalBus signalBus)
@@ -18,7 +20,17 @@ namespace CyberCar.MenuCntrls
         }
         void Start()
         {
-            ShowPanel(1);
+            //PlayerPrefs.SetInt("CoinScore",0);
+            CoinScore.text = PlayerPrefs.GetInt("CoinScore").ToString();
+            
+            if (PlayerPrefs.GetInt("FirstComplite") == 1)
+            {
+                ShowPanel(1);
+            }
+            else
+            {
+                ShowPanel(0);
+            }
         }
         public void StartGame()
         {

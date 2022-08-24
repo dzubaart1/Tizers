@@ -10,7 +10,7 @@ namespace CyberCar.ModCanvas
         public Image Icon;
         public CanvasGroup _group;
         private bool onshowed;
-        private float showTime = 2;
+        private float showTime = 0.7f;
 
         private void Start()
         {

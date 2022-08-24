@@ -41,6 +41,7 @@ namespace CyberCar
         IEnumerator ShowDie()
         {
             yield return new WaitForSeconds(0.6f);
+           
             _CarCanvas.GameOver();
         }
 
@@ -51,10 +52,14 @@ namespace CyberCar
         public void restartScene()
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("CyberCar");
+            int curscore = PlayerPrefs.GetInt("CoinScore");
+            PlayerPrefs.SetInt("CoinScore", curscore + Score);
         }
         public void GoToMenuScene()
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("CyberCarMenu");
+            int curscore = PlayerPrefs.GetInt("CoinScore");
+            PlayerPrefs.SetInt("CoinScore", curscore + Score);
         }
 
         public void AddScore(int effectScoreCount)

@@ -71,7 +71,7 @@ namespace CyberCar
 
             CarModel.transform.rotation = Quaternion.identity;;
             CarModel.transform.localPosition = new Vector3(0, 0.241f, 0);
-            CarModel.setData(CarsObjs[0].BackLights[1], CarsObjs[0].TexturesList[2]);
+            CarModel.setData(CarsObjs[0].BackLights[1]);
             _rb = GetComponent<Rigidbody>();
             _rb.isKinematic = true;
             _moove = GetComponent<CarMoove>();

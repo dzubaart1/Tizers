@@ -8,9 +8,8 @@ namespace CyberCar
         public List<Transform> backlights;
         public Renderer _renderer;
 
-        public void setData(GameObject backlight, Texture tex)
+        public void setData(GameObject backlight)
         {
-            _renderer.material.mainTexture = tex;
             foreach (var trans in backlights)
             {
                 Instantiate(backlight, trans);
