@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using CyberCar.ModShopItems;
 using UnityEngine;
 namespace CyberCar.MenuCntrls
 {
@@ -9,11 +10,22 @@ namespace CyberCar.MenuCntrls
     {
         public CarParams CurCar { get; set; }
         public int CurColor { get; set; }
+        public int CurBacklight { get; set; }
 
         public  List<CarParams> GetCarsList()
         {
             List<CarParams> CarsObjs = Resources.LoadAll<CarParams>("CustomCars").ToList();
             return CarsObjs;
+        }  
+        public  List<ColorItem> GetColorsList()
+        {
+            List<ColorItem> Colors = Resources.LoadAll<ColorItem>("ColorItems").ToList();
+            return Colors;
+        } 
+        public  List<BackLightItem> GetBackLists()
+        {
+            List<BackLightItem> BackLists = Resources.LoadAll<BackLightItem>("BackLightsItems").ToList();
+            return BackLists;
         } 
         public void SaveGame()
         {
@@ -22,6 +34,7 @@ namespace CyberCar.MenuCntrls
             CarSave data = new CarSave();
             data.carParamsId = CurCar.id;
             data.colorId = CurColor;
+            data.backlightsId = CurBacklight;
             bf.Serialize(file, data);
             file.Close();
             Debug.Log("Game data saved!");

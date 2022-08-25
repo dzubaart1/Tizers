@@ -19,12 +19,17 @@ namespace CyberCar.ModCanvas
             _signalBus.Subscribe<Signal_nitro>(ShowNitro);
             _signalBus.Subscribe<Signal_stop_nitro>(HideNitro);
             _signalBus.Subscribe<Signal_Show_alert_icon>(ShowAlertIcon);
+            _signalBus.Subscribe<Signal_Hide_alert_icon>(HideAlertIcon);
           
         }
 
         private void ShowAlertIcon(Signal_Show_alert_icon signal)
         {
             _view.AlertOnRoad(signal.effecticon);
+        } 
+        private void HideAlertIcon()
+        {
+            _view.HideAlertOnRoad();
         }
 
         public void StartUiGame()

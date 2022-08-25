@@ -45,6 +45,7 @@ namespace CyberCar.Zenject
                 Container.DeclareSignal<Signal_nitro>();
                 Container.DeclareSignal<Signal_stop_nitro>();
                 Container.DeclareSignal<Signal_Show_alert_icon>();
+                Container.DeclareSignal<Signal_Hide_alert_icon>();
                 Container.DeclareSignal<SignalSetEfect>();
                 Container.DeclareSignal<SignalStopEfect>();
                

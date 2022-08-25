@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CyberCar.ModShopItems;
 using UnityEngine;
 
 namespace CyberCar
@@ -7,12 +8,15 @@ namespace CyberCar
     [CreateAssetMenu(fileName = "CarParams", menuName = "Cars/Params", order = 1)]
     public class CarParams: ScriptableObject
     {
-        public string Name;
         public int id;
+        public int price;
+        public string Name;
         public Sprite icon;
         public List<Color> TexturesColor;
-        public List<Texture> TexturesList;
-        public List<GameObject> BackLights;
+        public List<ColorItem> AvalibleColors;
+        public bool IsBuyed;
+     //   public List<Texture> TexturesList;
+        //public List<GameObject> BackLights;
         public CarModelCntrl CarModel;
     }
 }

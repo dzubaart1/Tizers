@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac04ff5be85749b8ac0c9c91176fb586, type: 3}
   m_Name: Lexus
   m_EditorClassIdentifier: 
-  Name: Lexus
   id: 2
+  price: 200
+  Name: Lexus
   icon: {fileID: 21300000, guid: 8697bfeb088b74947a1142cea0eb21ac, type: 3}
   TexturesColor:
   - {r: 0.9716981, g: 0.0061111883, b: 0.0061111883, a: 1}
@@ -21,14 +22,10 @@ MonoBehaviour:
   - {r: 0.007843129, g: 0.13532159, b: 0.972549, a: 1}
   - {r: 0.20392154, g: 0.9137255, b: 0.21570912, a: 1}
   - {r: 0.8207547, g: 0.09807753, b: 0.7035565, a: 1}
-  TexturesList:
-  - {fileID: 2800000, guid: e424ad8592019ed46b9159eaa070ea16, type: 3}
-  - {fileID: 2800000, guid: 3ada32b0e1eaf9b4d99328af5518ec1d, type: 3}
-  - {fileID: 2800000, guid: aa40f0c92a9da7948ae81fd4f7651f5e, type: 3}
-  - {fileID: 2800000, guid: bc71f1668065c3a4eb343cff24649048, type: 3}
-  BackLights:
-  - {fileID: 995543726506482059, guid: cb5bc08dd9ec19341bda028edf3999fe, type: 3}
-  - {fileID: 995543726506482059, guid: d340d625160c309428c2041700817ac8, type: 3}
-  - {fileID: 995543726506482059, guid: ede81f5c18a1dce4e967bca274f6bd19, type: 3}
+  AvalibleColors:
+  - {fileID: 11400000, guid: 458e183b6f38a424eb3f1ba94fa62bd6, type: 2}
+  - {fileID: 11400000, guid: dc9a916ea2f47574eaca23b88245027f, type: 2}
+  - {fileID: 11400000, guid: e8d1ecea7ca720e479199f137b09854b, type: 2}
+  - {fileID: 11400000, guid: a64a693bf6927b14494138c8b952f886, type: 2}
   CarModel: {fileID: 2323089544999520706, guid: 02fef41af78b17f4fa9bb69acc83d20e,
     type: 3}

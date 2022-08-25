@@ -21,6 +21,9 @@ namespace DefaultNamespace
     public class Signal_stop_nitro { }
     public class Signal_Show_alert_icon {
         public Sprite effecticon = null;
+    } 
+    public class Signal_Hide_alert_icon {
+       
     }
 
     public class SignalSetEfect

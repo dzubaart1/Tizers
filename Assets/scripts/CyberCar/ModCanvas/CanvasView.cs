@@ -76,5 +76,9 @@ namespace CyberCar.ModCanvas
         {
             AlertIcon.setData(icon);
         }
+        public void HideAlertOnRoad()
+        {
+            AlertIcon.HideAlarm();
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CyberCar.Bonuses;
+using CyberCar.ModShopItems;
 using DefaultNamespace;
 using Obstacles;
 using UnityEngine;
@@ -43,12 +44,13 @@ namespace CyberCar
             //_signalBus.Fire<PlanetIsReady>();
         }
 
-       
 
         void Start()
         {
-            
+            Debug.Log(Application.persistentDataPath + "/MySaveData.dat");
             List<CarParams> CarsObjs = Resources.LoadAll<CarParams>("CustomCars").ToList();
+
+
             CarSave savedCar = SaveLoadCntrl.LoadGame();
             CarParams GameCar = CarsObjs[1];
             if (savedCar != null)
@@ -59,7 +61,32 @@ namespace CyberCar
                     {
                         GameCar = CarsObjs[i];
                         CarModel = Instantiate(GameCar.CarModel, transform);
-                        CarModel._renderer.material.color = GameCar.TexturesColor[savedCar.colorId];
+                        if (savedCar.colorId != 0)
+                        {
+                            
+                            List<ColorItem> colorItems = Resources.LoadAll<ColorItem>("ColorItems").ToList();
+                            for (int j = 0; j < colorItems.Count; j++)
+                            {
+                                if (colorItems[j].id == savedCar.colorId)
+                                {
+                                    CarModel._renderer.material.color = colorItems[j].color;
+                                    CarModel._renderer.material.EnableKeyword("_EMISSION");
+                                    CarModel._renderer.material.SetVector("_EmissionColor", colorItems[j].color*(0.5f) );
+                                }
+                            }
+                        }
+
+                        if (savedCar.backlightsId != 0)
+                        {
+                            List<BackLightItem> BackLists =
+                                Resources.LoadAll<BackLightItem>("BackLightsItems").ToList();
+                            for (int j = 0; j < BackLists.Count; j++)
+                            {
+                                if (BackLists[j].id == savedCar.backlightsId)
+                                    CarModel.setData(BackLists[j].backlight);
+                            }
+                        }
+
                         break;
                     }
                 }
@@ -69,9 +96,10 @@ namespace CyberCar
                 CarModel = Instantiate(CarsObjs[1].CarModel, transform);
             }
 
-            CarModel.transform.rotation = Quaternion.identity;;
+            CarModel.transform.rotation = Quaternion.identity;
+            ;
             CarModel.transform.localPosition = new Vector3(0, 0.241f, 0);
-            CarModel.setData(CarsObjs[0].BackLights[1]);
+            // CarModel.setData(CarsObjs[0].BackLights[1]);
             _rb = GetComponent<Rigidbody>();
             _rb.isKinematic = true;
             _moove = GetComponent<CarMoove>();
@@ -141,12 +169,12 @@ namespace CyberCar
             if (other.tag == "effect")
             {
                 ObstacleCntrl effect = other.GetComponent<ObstacleCntrl>();
-                _signalBus.Fire(new Signal_Show_alert_icon() { effecticon = effect.givenEfect.DefenceIcon});
-                Debug.Log("fireSignal button");
+                _signalBus.Fire(new Signal_Show_alert_icon() {effecticon = effect.givenEfect.DefenceIcon});
             }
 
             if (other.tag == "border")
             {
+                _signalBus.Fire<Signal_Hide_alert_icon>();
                 if (other.GetComponent<ObstainsBlockCntrl>().neededEffect == MyEffect && efectObj.activeSelf)
                 {
                     Destroy(other.gameObject);
@@ -170,6 +198,7 @@ namespace CyberCar
                 filter.mesh = effect.mesh;
                 efectObj.AddComponent<MeshRenderer>();
             }
+
             efectObj.GetComponent<Renderer>().material = effect.Material;
             MyEffect = effect.myType;
             if (efectObj)
@@ -177,6 +206,7 @@ namespace CyberCar
                 efectObj.SetActive(true);
             }
         }
+
         private void DeactivateEffect()
         {
             throw new NotImplementedException();

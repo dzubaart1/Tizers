@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac04ff5be85749b8ac0c9c91176fb586, type: 3}
+  m_Name: Largus
+  m_EditorClassIdentifier: 
+  id: 4
+  price: 200
+  Name: Largus
+  icon: {fileID: 21300000, guid: 9ea3fa7a83882d945a0025d5a81ba4a9, type: 3}
+  TexturesColor:
+  - {r: 0.9716981, g: 0.0061111883, b: 0.0061111883, a: 1}
+  - {r: 0.972549, g: 0.82798785, b: 0.007843129, a: 1}
+  - {r: 0.007843129, g: 0.13532159, b: 0.972549, a: 1}
+  - {r: 0.20392154, g: 0.9137255, b: 0.21570912, a: 1}
+  - {r: 0.8207547, g: 0.09807753, b: 0.7035565, a: 1}
+  AvalibleColors:
+  - {fileID: 11400000, guid: 458e183b6f38a424eb3f1ba94fa62bd6, type: 2}
+  - {fileID: 11400000, guid: 33a3569b3be7642479a509a17103a8a1, type: 2}
+  - {fileID: 11400000, guid: ff4352202f6904b4fb4e75f14533035c, type: 2}
+  - {fileID: 11400000, guid: e8d1ecea7ca720e479199f137b09854b, type: 2}
+  CarModel: {fileID: 7949075432189098915, guid: 86930e0423e70474299699350e04fd6f,
+    type: 3}

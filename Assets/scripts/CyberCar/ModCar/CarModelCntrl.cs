@@ -7,14 +7,23 @@ namespace CyberCar
     {
         public List<Transform> backlights;
         public Renderer _renderer;
+        private List<GameObject> curBack = new List<GameObject>();
 
         public void setData(GameObject backlight)
         {
+            if (curBack.Count > 0)
+            {
+                foreach (var VARIABLE in curBack)
+                {
+                    Destroy(VARIABLE.gameObject);
+                }
+            }
+
+            curBack = new List<GameObject>();
             foreach (var trans in backlights)
             {
-                Instantiate(backlight, trans);
+                curBack.Add(Instantiate(backlight, trans));
             }
         }
-
     }
 }

@@ -38,5 +38,11 @@ namespace CyberCar.ModCanvas
                 CanvasGroupCntrl.ChangeStateCanvas(_group,false);
             }
         }
+
+        public void HideAlarm()
+        {
+            onshowed = false;
+            CanvasGroupCntrl.ChangeStateCanvas(_group,false);
+        }
     }
 }

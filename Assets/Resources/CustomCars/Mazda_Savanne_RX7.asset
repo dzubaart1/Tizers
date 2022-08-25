@@ -12,18 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac04ff5be85749b8ac0c9c91176fb586, type: 3}
   m_Name: Mazda_Savanne_RX7
   m_EditorClassIdentifier: 
-  Name: Mazda
   id: 3
+  price: 200
+  Name: Mazda
   icon: {fileID: 21300000, guid: d6b2a3242a6f22a44b1ed014aac58a00, type: 3}
   TexturesColor: []
-  TexturesList:
-  - {fileID: 2800000, guid: e424ad8592019ed46b9159eaa070ea16, type: 3}
-  - {fileID: 2800000, guid: 3ada32b0e1eaf9b4d99328af5518ec1d, type: 3}
-  - {fileID: 2800000, guid: aa40f0c92a9da7948ae81fd4f7651f5e, type: 3}
-  - {fileID: 2800000, guid: bc71f1668065c3a4eb343cff24649048, type: 3}
-  BackLights:
-  - {fileID: 995543726506482059, guid: cb5bc08dd9ec19341bda028edf3999fe, type: 3}
-  - {fileID: 995543726506482059, guid: d340d625160c309428c2041700817ac8, type: 3}
-  - {fileID: 995543726506482059, guid: ede81f5c18a1dce4e967bca274f6bd19, type: 3}
+  AvalibleColors:
+  - {fileID: 11400000, guid: 458e183b6f38a424eb3f1ba94fa62bd6, type: 2}
+  - {fileID: 11400000, guid: 33a3569b3be7642479a509a17103a8a1, type: 2}
+  - {fileID: 11400000, guid: dc9a916ea2f47574eaca23b88245027f, type: 2}
+  - {fileID: 11400000, guid: ff4352202f6904b4fb4e75f14533035c, type: 2}
+  - {fileID: 11400000, guid: e8d1ecea7ca720e479199f137b09854b, type: 2}
+  - {fileID: 11400000, guid: a64a693bf6927b14494138c8b952f886, type: 2}
   CarModel: {fileID: 1201290541146329089, guid: 6b2d78e72059f6842b781defc2ef2051,
     type: 3}

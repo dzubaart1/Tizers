@@ -8,6 +8,7 @@ namespace CyberCar
     {
         public int carParamsId;
         public int colorId;
+        public int backlightsId;
 
     }
 }

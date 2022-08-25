@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f397954b0d5f424babfd494a7ee825af, type: 3}
+  m_Name: ThirdType
+  m_EditorClassIdentifier: 
+  id: 3
+  backlight: {fileID: 995543726506482059, guid: ede81f5c18a1dce4e967bca274f6bd19,
+    type: 3}
+  price: 200
+  IsBuyed: 0
+  color: {r: 1, g: 0, b: 0, a: 1}
