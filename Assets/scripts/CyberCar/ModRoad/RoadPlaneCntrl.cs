@@ -10,8 +10,8 @@ namespace CyberCar
     public class RoadPlaneCntrl : MonoBehaviour
     {
         public bool isStart;
-        private Vector3 targetPos;
         public float speed = 10;
+        public bool IsFinish;
         public GameObject Bonus;
         public GameObject Obstacle;
 
@@ -23,10 +23,9 @@ namespace CyberCar
         /// </summary>
         public int type;
 
-        public void SetPlane(Vector3 _targetPos)
+        public void SetPlane()
         {
-            transform.position = _targetPos - new Vector3(0, 10, 0);
-            targetPos = _targetPos;
+            //transform.position = _targetPos - new Vector3(0, 10, 0);
             int bonus = Random.Range(0, 100);
             int obtain = Random.Range(0, 100);
             if (bonus > obtain)
@@ -53,7 +52,7 @@ namespace CyberCar
                 {
                     List<GameObject> ObstacleList = Resources.LoadAll<GameObject>("Obstacles").ToList();
                     //Bonus = Resources.Load<GameObject>("Bonus/BonusSpeed");
-                    Obstacle = ObstacleList[Random.Range(0, ObstacleList.Count - 1)];
+                    Obstacle = ObstacleList[Random.Range(0, ObstacleList.Count)];
                     GameObject Bg = Instantiate(Obstacle, transform);
                     Bg.transform.localPosition = Vector3.zero + new Vector3(0, 0.3f, 0);
                     Bg.transform.localScale = new Vector3(1 / transform.localScale.x, 1 / transform.localScale.y,
@@ -62,23 +61,6 @@ namespace CyberCar
                     {
                         Bg.transform.rotation = new Quaternion(0, 90, 0, 90);
                     }
-                    //  bG.transform.localPosition = Vector3.zero;
-                }
-            }
-        }
-
-        private void Update()
-        {
-            if (!isStart)
-            {
-                if (Vector3.Distance(transform.position, targetPos) > 0)
-                {
-                    var step = speed * Time.deltaTime; // calculate distance to move
-                    transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
-                }
-                else
-                {
-                    isStart = false;
                 }
             }
         }

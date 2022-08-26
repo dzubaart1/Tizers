@@ -29,6 +29,7 @@ namespace CyberCar.Zenject
             Container.DeclareSignal<GetShopItemSignal>();
             Container.DeclareSignal<ShowMenuPanle>();
             Container.DeclareSignal<ShowShop>();
+            Container.DeclareSignal<Signal_start_game>();
           
                
         }

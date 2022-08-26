@@ -7,7 +7,7 @@ using Zenject;
 
 namespace CyberCar.MenuCntrls
 {
-    public class CyberCarMenuPanel: MonoBehaviour
+    public class CyberCarMenuPanel : MonoBehaviour
     {
         public int PanelId;
         public CanvasGroup _CanvasGroup;
@@ -18,35 +18,25 @@ namespace CyberCar.MenuCntrls
         public UnityEvent ShowPanel;
         public UnityEvent HidePanel;
         SignalBus _signalBus;
+
         [Inject]
-        public void Construct( SignalBus signalBus)
+        public void Construct(SignalBus signalBus)
         {
             _signalBus = signalBus;
             _signalBus.Subscribe<ShowMenuPanle>(CheckOnShow);
-          
+           
         }
 
         void CheckOnShow(ShowMenuPanle panel)
         {
-            if (panel.idPanel == PanelId)
-            {
-                CanvasGroupCntrl.ChangeStateCanvas(_CanvasGroup,true);
-            }
-            else
-            {
-                CanvasGroupCntrl.ChangeStateCanvas(_CanvasGroup,false); 
-            }
+            CanvasGroupCntrl.ChangeStateCanvas(_CanvasGroup, panel.idPanel == PanelId);
         }
-        
+
 
         private void Start()
         {
             _CanvasGroup = GetComponent<CanvasGroup>();
-           // CanvasGroupCntrl.ChangeStateCanvas(_CanvasGroup,false);
+             CanvasGroupCntrl.ChangeStateCanvas(_CanvasGroup,false);
         }
-
-      
-
-       
     }
 }

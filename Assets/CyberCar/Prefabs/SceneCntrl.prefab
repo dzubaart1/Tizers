@@ -59,6 +59,9 @@ MonoBehaviour:
   Player: {fileID: 0}
   RoadList: []
   RoadBox: {fileID: 9016463413117438345}
+  Patern: {fileID: 0}
+  Params: {fileID: 0}
+  position: {x: 0, y: 0, z: 0}
 --- !u!1 &9016463412803915511
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,6 +112,7 @@ MonoBehaviour:
   RoadCntrl: {fileID: 9016463411777541056}
   Score: 0
   NitroBonus: 100
+  Died: 0
 --- !u!1 &9016463413117438344
 GameObject:
   m_ObjectHideFlags: 0

@@ -36,5 +36,5 @@ Material:
     - _Cull: 2
     m_Colors:
     - _Color: {r: 0.41081977, g: 1.9493928, b: 1.9616643, a: 1}
-    - _MovementDirection: {r: 0, g: -0.6, b: 0, a: 1}
+    - _MovementDirection: {r: 0, g: -3, b: 0, a: 1}
   m_BuildTextureStacks: []

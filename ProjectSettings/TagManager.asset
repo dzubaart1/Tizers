@@ -11,6 +11,7 @@ TagManager:
   - bonus
   - coin
   - effect
+  - finish
   layers:
   - Default
   - TransparentFX

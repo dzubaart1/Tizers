@@ -40,7 +40,7 @@ MonoBehaviour:
     value: 0.5
   toneCurveShoulderAngle:
     overrideState: 1
-    value: 0.21
+    value: 0.155
   toneCurveGamma:
     overrideState: 0
     value: 1
@@ -107,10 +107,10 @@ MonoBehaviour:
     value: {x: 0.6874556, y: 0.32801682, z: 1, w: 0}
   gamma:
     overrideState: 0
-    value: {x: 0.77401793, y: 0.87928957, z: 1, w: 0}
+    value: {x: 0.77401793, y: 0.87928957, z: 1, w: -0.08498583}
   gain:
     overrideState: 0
-    value: {x: 0.6701203, y: 0.6659376, z: 1, w: 0.13605456}
+    value: {x: 0.6701203, y: 0.6659376, z: 1, w: -0.104738675}
   masterCurve:
     overrideState: 0
     value:

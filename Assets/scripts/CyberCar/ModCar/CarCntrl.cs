@@ -63,7 +63,6 @@ namespace CyberCar
                         CarModel = Instantiate(GameCar.CarModel, transform);
                         if (savedCar.colorId != 0)
                         {
-                            
                             List<ColorItem> colorItems = Resources.LoadAll<ColorItem>("ColorItems").ToList();
                             for (int j = 0; j < colorItems.Count; j++)
                             {
@@ -71,7 +70,8 @@ namespace CyberCar
                                 {
                                     CarModel._renderer.material.color = colorItems[j].color;
                                     CarModel._renderer.material.EnableKeyword("_EMISSION");
-                                    CarModel._renderer.material.SetVector("_EmissionColor", colorItems[j].color*(0.5f) );
+                                    CarModel._renderer.material.SetVector("_EmissionColor",
+                                        colorItems[j].color * (0.5f));
                                 }
                             }
                         }
@@ -138,9 +138,15 @@ namespace CyberCar
 
         public void DeadEnd()
         {
-            _rb.isKinematic = true;
-            ExplodeCar.SetActive(true);
-            GameManager.isDie();
+            if (!GameManager.Died)
+            {
+                _rb.isKinematic = true;
+                _moove.Speed = 0;
+                _moove.isStarted = false;
+                ExplodeCar.SetActive(true);
+                GameManager.isDie();
+                Destroy(CarModel.gameObject);
+            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -184,6 +190,10 @@ namespace CyberCar
                 {
                     DeadEnd();
                 }
+            }
+            if (other.tag == "finish")
+            {
+                DeadEnd();
             }
         }
 
