@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 namespace CyberCar.ModCanvas
 {
-    public class EfectButtonCntrl: MonoBehaviour
+    public class EfectButtonCntrl : MonoBehaviour
     {
         public Image DefenceIcon;
         public Image cdMask;
@@ -23,11 +23,13 @@ namespace CyberCar.ModCanvas
         public Button _Button;
         public EffectParams MyParams;
         SignalBus _signalBus;
+
         [Inject]
-        public void Construct( SignalBus signalBus)
+        public void Construct(SignalBus signalBus)
         {
             _signalBus = signalBus;
         }
+
         private void Start()
         {
             _animator = GetComponent<Animator>();
@@ -39,22 +41,25 @@ namespace CyberCar.ModCanvas
 
         private void SetEffect()
         {
-            SignalSetEfect signal = new SignalSetEfect();
-            signal.effect = MyParams;
-            _signalBus.Fire(signal);
-            EffectIsConfirmed();
-            InShowed = true;
-            cdMask.fillAmount = 1;
-            showTime = MyParams.showBtnTime;
+            if (!InShowed)
+            {
+                SignalSetEfect signal = new SignalSetEfect();
+                signal.effect = MyParams;
+                _signalBus.Fire(signal);
+                EffectIsConfirmed();
+                InShowed = true;
+                cdMask.fillAmount = 1;
+                showTime = MyParams.showBtnTime;
+            }
         }
 
 
         private void FixedUpdate()
         {
-            if (InShowed && showTime>0)
+            if (InShowed && showTime > 0)
             {
                 showTime -= Time.deltaTime;
-                cdMask.fillAmount = showTime/StartShowTime;
+                cdMask.fillAmount = showTime / StartShowTime;
             }
             else
             {
@@ -64,10 +69,7 @@ namespace CyberCar.ModCanvas
 
         public void EffectIsConfirmed()
         {
-           
             _animator.SetTrigger("show");
         }
-
-
     }
 }

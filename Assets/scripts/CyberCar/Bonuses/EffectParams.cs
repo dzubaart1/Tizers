@@ -13,6 +13,7 @@ namespace CyberCar.Bonuses
         public float EffectTime;
         public float showBtnTime;
         public ObstacleCntrl.EfectType myType;
-    
+        public GameObject EfectObj;
+
     }
 }

@@ -8,6 +8,7 @@ namespace CyberCar.ModDialogs
         public string CharName;
         public string Replica;
         public int CharId;
+      
     }
 
     [Serializable]

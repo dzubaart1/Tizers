@@ -7,38 +7,44 @@ using Zenject;
 
 namespace CyberCar.MenuCntrls
 {
-    public class CyberCarMenuView: MonoBehaviour
+    public class CyberCarMenuView : MonoBehaviour
     {
         public CyberCarMenuCntrl MenuCntrl = new CyberCarMenuCntrl();
         public TMP_Text CoinScore;
         SignalBus _signalBus;
+
         [Inject]
-        public void Construct( SignalBus signalBus)
+        public void Construct(SignalBus signalBus)
         {
             _signalBus = signalBus;
             _signalBus.Subscribe<Signal_start_game>(StartGame);
-          
         }
+
         IEnumerator Start()
         {
-            yield return new WaitForSeconds(2f);
-            //PlayerPrefs.SetInt("CoinScore",0);
-            CoinScore.text = PlayerPrefs.GetInt("CoinScore").ToString();
-            
-            if (PlayerPrefs.GetInt("FirstComplite") == 1)
+            if (PlayerPrefs.GetInt("FirstIn") == 1)
             {
-                ShowPanel(1);
+                Camera.main.GetComponent<Animator>().enabled = false;
+                yield return new WaitForSeconds(0f);
             }
             else
             {
-                ShowPanel(0);
+                yield return new WaitForSeconds(2f);
             }
+
+
+            //PlayerPrefs.SetInt("CoinScore",0);
+            CoinScore.text = PlayerPrefs.GetInt("CoinScore").ToString();
+            PlayerPrefs.SetInt("FirstIn", 1);
+            Camera.main.GetComponent<Animator>().enabled = false;
+            ShowPanel(0);
         }
+
         public void StartGame()
         {
             MenuCntrl.RunGame();
         }
-        
+
         public void ShowPanel(int id)
         {
             ShowMenuPanle panel = new ShowMenuPanle();
@@ -46,7 +52,15 @@ namespace CyberCar.MenuCntrls
             _signalBus.Fire(panel);
         }
 
-      
+        public void openModal(int ModalId)
+        {
+            _signalBus.Fire(new ShowMenuModalPlane() {idPanel = ModalId});
+        }
 
+        public void ClearPrefs()
+        {
+            PlayerPrefs.SetInt("FirstIn", 0);
+            _signalBus.Fire<SignalVipeData>();
+        }
     }
 }

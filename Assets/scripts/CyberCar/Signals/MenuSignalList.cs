@@ -9,12 +9,19 @@ namespace DefaultNamespace
     {
         public int idPanel;
     }
+public  class ShowMenuModalPlane
+{
+    public int idPanel;
+}
 
-    public class ShowShop
+public class ShowShop
     {
     }
 
     public class GetShopItemSignal
+    {
+        
+    } public class SignalVipeData
     {
         
     }

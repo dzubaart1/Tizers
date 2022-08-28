@@ -16,6 +16,8 @@ MonoBehaviour:
   Material: {fileID: 2100000, guid: 5163aaefa1a39cf42976a0b69b193389, type: 2}
   mesh: {fileID: 2959467708922500008, guid: 9ec6a8fc6925acb4abc5500eeecb8270, type: 3}
   DefenceIcon: {fileID: 21300000, guid: b930f99b1675f1f4485c929b23150ef6, type: 3}
-  EffectTime: 4
-  showBtnTime: 2
+  EffectTime: 2
+  showBtnTime: 1
   myType: 2
+  EfectObj: {fileID: 1466137585875981761, guid: 93eafa7ca9c33c34c94db9f9dc0aae4e,
+    type: 3}

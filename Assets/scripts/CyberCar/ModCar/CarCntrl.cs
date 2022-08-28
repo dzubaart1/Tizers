@@ -31,7 +31,7 @@ namespace CyberCar
         public List<ObstacleCntrl.EfectType> CurEfects;
         public ObstacleCntrl.EfectType MyEffect;
         public bool effectOnActive;
-
+        public float EfectLifeTime;
         [Inject]
         public void Construct(SignalBus signalBus)
         {
@@ -191,6 +191,7 @@ namespace CyberCar
                     DeadEnd();
                 }
             }
+
             if (other.tag == "finish")
             {
                 DeadEnd();
@@ -200,23 +201,36 @@ namespace CyberCar
 
         void ActivateEffect(SignalSetEfect signalParams)
         {
-            EffectParams effect = signalParams.effect;
-            if (!efectObj)
+            if (CarModel != null)
             {
-                efectObj = Instantiate(new GameObject(), CarModel.transform);
-                MeshFilter filter = efectObj.AddComponent<MeshFilter>();
-                filter.mesh = effect.mesh;
-                efectObj.AddComponent<MeshRenderer>();
-            }
-
-            efectObj.GetComponent<Renderer>().material = effect.Material;
-            MyEffect = effect.myType;
-            if (efectObj)
-            {
-                efectObj.SetActive(true);
+                EffectParams effect = signalParams.effect;
+                if (efectObj)
+                {
+                    MyEffect = ObstacleCntrl.EfectType.none;
+                    Destroy(efectObj);
+                }
+                efectObj = Instantiate(effect.EfectObj, CarModel.transform);
+                MyEffect = effect.myType;
+                EfectLifeTime = effect.EffectTime;
+                if (efectObj)
+                {
+                    efectObj.SetActive(true);
+                }
             }
         }
-
+        private void FixedUpdate()
+        {
+            if (MyEffect != ObstacleCntrl.EfectType.none && EfectLifeTime > 0)
+            {
+                EfectLifeTime -= Time.deltaTime;
+                if (EfectLifeTime <= 0)
+                {
+                    MyEffect = ObstacleCntrl.EfectType.none;
+                    Destroy(efectObj);
+                }
+            }
+           
+        }
         private void DeactivateEffect()
         {
             throw new NotImplementedException();

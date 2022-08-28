@@ -13,6 +13,6 @@ namespace CyberCar
         public List<RoadPlaneCntrl> Roads;
         public RoadPlaneCntrl FinishPlane;
         public RoadsParams TypeOfRoad;
-        
+        public bool isComplited;
     }
 }

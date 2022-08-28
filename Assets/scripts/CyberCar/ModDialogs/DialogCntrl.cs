@@ -1,5 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using DefaultNamespace;
 using TMPro;
 using UnityEngine;
@@ -17,21 +21,59 @@ namespace CyberCar.ModDialogs
         public List<DialogReplica> ReplicsList;
         public DialogParams Curparams;
         private DialogData _DialogData;
-        [SerializeField]
-        private int CurReplica;
+        [SerializeField] private int CurReplica;
 
+        private DialogsData _dialogsData;
         public Button nexBtn;
         SignalBus _signalBus;
+
         [Inject]
-        public void Construct( SignalBus signalBus)
+        public void Construct(SignalBus signalBus)
         {
             _signalBus = signalBus;
+            _signalBus.Subscribe<SignalVipeData>(VipeData);
         }
-        private void Start()
+
+        private IEnumerator Start()
         {
-             _DialogData = JsonUtility.FromJson<DialogData>(Curparams.dialogFile.text);
-            ShowReplica();
-            nexBtn.onClick.AddListener(NextReplica);
+            yield return new WaitForSeconds(0f);
+            Debug.Log(Application.persistentDataPath );
+            List<DialogParams> dialogParamsList = Resources.LoadAll<DialogParams>("DialogsData").ToList();
+            _dialogsData = LoadDialogs();
+            if (_dialogsData != null)
+            {
+                foreach (var VARIABLE in dialogParamsList)
+                {
+                    if (VARIABLE.DialogId == _dialogsData.LastShowedDialog + 1)
+                    {
+                        Curparams = VARIABLE;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var VARIABLE in dialogParamsList)
+                {
+                    if (VARIABLE.DialogId ==0)
+                    {
+                        Curparams = VARIABLE;
+                    }
+                }
+            }
+
+            if (Curparams != null)
+            {
+                _DialogData = JsonUtility.FromJson<DialogData>(Curparams.dialogFile.text);
+                ShowReplica();
+                nexBtn.onClick.AddListener(NextReplica);
+            }
+            else
+            {
+                Debug.Log("try skip");
+                ShowMenuPanle panel = new ShowMenuPanle();
+                panel.idPanel = 1;
+                _signalBus.Fire(panel);
+            }
         }
 
         void ShowReplica()
@@ -53,7 +95,8 @@ namespace CyberCar.ModDialogs
                 nexBtn.onClick.AddListener(FinalReplica);
                 return;
             }
-                ShowReplica();
+
+            ShowReplica();
         }
 
         public void ScipAll()
@@ -82,6 +125,38 @@ namespace CyberCar.ModDialogs
             ShowMenuPanle panel = new ShowMenuPanle();
             panel.idPanel = 1;
             _signalBus.Fire(panel);
+            SaveDialogData(Curparams.DialogId);
+        }
+
+        void VipeData()
+        {
+            SaveDialogData(-1);
+        }
+
+        void SaveDialogData(int dId)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Create(Application.persistentDataPath + "/DialogsData.dat");
+            DialogsData data = new DialogsData();
+            data.LastShowedDialog = dId;
+            bf.Serialize(file, data);
+            file.Close();
+        }
+
+        public DialogsData LoadDialogs()
+        {
+            if (File.Exists(Application.persistentDataPath + "/DialogsData.dat"))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                FileStream file =
+                    File.Open(Application.persistentDataPath
+                              + "/DialogsData.dat", FileMode.Open);
+                DialogsData data = (DialogsData) bf.Deserialize(file);
+                file.Close();
+                return data;
+            }
+            else
+                return null;
         }
     }
 }

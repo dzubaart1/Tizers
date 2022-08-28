@@ -1,36 +1,31 @@
-using System;
-using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
-using UnityEngine.Events;
 using Zenject;
 
-namespace CyberCar.MenuCntrls
+namespace CyberCar.ModCanvas
 {
-    public class CyberCarMenuPanel : MonoBehaviour
+    public class ModalPanelView : MonoBehaviour
     {
+        SignalBus _signalBus;
         public int PanelId;
         public CanvasGroup _CanvasGroup;
-        SignalBus _signalBus;
 
         [Inject]
         public void Construct(SignalBus signalBus)
         {
             _signalBus = signalBus;
-            _signalBus.Subscribe<ShowMenuPanle>(CheckOnShow);
+            _signalBus.Subscribe<ShowMenuModalPlane>(CheckOnShow);
            
         }
-
-        void CheckOnShow(ShowMenuPanle panel)
+        void CheckOnShow(ShowMenuModalPlane panel)
         {
+            Debug.Log(panel.idPanel);
             CanvasGroupCntrl.ChangeStateCanvas(_CanvasGroup, panel.idPanel == PanelId);
         }
-
-
         private void Start()
         {
             _CanvasGroup = GetComponent<CanvasGroup>();
-             CanvasGroupCntrl.ChangeStateCanvas(_CanvasGroup,false);
+            CanvasGroupCntrl.ChangeStateCanvas(_CanvasGroup,false);
         }
     }
 }

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a4b2d658c04143c5b130e772b8e88420, type: 3}
-  m_Name: CatRaceInfinity
+  m_Name: 2
   m_EditorClassIdentifier: 
-  PaternId: 3
+  PaternId: 2
   Name: 
-  Icon: {fileID: 21300000, guid: fccea209f9ea7b1488225287813f4e38, type: 3}
+  Icon: {fileID: 21300000, guid: e484876f0cfbe8d46981ae0062b5e77f, type: 3}
   infinity: 1
   Roads: []
   FinishPlane: {fileID: 0}
-  TypeOfRoad: {fileID: 11400000, guid: d9cc4f07d2087d84784260f155e2a18a, type: 2}
+  TypeOfRoad: {fileID: 11400000, guid: 96ca8722d980e234cae02e514254678b, type: 2}
