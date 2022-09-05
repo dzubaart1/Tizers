@@ -68,6 +68,11 @@ namespace CyberCar
         {
             Died = true;
             StartCoroutine(ShowDie());
+        } 
+        public void isWin()
+        {
+            Died = true;
+            StartCoroutine(ShowWin());
         }
 
         IEnumerator ShowDie()
@@ -75,6 +80,12 @@ namespace CyberCar
             yield return new WaitForSeconds(0.6f);
 
             _CarCanvas.GameOver();
+        }
+        IEnumerator ShowWin()
+        {
+            yield return new WaitForSeconds(0.6f);
+
+            _CarCanvas.GameWin();
         }
 
         public void StartGame()

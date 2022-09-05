@@ -33,7 +33,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3739802389783274325}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 28.15, y: 0, z: 0}
 --- !u!20 &54821322
 Camera:
@@ -207,7 +207,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3739802389783274325}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!215 &478825095
 ReflectionProbe:
@@ -242,6 +242,37 @@ ReflectionProbe:
   m_UseOcclusionCulling: 0
   m_Importance: 17
   m_CustomBakedTexture: {fileID: 0}
+--- !u!1 &1490135978570116490
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2267769090789836020}
+  m_Layer: 0
+  m_Name: ModelTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2267769090789836020
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490135978570116490}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3025936248321949806}
+  m_Father: {fileID: 3739802389783274325}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3739802389783274326
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,10 +307,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 3025936248321949806}
   - {fileID: 3739802390578251717}
   - {fileID: 54821323}
   - {fileID: 478825096}
+  - {fileID: 2267769090789836020}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -305,10 +336,12 @@ MonoBehaviour:
   Anim: {fileID: 3739802389783274320}
   CarModel: {fileID: 0}
   speedBoost: 1.2
+  ModelTransform: {fileID: 2267769090789836020}
   efectObj: {fileID: 0}
   CurEfects: 
   MyEffect: 0
   effectOnActive: 0
+  EfectLifeTime: 0
 --- !u!114 &3739802389783274324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,7 +385,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3739802389783274326}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 5193916f4964ad248b2c21d5963cbdfd, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -410,7 +443,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 3739802389783274325}
+    m_TransformParent: {fileID: 2267769090789836020}
     m_Modifications:
     - target: {fileID: 1248598967819147742, guid: c4cad50aa03bbca42938fe318344950b,
         type: 3}
@@ -440,7 +473,7 @@ PrefabInstance:
     - target: {fileID: 1880317207959290724, guid: c4cad50aa03bbca42938fe318344950b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.34917095
+      value: 0.349171
       objectReference: {fileID: 0}
     - target: {fileID: 1880317207959290724, guid: c4cad50aa03bbca42938fe318344950b,
         type: 3}
@@ -502,7 +535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: a905d8e5159ffeb46baa8d2a7624717f, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: a905d8e5159ffeb46baa8d2a7624717f, type: 3}
       propertyPath: m_LocalPosition.x

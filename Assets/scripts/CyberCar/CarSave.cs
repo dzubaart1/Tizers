@@ -9,6 +9,7 @@ namespace CyberCar
         public int carParamsId;
         public int colorId;
         public int backlightsId;
+        public int[] ByedCars;
 
     }
 }

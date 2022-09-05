@@ -42,6 +42,10 @@ namespace CyberCar
                 _onNitro = false;
                 speedBoost = 1;
             }
+            if (transform.position.y < -1)
+            {
+                    _carCntrl.Anim.SetTrigger("fail");
+            }
             if (transform.position.y < -5)
             {
                isStarted = false;

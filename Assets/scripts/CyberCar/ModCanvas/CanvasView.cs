@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using CyberCar.Bonuses;
 using DefaultNamespace;
 using TMPro;
 using UnityEngine;
@@ -21,6 +22,8 @@ namespace CyberCar.ModCanvas
         public Image NitroFill;
         public CanvasGroup NitroEffect;
         public AlertIconCntrl AlertIcon;
+        public TMP_Text DieScoreText;
+        public TMP_Text DieText;
         private void Start()
         {
             BackScore.gameObject.SetActive(false);
@@ -35,10 +38,22 @@ namespace CyberCar.ModCanvas
             CanvasGroupCntrl.ChangeStateCanvas(NitroEffect,show); 
         }
 
-        public void ShowDiePanel()
+        public void ShowDiePanel( bool win)
         {
+            if (win)
+            {
+                CanvasGroupCntrl.ChangeStateCanvas(GamePanle,false);
+                CanvasGroupCntrl.ChangeStateCanvas(DiePanel,true);
+                DieScoreText.text = _Cntrl.GameManager.Score.ToString();
+                DieText.text = "Победа"; 
+            }
+            else
+            {
             CanvasGroupCntrl.ChangeStateCanvas(GamePanle,false);
             CanvasGroupCntrl.ChangeStateCanvas(DiePanel,true);
+            DieScoreText.text = _Cntrl.GameManager.Score.ToString();
+            DieText.text = "Поражение";
+            }
         }
 
         public void SetSpeed(int sp)
@@ -72,9 +87,9 @@ namespace CyberCar.ModCanvas
             NitroFill.fillAmount = NitroBalance/100;
         }
 
-        public void AlertOnRoad(Sprite icon)
+        public void AlertOnRoad(EffectParams _effect)
         {
-            AlertIcon.setData(icon);
+            AlertIcon.setData(_effect);
         }
         public void HideAlertOnRoad()
         {

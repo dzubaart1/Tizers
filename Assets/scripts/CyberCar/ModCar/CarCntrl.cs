@@ -26,6 +26,7 @@ namespace CyberCar
         private float curspeed;
         private BonusEfect curBonus;
         public float speedBoost;
+        public Transform ModelTransform;
         SignalBus _signalBus;
         [Header("Game params")] public GameObject efectObj;
         public List<ObstacleCntrl.EfectType> CurEfects;
@@ -60,7 +61,7 @@ namespace CyberCar
                     if (CarsObjs[i].id == savedCar.carParamsId)
                     {
                         GameCar = CarsObjs[i];
-                        CarModel = Instantiate(GameCar.CarModel, transform);
+                        CarModel = Instantiate(GameCar.CarModel, ModelTransform);
                         if (savedCar.colorId != 0)
                         {
                             List<ColorItem> colorItems = Resources.LoadAll<ColorItem>("ColorItems").ToList();
@@ -71,7 +72,7 @@ namespace CyberCar
                                     CarModel._renderer.material.color = colorItems[j].color;
                                     CarModel._renderer.material.EnableKeyword("_EMISSION");
                                     CarModel._renderer.material.SetVector("_EmissionColor",
-                                        colorItems[j].color * (0.5f));
+                                        colorItems[j].color * (0.1f));
                                 }
                             }
                         }
@@ -93,7 +94,7 @@ namespace CyberCar
             }
             else
             {
-                CarModel = Instantiate(CarsObjs[1].CarModel, transform);
+                CarModel = Instantiate(CarsObjs[1].CarModel, ModelTransform);
             }
 
             CarModel.transform.rotation = Quaternion.identity;
@@ -148,6 +149,18 @@ namespace CyberCar
                 Destroy(CarModel.gameObject);
             }
         }
+        public void Finished()
+        {
+            if (!GameManager.Died)
+            {
+                _rb.isKinematic = true;
+                _moove.Speed = 0;
+                _moove.isStarted = false;
+              // ExplodeCar.SetActive(true);
+                GameManager.isWin();
+                //Destroy(CarModel.gameObject);
+            }
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -175,12 +188,18 @@ namespace CyberCar
             if (other.tag == "effect")
             {
                 ObstacleCntrl effect = other.GetComponent<ObstacleCntrl>();
-                _signalBus.Fire(new Signal_Show_alert_icon() {effecticon = effect.givenEfect.DefenceIcon});
+                _signalBus.Fire(new Signal_Show_alert_icon() {Params = effect.givenEfect});
             }
 
             if (other.tag == "border")
             {
                 _signalBus.Fire<Signal_Hide_alert_icon>();
+                if (efectObj == null)
+                {
+                    DeadEnd();
+                    return;
+                }
+
                 if (other.GetComponent<ObstainsBlockCntrl>().neededEffect == MyEffect && efectObj.activeSelf)
                 {
                     Destroy(other.gameObject);
@@ -194,7 +213,7 @@ namespace CyberCar
 
             if (other.tag == "finish")
             {
-                DeadEnd();
+                Finished();
             }
         }
 

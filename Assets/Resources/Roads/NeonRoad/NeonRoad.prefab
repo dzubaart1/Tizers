@@ -104,6 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isStart: 0
   speed: 10
+  IsFinish: 0
   Bonus: {fileID: 0}
   Obstacle: {fileID: 0}
   type: 1

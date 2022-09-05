@@ -2117,8 +2117,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3526862610319456538}
   m_HandleRect: {fileID: 907368527338041694}
   m_Direction: 2
-  m_Value: 1.000001
-  m_Size: 0.80110294
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3049,7 +3049,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3718238141226769603
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3065,10 +3065,10 @@ RectTransform:
   m_Father: {fileID: 651561651994971225}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 907.0879, y: -100}
+  m_SizeDelta: {x: 160, y: 146}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5676625375525666073
 CanvasRenderer:
@@ -4220,8 +4220,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.0000051856, y: -487.5}
-  m_SizeDelta: {x: 1087.943, y: 544.75}
+  m_AnchoredPosition: {x: 0.0000051856, y: -911.69507}
+  m_SizeDelta: {x: 1087.943, y: 1393.14}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7509737561730952395
 CanvasRenderer:
@@ -5917,9 +5917,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7714919993301907657}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &7876275293126975631
 GameObject:
@@ -6482,7 +6482,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8161923590376181193}
   m_HandleRect: {fileID: 8161923590376181192}
   m_Direction: 2
-  m_Value: 1.000001
+  m_Value: 1.0000013
   m_Size: 0.80110294
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -6594,6 +6594,11 @@ MonoBehaviour:
   - {x: 0, y: 1.36, z: -9.89}
   - {x: 0, y: 5.18, z: -9.89}
   CarName: {fileID: 4150578681442444096}
+  CurCar:
+    carParamsId: 0
+    colorId: 0
+    backlightsId: 0
+    ByedCars: 
 --- !u!114 &8161923591809799243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7673,9 +7678,9 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8707847568373300432}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &8724760981085493787
 GameObject:

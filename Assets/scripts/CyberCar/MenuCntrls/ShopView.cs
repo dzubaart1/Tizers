@@ -21,6 +21,7 @@ namespace CyberCar.MenuCntrls
         public ColorBtn ColorBtn_prefab;
         public List<Vector3> CameraPositions;
         public TMP_Text CarName;
+        public CarSave CurCar;
 
         [Inject]
         public void Construct(SignalBus signalBus)
@@ -33,16 +34,16 @@ namespace CyberCar.MenuCntrls
         {
             mainCamera = Camera.main;
             ModelPoint = Instantiate(new GameObject(), new Vector3(0, 0, 0), Quaternion.identity).transform;
-            CarSave car = SaveLoadCntrl.LoadGame();
-            if (car != null)
+            CurCar = SaveLoadCntrl.LoadGame();
+            if (CurCar != null)
             {
                 ShopCars = _ShopCntrl.GetCarsList();
                 foreach (var VARIABLE in ShopCars)
                 {
-                    if (VARIABLE.id == car.carParamsId)
+                    if (VARIABLE.id == CurCar.carParamsId)
                     {
                         setShopCar(VARIABLE);
-                        loadColor(VARIABLE, car.colorId);
+                        loadColor(VARIABLE, CurCar.colorId);
                         CurShopModel.transform.rotation = Quaternion.identity;
                     }
                 }

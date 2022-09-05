@@ -25,7 +25,7 @@ namespace CyberCar.ModCanvas
 
         private void ShowAlertIcon(Signal_Show_alert_icon signal)
         {
-            _view.AlertOnRoad(signal.effecticon);
+            _view.AlertOnRoad(signal.Params);
         } 
         private void HideAlertIcon()
         {
@@ -43,7 +43,11 @@ namespace CyberCar.ModCanvas
 
         public void GameOver()
         {
-            _view.ShowDiePanel();
+            _view.ShowDiePanel(false);
+        }
+        public void GameWin()
+        {
+            _view.ShowDiePanel(true);
         }
 
         public void AddScore()
