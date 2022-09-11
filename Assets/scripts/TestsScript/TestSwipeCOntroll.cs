@@ -9,6 +9,8 @@ namespace TestsScript
         Vector2 firstPressPos;
         Vector2 secondPressPos;
         Vector2 currentSwipe;
+        public Action RightSwipe;
+        public Action leftSwipe;
         public TestCarMoove Moove;
         private void Update()
         {
@@ -45,13 +47,15 @@ namespace TestsScript
                 if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)
                 {
                     Debug.Log("left swipe");
-                    Moove.Rotate(false);
+                    leftSwipe.Invoke();
+                    //Moove.Rotate(false);
                 }
 
                 //swipe right
                 if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)
                 {
-                    Moove.Rotate(true);
+                   // Moove.Rotate(true);
+                    RightSwipe.Invoke();
                     Debug.Log("right swipe");
                 }
             }
