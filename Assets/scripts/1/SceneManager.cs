@@ -4,7 +4,7 @@ using _1.GameCntrl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneManager : Singleton<SceneManager>
+public class GameSceneManager : Singleton<GameSceneManager>
 {
     public BoxCntrl BoxPrefab;
     public BoxCntrl CurCube;

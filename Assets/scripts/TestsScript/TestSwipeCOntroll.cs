@@ -1,0 +1,60 @@
+using System;
+using UnityEngine;
+
+namespace TestsScript
+{
+    public class TestSwipeCOntroll : MonoBehaviour
+    {
+//inside class
+        Vector2 firstPressPos;
+        Vector2 secondPressPos;
+        Vector2 currentSwipe;
+        public TestCarMoove Moove;
+        private void Update()
+        {
+            Swipe();
+        }
+
+        public void Swipe()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                //save began touch 2d point
+                firstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                secondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                currentSwipe = new Vector2(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
+                currentSwipe.Normalize();
+
+                //swipe upwards
+                if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
+                {
+                    Debug.Log("up swipe");
+                }
+
+                //swipe down
+                if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
+                {
+                    Debug.Log("down swipe");
+                }
+
+                //swipe left
+                if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)
+                {
+                    Debug.Log("left swipe");
+                    Moove.Rotate(false);
+                }
+
+                //swipe right
+                if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)
+                {
+                    Moove.Rotate(true);
+                    Debug.Log("right swipe");
+                }
+            }
+        }
+    }
+}

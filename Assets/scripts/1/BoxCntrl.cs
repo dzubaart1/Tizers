@@ -33,10 +33,10 @@ public class BoxCntrl : MonoBehaviour
                 Destroy(other.gameObject);
                 MyValue *= 2;
                 SetTexts();
-                SceneManager.Instance.setScore(MyValue);
-                SceneManager.Instance.audio.Play();
+                GameSceneManager.Instance.setScore(MyValue);
+                GameSceneManager.Instance.audio.Play();
                 MyColor++;
-                GetComponent<Renderer>().material.color = SceneManager.Instance.ColorsDictionary[MyColor];
+                GetComponent<Renderer>().material.color = GameSceneManager.Instance.ColorsDictionary[MyColor];
             }
         }
     }
@@ -51,9 +51,9 @@ public class BoxCntrl : MonoBehaviour
                 Destroy(other.gameObject);
                 MyValue *= 2;
                 SetTexts();
-                SceneManager.Instance.setScore(MyValue);
+                GameSceneManager.Instance.setScore(MyValue);
                 MyColor++;
-                GetComponent<Renderer>().material.color = SceneManager.Instance.ColorsDictionary[MyColor];
+                GetComponent<Renderer>().material.color = GameSceneManager.Instance.ColorsDictionary[MyColor];
             }
         }
     }

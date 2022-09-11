@@ -4,14 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Obs
-  - Crash
-  - Ground
-  - border
-  - bonus
-  - coin
-  - effect
-  - finish
+  - Car
+  - ResetDriftCollision
   layers:
   - Default
   - TransparentFX
@@ -21,12 +15,12 @@ TagManager:
   - UI
   - 
   - 
-  - Pointer
-  - Not_In_Minimap
-  - Minimap_Layer
-  - 
-  - 
-  - 
+  - Car
+  - Road
+  - BrakingGround
+  - Metal
+  - Rubber
+  - FinishZone
   - 
   - 
   - 

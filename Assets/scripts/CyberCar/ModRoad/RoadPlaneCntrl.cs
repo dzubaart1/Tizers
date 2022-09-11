@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CyberCar.Bonuses;
+using TestsScript;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,6 +15,12 @@ namespace CyberCar
         public bool IsFinish;
         public GameObject Bonus;
         public GameObject Obstacle;
+        public Vector3 Scaler = new Vector3(30, 0, 30);
+        private Rigidbody rb;
+        [Header("obtacles and bonus")] 
+        public GameObject obtacle;
+        public GameObject bonus;
+        
 
         /// <summary>
         /// 1 - front;
@@ -25,7 +32,47 @@ namespace CyberCar
 
         public void SetPlane()
         {
+            rb = gameObject.AddComponent<Rigidbody>();
+            rb.useGravity = false;
+            rb.isKinematic = true;
             //transform.position = _targetPos - new Vector3(0, 10, 0);
+            if (!obtacle && !bonus)
+            {
+                GenerateRandomObject();
+            }
+            else
+            {
+                if (obtacle)
+                {
+                    GameObject bg = Instantiate(obtacle, transform);
+                    bg.transform.localPosition = Vector3.zero + new Vector3(0, 0.3f, 0);
+                    bg.transform.localScale = new Vector3(1 / transform.localScale.x, 1 / transform.localScale.y,
+                        1 / transform.localScale.z);
+                    if (type == 2)
+                    {
+                        bg.transform.rotation = new Quaternion(0, 90, 0, 90);
+                    }
+                }
+                else
+                {
+                    GameObject bg = Instantiate(bonus, transform);
+                    bg.transform.localPosition = Vector3.zero + new Vector3(0, 0.3f, 0);
+                    bg.transform.localScale = new Vector3(1 / transform.localScale.x, 1 / transform.localScale.y,
+                        1 / transform.localScale.z);
+                    if (type == 2)
+                    {
+                        bg.transform.rotation = new Quaternion(0, 90, 0, 90);
+                    }
+                }
+            }
+        }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            TestRoadCntrl.Instance.DestroyRoad(this);
+        }
+        void GenerateRandomObject()
+        {
             int bonus = Random.Range(0, 100);
             int obtain = Random.Range(0, 100);
             if (bonus > obtain)
@@ -64,5 +111,8 @@ namespace CyberCar
                 }
             }
         }
+        
+        
     }
+   
 }
