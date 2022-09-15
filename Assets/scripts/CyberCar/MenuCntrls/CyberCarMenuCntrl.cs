@@ -8,7 +8,7 @@ public class CyberCarMenuCntrl
 {
     public void RunGame()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("CyberCar");
+       SceneManager.LoadScene("CyberCar");
     }
 
     public  List<CarParams> GetCarsList()

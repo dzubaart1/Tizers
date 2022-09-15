@@ -124,6 +124,9 @@ MonoBehaviour:
   IsFinish: 0
   Bonus: {fileID: 0}
   Obstacle: {fileID: 0}
+  Scaler: {x: 30, y: 0, z: 30}
+  obtacle: {fileID: 0}
+  bonus: {fileID: 0}
   type: 1
 --- !u!1 &4350058247734739717
 GameObject:
@@ -538,7 +541,7 @@ Transform:
   m_GameObject: {fileID: 7934493520422096782}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.2}
+  m_LocalScale: {x: 1, y: 1, z: 0.5}
   m_Children: []
   m_Father: {fileID: 3233066478759776855}
   m_RootOrder: 0
@@ -770,7 +773,7 @@ PrefabInstance:
     - target: {fileID: 812310847734479445, guid: 282de073eb23e6d4a9c3361e2a8778ab,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 100
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 812310847734479445, guid: 282de073eb23e6d4a9c3361e2a8778ab,
         type: 3}
@@ -1008,7 +1011,7 @@ PrefabInstance:
     - target: {fileID: 812310847734479445, guid: 282de073eb23e6d4a9c3361e2a8778ab,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 100
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 812310847734479445, guid: 282de073eb23e6d4a9c3361e2a8778ab,
         type: 3}
@@ -1246,7 +1249,7 @@ PrefabInstance:
     - target: {fileID: 812310847734479445, guid: 282de073eb23e6d4a9c3361e2a8778ab,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 100
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 812310847734479445, guid: 282de073eb23e6d4a9c3361e2a8778ab,
         type: 3}
@@ -1412,7 +1415,7 @@ PrefabInstance:
     - target: {fileID: 812310847734479445, guid: 282de073eb23e6d4a9c3361e2a8778ab,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 100
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 812310847734479445, guid: 282de073eb23e6d4a9c3361e2a8778ab,
         type: 3}
@@ -1722,7 +1725,7 @@ PrefabInstance:
     - target: {fileID: 812310847734479445, guid: 282de073eb23e6d4a9c3361e2a8778ab,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 100
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 812310847734479445, guid: 282de073eb23e6d4a9c3361e2a8778ab,
         type: 3}

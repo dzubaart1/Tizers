@@ -48,6 +48,7 @@ namespace CyberCar
 
         void Start()
         {
+            
             Debug.Log(Application.persistentDataPath + "/MySaveData.dat");
             List<CarParams> CarsObjs = Resources.LoadAll<CarParams>("CustomCars").ToList();
 
@@ -102,14 +103,14 @@ namespace CyberCar
             CarModel.transform.localPosition = new Vector3(0, 0.241f, 0);
             // CarModel.setData(CarsObjs[0].BackLights[1]);
             _rb = GetComponent<Rigidbody>();
-            _rb.isKinematic = true;
+           // _rb.isKinematic = true;
             _moove = GetComponent<CarMoove>();
             Anim = GetComponent<Animator>();
         }
 
         void TurnCar()
         {
-            _moove.TurnCar();
+           // _moove.TurnCar();
         }
 
         void NitroCar()
@@ -125,8 +126,8 @@ namespace CyberCar
 
         public void StartGame()
         {
-            _moove.isStarted = true;
-            _rb.isKinematic = false;
+            _moove.start = true;
+            //_rb.isKinematic = false;
         }
 
         private void OnCollisionEnter(Collision other)
@@ -142,8 +143,8 @@ namespace CyberCar
             if (!GameManager.Died)
             {
                 _rb.isKinematic = true;
-                _moove.Speed = 0;
-                _moove.isStarted = false;
+                _moove.AccelerationSpeed = 0;
+                _moove.start = false;
                 ExplodeCar.SetActive(true);
                 GameManager.isDie();
                 Destroy(CarModel.gameObject);
@@ -154,8 +155,8 @@ namespace CyberCar
             if (!GameManager.Died)
             {
                 _rb.isKinematic = true;
-                _moove.Speed = 0;
-                _moove.isStarted = false;
+                _moove.AccelerationSpeed = 0;
+                _moove.start = false;
               // ExplodeCar.SetActive(true);
                 GameManager.isWin();
                 //Destroy(CarModel.gameObject);
@@ -258,14 +259,14 @@ namespace CyberCar
         IEnumerator SpeedBonus(BonusEfect ef)
         {
             curBonus = ef;
-            curspeed = _moove.Speed;
-            _moove.Speed += ef.Speed;
+            curspeed = _moove.AccelerationSpeed;
+            _moove.AccelerationSpeed += ef.Speed;
             MaxSpeed += ef.Speed;
             yield return new WaitForSeconds(ef.SpeedTime);
             MaxSpeed -= ef.Speed;
-            if (_moove.Speed - ef.Speed >= curspeed)
+            if (_moove.AccelerationSpeed - ef.Speed >= curspeed)
             {
-                _moove.Speed -= ef.Speed;
+                _moove.AccelerationSpeed -= ef.Speed;
             }
 
             curBonus = null;

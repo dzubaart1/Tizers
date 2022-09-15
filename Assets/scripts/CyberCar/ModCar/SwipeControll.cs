@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using UnityEngine;
 
-namespace TestsScript
+namespace CyberCar
 {
-    public class TestSwipeCOntroll : MonoBehaviour
+    public class SwipeControll: MonoBehaviour
     {
+        
 //inside class
         Vector2 firstPressPos;
         Vector2 secondPressPos;

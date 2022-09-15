@@ -1,48 +1,60 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CyberCar;
+using CyberCar.ModCanvas;
 using TestsScript;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static System.Math;
 
 public class TestCarMoove : MonoBehaviour
 {
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private bool isRotating;
     private TestSwipeCOntroll _swipeCOntroll;
-    public float Speed;
+    [Header("Engine move params")] public float CurSpeed;
+    public float AccelerationSpeed = 4;
     public float MaxSpeed;
-    public int MooveType;
-    public Rigidbody rb;
-    public bool front = true;
-    public float speed = 4;
-    private float baseSpeed;
-    public bool start;
     public float RotationSpeed;
-    [SerializeField] private bool isRotating = false;
-
     public float Inertion;
+    public float BoostAcceleration;
+    [Header("inner params")] 
+    public int mooveType;
+    public bool start;
+    public bool _onNitro;
+    private bool onAGround;
+    [Header("Links params")]
+    public CarCntrl _carCntrl;
+    public CanvasView cview;
+
 
     //Swap right
     private bool rightSwipe;
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         _swipeCOntroll = GetComponent<TestSwipeCOntroll>();
         _swipeCOntroll.leftSwipe = RotateLeft;
         _swipeCOntroll.RightSwipe = RotateRight;
+        _swipeCOntroll.UpSwipe = AddNitro;
+        _swipeCOntroll.DownSwipe = OfNitro;
     }
 
-    void test()
-    {
-    }
+ 
 
     private void FixedUpdate()
     {
-        if (start && Speed < MaxSpeed)
+        if (start && CurSpeed < MaxSpeed)
         {
-            rb.AddRelativeForce(Vector3.forward * speed, ForceMode.Acceleration);
+            rb.AddRelativeForce(Vector3.forward * AccelerationSpeed, ForceMode.Acceleration);
         }
-
+        if (_onNitro)
+        {
+            rb.AddRelativeForce(Vector3.forward * BoostAcceleration, ForceMode.Acceleration); 
+        }
 
         if (transform.position.y < -5)
         {
@@ -52,30 +64,37 @@ public class TestCarMoove : MonoBehaviour
         SpeedChanger();
 
         //На случай проверки земли
-        /*RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 5, 1))
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position +new Vector3(0,0.5f,0), transform.TransformDirection(Vector3.down), out hit, 2.5f, 1))
         {
-        }*/
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.red);
+            onAGround = true;
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * 5, Color.yellow);
+            onAGround = false;
+        }
 
-        switch (MooveType)
+        switch (mooveType)
         {
             case 1:
-                Speed = rb.velocity.z;
+                CurSpeed = rb.velocity.z;
                 break;
             case 2:
-                Speed = rb.velocity.x;
+                CurSpeed = rb.velocity.x;
                 break;
             case 3:
-                Speed = -rb.velocity.z;
+                CurSpeed = -rb.velocity.z;
                 break;
             case 4:
-                Speed = -rb.velocity.x;
+                CurSpeed = -rb.velocity.x;
                 break;
         }
     }
 
 
-    public void Rotate(bool right)
+    /*public void Rotate(bool right)
     {
         rightSwipe = right;
         if (right)
@@ -86,18 +105,33 @@ public class TestCarMoove : MonoBehaviour
         {
             StartCoroutine(DoRotation(RotationSpeed, 90f, new Vector3(0, -90, 0)));
         }
-    }
+    }*/
+
     public void RotateRight()
     {
-        rightSwipe = true;
-        StartCoroutine(DoRotation(RotationSpeed, 90f, new Vector3(0, 90, 0)));
-    }
-    public void RotateLeft()
-    {
-        rightSwipe = false;
-        StartCoroutine(DoRotation(RotationSpeed, 90f, new Vector3(0, -90, 0)));
+        if (!isRotating && onAGround)
+        {
+            rightSwipe = true;
+            StartCoroutine(DoRotation(RotationSpeed, 90f, new Vector3(0, 90, 0)));
+        }
     }
 
+    public void RotateLeft()
+    {
+        if (!isRotating && onAGround)
+        {
+            rightSwipe = false;
+            StartCoroutine(DoRotation(RotationSpeed, 90f, new Vector3(0, -90, 0)));
+        }
+    }
+    public void AddNitro()
+    {
+        _onNitro = true;
+    }
+    public void OfNitro()
+    {
+        _onNitro = false;
+    }
 
     void SpeedChanger()
     {
@@ -106,44 +140,44 @@ public class TestCarMoove : MonoBehaviour
         {
             if (y == 1 || y > 271 && y <= 361)
             {
-                MooveType = 1;
+                mooveType = 1;
             }
 
             if (y > 1 && y <= 91)
             {
-                MooveType = 2;
+                mooveType = 2;
             }
 
             if (y > 91 && y <= 181)
             {
-                MooveType = 3;
+                mooveType = 3;
             }
 
             if (y > 181 && y <= 271)
             {
-                MooveType = 4;
+                mooveType = 4;
             }
         }
         else
         {
             if (y >= 270 && y < 360)
             {
-                MooveType = 4;
+                mooveType = 4;
             }
 
             if (y < 270 && y >= 180)
             {
-                MooveType = 3;
+                mooveType = 3;
             }
 
             if (y < 180 && y >= 90)
             {
-                MooveType = 2;
+                mooveType = 2;
             }
 
             if (y == 0 || y >= 0 && y < 90)
             {
-                MooveType = 1;
+                mooveType = 1;
             }
         }
     }
@@ -162,7 +196,7 @@ public class TestCarMoove : MonoBehaviour
 
         if (rightSwipe)
         {
-            switch (MooveType)
+            switch (mooveType)
             {
                 case 1:
                     rb.velocity = new Vector3(-2, 0, -rb.velocity.x);
@@ -180,7 +214,7 @@ public class TestCarMoove : MonoBehaviour
         }
         else
         {
-            switch (MooveType)
+            switch (mooveType)
             {
                 case 1:
                     rb.velocity = new Vector3(-Inertion, 0, rb.velocity.x);

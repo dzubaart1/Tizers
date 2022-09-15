@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -7,24 +8,29 @@ using Random = UnityEngine.Random;
 
 namespace CyberCar
 {
-    public class RoadCntrl : MonoBehaviour
+    public class RoadCntrl : Singleton<RoadCntrl>
     {
-        private bool prevFront;
-        public List<RoadPlaneCntrl> RoadFrontList;
-        public List<RoadPlaneCntrl> RoadRightList;
-        public List<RoadPlaneCntrl> TurnRightList;
-        public List<RoadPlaneCntrl> TurnFrontList;
-        public RoadPlaneCntrl StartRoad;
-        private RoadPlaneCntrl prevRoad;
-        public CarCntrl Player;
-        public List<RoadPlaneCntrl> RoadList;
-        public Transform RoadBox;
-        public RoadPatern Patern;
+      //  public CarCntrl Player;
+        
+        [Header("Control param")] public RoadPatern Patern;
         private bool IsPatern;
         public RoadsParams Params;
         private int _curRoadPatern;
+        private bool prevFront;
+        [Header("Game Objects")] private List<RoadPlaneCntrl> RoadFrontList;
+        private List<RoadPlaneCntrl> RoadRightList;
+        private List<RoadPlaneCntrl> TurnRightList;
+        private List<RoadPlaneCntrl> TurnFrontList;
+        private List<RoadPlaneCntrl> RoadList = new List<RoadPlaneCntrl>();
+        private RoadPlaneCntrl StartRoad;
+        private RoadPlaneCntrl prevRoad;
+        public Transform RoadBox;
         public Vector3 position;
 
+        [Header("Updated Params")] [SerializeField]
+        private RoadPlaneCntrl prevPlane;
+
+        [SerializeField] private RoadPlaneCntrl curPlane;
         void Start()
         {
             if (Patern == null)
@@ -58,9 +64,9 @@ namespace CyberCar
 
                 prevFront = true;
                 StartRoad = Instantiate(RoadFrontList[0], new Vector3(0, 0, 0), Quaternion.identity);
+                curPlane = StartRoad;
                 prevRoad = StartRoad;
-                Player = CarCntrl.Instance;
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < 12; i++)
                 {
                     CreateNewRoad();
                 }
@@ -72,11 +78,14 @@ namespace CyberCar
                 StartRoad = Instantiate(Patern.Roads[0], new Vector3(0, 0, 0), Quaternion.identity);
                 _curRoadPatern = 1;
                 prevRoad = StartRoad;
-                Player = CarCntrl.Instance;
+                for (int i = 0; i < 12; i++)
+                {
+                    CreateNewRoad();
+                }
             }
         }
 
-        private void FixedUpdate()
+        /*private void FixedUpdate()
         {
             if (!IsPatern)
             {
@@ -93,7 +102,7 @@ namespace CyberCar
                     CreateNewRoadPatern();
                 }
             }
-        }
+        }*/
 
         void CreateNewRoad()
         {
@@ -104,8 +113,9 @@ namespace CyberCar
                 position = prevRoad.transform.position;
                 if (prevFront)
                 {
-                    prevRoad = Instantiate(TurnRightList[Random.Range(0, TurnRightList.Count - 1)],
-                        new Vector3(position.x + 30, 0, position.z),
+                    RoadPlaneCntrl road = TurnRightList[Random.Range(0, TurnRightList.Count - 1)];
+                    prevRoad = Instantiate(road,
+                        new Vector3(position.x + road.Scaler.x, 0, position.z),
                         Quaternion.identity);
                     prevRoad.type = 4;
                     prevRoad.SetPlane();
@@ -115,8 +125,9 @@ namespace CyberCar
                 }
                 else
                 {
-                    prevRoad = Instantiate(RoadRightList[Random.Range(0, RoadRightList.Count - 1)],
-                        new Vector3(position.x, 0, position.z - 30),
+                    RoadPlaneCntrl road = RoadRightList[Random.Range(0, RoadRightList.Count - 1)];
+                    prevRoad = Instantiate(road,
+                        new Vector3(position.x, 0, position.z - road.Scaler.z),
                         Quaternion.identity);
                     prevRoad.type = 2;
                     prevRoad.SetPlane();
@@ -129,8 +140,9 @@ namespace CyberCar
                 var position = prevRoad.transform.position;
                 if (!prevFront)
                 {
-                    prevRoad = Instantiate(TurnFrontList[Random.Range(0, TurnFrontList.Count - 1)],
-                        new Vector3(position.x, 0, position.z - 30),
+                    RoadPlaneCntrl road = TurnFrontList[Random.Range(0, TurnFrontList.Count - 1)];
+                    prevRoad = Instantiate(road,
+                        new Vector3(position.x, 0, position.z - road.Scaler.z),
                         Quaternion.identity);
                     prevFront = true;
                     prevRoad.type = 3;
@@ -140,8 +152,9 @@ namespace CyberCar
                 }
                 else
                 {
-                    prevRoad = Instantiate(RoadFrontList[Random.Range(0, RoadFrontList.Count - 1)],
-                        new Vector3(position.x + 30, 0, position.z),
+                    RoadPlaneCntrl road = RoadFrontList[Random.Range(0, RoadFrontList.Count - 1)];
+                    prevRoad = Instantiate(road,
+                        new Vector3(position.x + road.Scaler.x, 0, position.z),
                         Quaternion.identity);
                     prevRoad.type = 1;
                     prevFront = true;
@@ -149,13 +162,6 @@ namespace CyberCar
                     RoadList.Add(prevRoad);
                     prevRoad.transform.parent = RoadBox;
                 }
-            }
-
-            if (RoadList.Count == 15)
-            {
-                GameObject roadToDel = RoadList[0].gameObject;
-                RoadList.Remove(RoadList[0]);
-                Destroy(roadToDel);
             }
         }
 
@@ -238,12 +244,42 @@ namespace CyberCar
                 }
             }
 
-            if (RoadList.Count == 15)
+            /*if (RoadList.Count == 5)
             {
                 GameObject roadToDel = RoadList[0].gameObject;
                 RoadList.Remove(RoadList[0]);
                 Destroy(roadToDel);
+            }*/
+        }
+
+        public void DestroyRoad(RoadPlaneCntrl road)
+        {
+            if (road != curPlane)
+            {
+                if (curPlane) prevPlane = curPlane;
+                curPlane = road;
+                if (prevPlane != null)
+                {
+                    if (!IsPatern)
+                    {
+                        CreateNewRoad();
+                    }
+                    else
+                    {
+                        CreateNewRoadPatern();
+                    }
+                    StartCoroutine(DeleteRoad(prevPlane));
+                }
             }
+        }
+
+        IEnumerator DeleteRoad(RoadPlaneCntrl road)
+        {
+            yield return new WaitForSeconds(1);
+            GameObject roadToDel = road.gameObject;
+            RoadList.Remove(road);
+            Destroy(roadToDel);
+           
         }
     }
 }

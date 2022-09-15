@@ -69,7 +69,7 @@ namespace CyberCar
 
         private void OnCollisionEnter(Collision other)
         {
-            TestRoadCntrl.Instance.DestroyRoad(this);
+            RoadCntrl.Instance.DestroyRoad(this);
         }
         void GenerateRandomObject()
         {
