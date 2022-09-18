@@ -29,7 +29,7 @@ namespace TestsScript
         private RoadPlaneCntrl prevPlane;
 
         [SerializeField] private RoadPlaneCntrl curPlane;
-
+        public bool onlyFront;
         void Start()
         {
             if (Patern == null)
@@ -102,6 +102,19 @@ namespace TestsScript
         void CreateNewRoad()
         {
             int rRoad = Random.Range(0, 10);
+            if (onlyFront)
+            {
+                position = prevRoad.transform.position;
+                RoadPlaneCntrl road = RoadFrontList[Random.Range(0, RoadFrontList.Count - 1)];
+                prevRoad = Instantiate(road,
+                    new Vector3(position.x + road.Scaler.x, 0, position.z),
+                    Quaternion.identity);
+                prevRoad.type = 1;
+                prevRoad.SetPlane(true);
+                RoadList.Add(prevRoad);
+                prevRoad.transform.parent = RoadBox;
+                return;
+            }
 
             if (rRoad > 5)
             {
@@ -270,7 +283,7 @@ namespace TestsScript
 
         IEnumerator DeleteRoad(RoadPlaneCntrl road)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(2);
             GameObject roadToDel = road.gameObject;
             RoadList.Remove(road);
             Destroy(roadToDel);

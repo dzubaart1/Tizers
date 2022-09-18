@@ -48,10 +48,8 @@ namespace CyberCar
 
         void Start()
         {
-            
             Debug.Log(Application.persistentDataPath + "/MySaveData.dat");
             List<CarParams> CarsObjs = Resources.LoadAll<CarParams>("CustomCars").ToList();
-
 
             CarSave savedCar = SaveLoadCntrl.LoadGame();
             CarParams GameCar = CarsObjs[1];

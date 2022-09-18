@@ -22,15 +22,27 @@ namespace CyberCar
         private bool onAGround;
         [Header("Links params")] public CarCntrl _carCntrl;
         public CanvasView cview;
+        public Vector3 upperforce;
 
+        [Header("Levitation params")] private RaycastHit ground;
+        [Range(0, 10)] public float GroundDistance;
 
+        [Range(0, 10)] public float levitationHeight;
+
+        [Header("Test params")] 
+        
+        public WheelCollider FrontWeelR, FrontWeell;
         //Swap right
         private bool rightSwipe;
+
+        private void Update()
+        {
+        }
 
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
-            _swipeCOntroll = gameObject.AddComponent<SwipeControll>();//GetComponent<SwipeControll>();
+            _swipeCOntroll = gameObject.AddComponent<SwipeControll>(); //GetComponent<SwipeControll>();
             _swipeCOntroll.leftSwipe = RotateLeft;
             _swipeCOntroll.RightSwipe = RotateRight;
             _swipeCOntroll.UpSwipe = AddNitro;
@@ -40,9 +52,35 @@ namespace CyberCar
 
         private void FixedUpdate()
         {
+            MooveForces();
+            SpeedChanger();
+        //    addLevitation();
+       //   if (onAGround) Levitation();
+            ParamsCheck();
+        }
+
+        void addLevitation()
+        {
+            if (transform.position.y<0)
+            {
+                rb.AddForce(upperforce,ForceMode.VelocityChange);
+            }
+        }
+
+        void MooveForces()
+        {
             if (start && CurSpeed < MaxSpeed)
             {
-                rb.AddRelativeForce(Vector3.forward * AccelerationSpeed, ForceMode.Acceleration);
+              //  rb.AddRelativeForce(Vector3.forward * AccelerationSpeed, ForceMode.Acceleration);
+            //  rb.AddRelativeForce(Vector3.forward * AccelerationSpeed, ForceMode.Force);
+              FrontWeelR.motorTorque =  AccelerationSpeed*2;
+              FrontWeell.motorTorque =  AccelerationSpeed*2;
+            }
+
+            if (CurSpeed > MaxSpeed)
+            {
+                FrontWeelR.motorTorque =  -AccelerationSpeed*2;
+                FrontWeell.motorTorque =  -AccelerationSpeed*2;  
             }
 
             if (_onNitro)
@@ -50,19 +88,27 @@ namespace CyberCar
                 rb.AddRelativeForce(Vector3.forward * BoostAcceleration, ForceMode.Acceleration);
             }
 
+
             if (transform.position.y < -5)
             {
                 _carCntrl.DeadEnd();
             }
+        }
 
-            SpeedChanger();
-
+        void ParamsCheck()
+        {
             //На случай проверки земли
             RaycastHit hit;
             if (Physics.Raycast(transform.position + new Vector3(0, 0.5f, 0),
                 transform.TransformDirection(Vector3.down), out hit, 2.5f, 1))
             {
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.red);
+                if (hit.transform.parent.gameObject.GetComponent<RoadPlaneCntrl>()!=null)
+                {
+                    Debug.Log("find");
+                    hit.transform.parent.gameObject.GetComponent<RoadPlaneCntrl>().PingDestroy();
+                }
+
                 onAGround = true;
             }
             else
@@ -88,20 +134,33 @@ namespace CyberCar
             }
         }
 
-
-        /*public void Rotate(bool right)
+        void Levitation()
         {
-            rightSwipe = right;
-            if (right)
+            if (Physics.Raycast(transform.position, -transform.up, out ground))
             {
-                StartCoroutine(DoRotation(RotationSpeed, 90f, new Vector3(0, 90, 0)));
+                GroundDistance = ground.distance;
+            }
+
+            float delta = Mathf.Abs(levitationHeight - GroundDistance);
+            delta = Mathf.Pow(delta, 2);
+
+            if (GroundDistance < levitationHeight)
+            {
+                rb.AddForce(transform.up * 2 * delta, ForceMode.Impulse);
+            }
+
+            if (GroundDistance > levitationHeight - 0.04f)
+            {
+                rb.AddForce(-transform.up * 2 * delta, ForceMode.Impulse);
             }
             else
             {
-                StartCoroutine(DoRotation(RotationSpeed, 90f, new Vector3(0, -90, 0)));
+               rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+               // rb.velocity = Vector3.zero;
             }
-        }*/
 
+            Debug.Log(rb.velocity);
+        }
         public void RotateRight()
         {
             if (!isRotating && onAGround)
@@ -190,8 +249,8 @@ namespace CyberCar
                 transform.RotateAround(transform.position, axis, delta);
                 rot += delta;
             }
-
-            if (rightSwipe)
+rb.AddRelativeForce(Vector3.forward*3, ForceMode.Impulse);
+            /*if (rightSwipe)
             {
                 switch (mooveType)
                 {
@@ -199,10 +258,10 @@ namespace CyberCar
                         rb.velocity = new Vector3(-2, 0, -rb.velocity.x);
                         break;
                     case 2:
-                        rb.velocity = new Vector3(rb.velocity.z, 0, 2 * axis.y / 90);
+                        rb.velocity = new Vector3(rb.velocity.z, 0, axis.y / 90);
                         break;
                     case 3:
-                        rb.velocity = new Vector3(2 * axis.y / 90, 0, -rb.velocity.x);
+                        rb.velocity = new Vector3( axis.y / 90, 0, -rb.velocity.x);
                         break;
                     case 4:
                         rb.velocity = new Vector3(rb.velocity.z, 0, -2);
@@ -226,7 +285,7 @@ namespace CyberCar
                         rb.velocity = new Vector3(-rb.velocity.z, 0, Inertion);
                         break;
                 }
-            }
+            }*/
 
             isRotating = false;
         }

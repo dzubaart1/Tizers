@@ -30,11 +30,15 @@ namespace CyberCar
         /// </summary>
         public int type;
 
-        public void SetPlane()
+        public void SetPlane(bool isTest =false)
         {
-            rb = gameObject.AddComponent<Rigidbody>();
+            if(isTest)
+            {
+            /*rb = gameObject.AddComponent<Rigidbody>();
             rb.useGravity = false;
-            rb.isKinematic = true;
+            rb.isKinematic = true;*/
+            return;
+            }
             //transform.position = _targetPos - new Vector3(0, 10, 0);
             if (!obtacle && !bonus)
             {
@@ -69,7 +73,13 @@ namespace CyberCar
 
         private void OnCollisionEnter(Collision other)
         {
-            RoadCntrl.Instance.DestroyRoad(this);
+            if(RoadCntrl.Instance) RoadCntrl.Instance.DestroyRoad(this);
+            if(TestRoadCntrl.Instance)TestRoadCntrl.Instance.DestroyRoad(this);
+        } 
+        public void PingDestroy()
+        {
+            if(RoadCntrl.Instance) RoadCntrl.Instance.DestroyRoad(this);
+            if(TestRoadCntrl.Instance)TestRoadCntrl.Instance.DestroyRoad(this);
         }
         void GenerateRandomObject()
         {
