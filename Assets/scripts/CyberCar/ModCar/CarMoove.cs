@@ -16,6 +16,7 @@ namespace CyberCar
         public float RotationSpeed;
         public float Inertion;
         public float BoostAcceleration;
+        [SerializeField] private bool _onBroke;
         [Header("inner params")] public int mooveType;
         public bool start;
         public bool _onNitro;
@@ -29,14 +30,17 @@ namespace CyberCar
 
         [Range(0, 10)] public float levitationHeight;
 
-        [Header("Test params")] 
-        
         public WheelCollider FrontWeelR, FrontWeell;
+
         //Swap right
         private bool rightSwipe;
 
         private void Update()
         {
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                start = !start;
+            }
         }
 
         private void Start()
@@ -46,7 +50,9 @@ namespace CyberCar
             _swipeCOntroll.leftSwipe = RotateLeft;
             _swipeCOntroll.RightSwipe = RotateRight;
             _swipeCOntroll.UpSwipe = AddNitro;
-            _swipeCOntroll.DownSwipe = OfNitro;
+            _swipeCOntroll.DownSwipe += OfNitro;
+            _swipeCOntroll.DownSwipe += brokeDrossel;
+            StartCoroutine(StartRotation());
         }
 
 
@@ -54,33 +60,45 @@ namespace CyberCar
         {
             MooveForces();
             SpeedChanger();
-        //    addLevitation();
-       //   if (onAGround) Levitation();
+            //    addLevitation();
+            //   if (onAGround) Levitation();
             ParamsCheck();
         }
 
-        void addLevitation()
+        void brokeDrossel()
         {
-            if (transform.position.y<0)
+            StartCoroutine(BrokeDrive());
+        }
+
+        IEnumerator BrokeDrive()
+        {
+            _onBroke = true;
+            float t = 0;
+            while (t < 1)
             {
-                rb.AddForce(upperforce,ForceMode.VelocityChange);
+                yield return
+                    rb.drag = 0.3f;
+                t += Time.deltaTime;
             }
+
+            rb.drag = 0;
+            _onBroke = false;
         }
 
         void MooveForces()
         {
-            if (start && CurSpeed < MaxSpeed)
+            if (start && CurSpeed < MaxSpeed && !_onBroke)
             {
-              //  rb.AddRelativeForce(Vector3.forward * AccelerationSpeed, ForceMode.Acceleration);
-            //  rb.AddRelativeForce(Vector3.forward * AccelerationSpeed, ForceMode.Force);
-              FrontWeelR.motorTorque =  AccelerationSpeed*2;
-              FrontWeell.motorTorque =  AccelerationSpeed*2;
+                //  rb.AddRelativeForce(Vector3.forward * AccelerationSpeed, ForceMode.Acceleration);
+                //  rb.AddRelativeForce(Vector3.forward * AccelerationSpeed, ForceMode.Force);
+                FrontWeelR.motorTorque = AccelerationSpeed * 2;
+                FrontWeell.motorTorque = AccelerationSpeed * 2;
             }
 
             if (CurSpeed > MaxSpeed)
             {
-                FrontWeelR.motorTorque =  -AccelerationSpeed*2;
-                FrontWeell.motorTorque =  -AccelerationSpeed*2;  
+                FrontWeelR.motorTorque = -AccelerationSpeed * 2;
+                FrontWeell.motorTorque = -AccelerationSpeed * 2;
             }
 
             if (_onNitro)
@@ -103,10 +121,19 @@ namespace CyberCar
                 transform.TransformDirection(Vector3.down), out hit, 2.5f, 1))
             {
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.red);
-                if (hit.transform.parent.gameObject.GetComponent<RoadPlaneCntrl>()!=null)
+                if (hit.transform.parent && hit.transform.parent.gameObject.GetComponent<RoadPlaneCntrl>() != null)
                 {
-                    Debug.Log("find");
-                    hit.transform.parent.gameObject.GetComponent<RoadPlaneCntrl>().PingDestroy();
+                    RoadPlaneCntrl road = hit.transform.parent.gameObject.GetComponent<RoadPlaneCntrl>();
+                    road.PingDestroy();
+                }
+                else
+                {
+                    if (hit.transform.gameObject.GetComponent<RoadPlaneCntrl>() != null)
+                    {
+                        RoadPlaneCntrl road = hit.transform.gameObject.GetComponent<RoadPlaneCntrl>();
+
+                        road.PingDestroy();
+                    }
                 }
 
                 onAGround = true;
@@ -155,12 +182,13 @@ namespace CyberCar
             }
             else
             {
-               rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-               // rb.velocity = Vector3.zero;
+                rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+                // rb.velocity = Vector3.zero;
             }
 
             Debug.Log(rb.velocity);
         }
+
         public void RotateRight()
         {
             if (!isRotating && onAGround)
@@ -249,7 +277,8 @@ namespace CyberCar
                 transform.RotateAround(transform.position, axis, delta);
                 rot += delta;
             }
-rb.AddRelativeForce(Vector3.forward*3, ForceMode.Impulse);
+
+            rb.AddRelativeForce(Vector3.forward * 3, ForceMode.Impulse);
             /*if (rightSwipe)
             {
                 switch (mooveType)
@@ -288,6 +317,19 @@ rb.AddRelativeForce(Vector3.forward*3, ForceMode.Impulse);
             }*/
 
             isRotating = false;
+        }
+
+        IEnumerator StartRotation()
+        {
+            yield return new WaitForSeconds(1);
+            RotateRight();
+            ;
+        }
+
+        public void Restart()
+        {
+            transform.position = Vector3.zero;
+            rb.velocity = Vector3.zero;
         }
     }
 }

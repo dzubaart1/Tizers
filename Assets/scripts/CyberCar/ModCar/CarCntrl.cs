@@ -147,6 +147,10 @@ namespace CyberCar
                 GameManager.isDie();
                 Destroy(CarModel.gameObject);
             }
+            else
+            {
+                _moove.Restart();
+            }
         }
         public void Finished()
         {

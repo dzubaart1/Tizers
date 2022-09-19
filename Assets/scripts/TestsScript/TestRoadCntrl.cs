@@ -30,6 +30,7 @@ namespace TestsScript
 
         [SerializeField] private RoadPlaneCntrl curPlane;
         public bool onlyFront;
+        public bool withoutBonus;
         void Start()
         {
             if (Patern == null)
@@ -126,7 +127,7 @@ namespace TestsScript
                         new Vector3(position.x + road.Scaler.x, 0, position.z),
                         Quaternion.identity);
                     prevRoad.type = 4;
-                    prevRoad.SetPlane();
+                    prevRoad.SetPlane(withoutBonus);
                     prevFront = false;
                     RoadList.Add(prevRoad);
                     prevRoad.transform.parent = RoadBox;
@@ -138,7 +139,7 @@ namespace TestsScript
                         new Vector3(position.x, 0, position.z - road.Scaler.z),
                         Quaternion.identity);
                     prevRoad.type = 2;
-                    prevRoad.SetPlane();
+                    prevRoad.SetPlane(withoutBonus);
                     RoadList.Add(prevRoad);
                     prevRoad.transform.parent = RoadBox;
                 }
@@ -154,7 +155,7 @@ namespace TestsScript
                         Quaternion.identity);
                     prevFront = true;
                     prevRoad.type = 3;
-                    prevRoad.SetPlane();
+                    prevRoad.SetPlane(withoutBonus);
                     RoadList.Add(prevRoad);
                     prevRoad.transform.parent = RoadBox;
                 }
@@ -166,7 +167,7 @@ namespace TestsScript
                         Quaternion.identity);
                     prevRoad.type = 1;
                     prevFront = true;
-                    prevRoad.SetPlane();
+                    prevRoad.SetPlane(withoutBonus);
                     RoadList.Add(prevRoad);
                     prevRoad.transform.parent = RoadBox;
                 }
@@ -270,6 +271,7 @@ namespace TestsScript
                 {
                     if (!IsPatern)
                     {
+                        Debug.Log(gameObject.name);
                         CreateNewRoad();
                     }
                     else
