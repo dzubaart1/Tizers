@@ -5,10 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/CyberCarMenu.unity
     guid: d0aaeed8ffb4993439ae55b7ec9dce2f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/CyberCar.unity
     guid: 3515a9f32f8e5c74ab8b2b07f3236506
+  - enabled: 1
+    path: Assets/Scenes/TestScene.unity
+    guid: bd5956ba44d0c40499cf767b1e522461
+  - enabled: 0
+    path: Assets/Scenes/TestDrift.unity
+    guid: fff4b6a12a88c7247958944892269c3e
   m_configObjects: {}

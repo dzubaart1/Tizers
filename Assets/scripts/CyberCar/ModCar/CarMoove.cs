@@ -53,6 +53,8 @@ namespace CyberCar
             _swipeCOntroll.DownSwipe += OfNitro;
             _swipeCOntroll.DownSwipe += brokeDrossel;
             StartCoroutine(StartRotation());
+            start = true;
+
         }
 
 

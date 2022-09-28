@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CyberCar;
-using UnityEditor.SceneManagement;
+using CyberCar.RacesType;
 using UnityEngine;
 
 namespace TestsScript
@@ -14,6 +14,9 @@ namespace TestsScript
         public RoadsParams Params;
         private int _curRoadPatern;
         private bool prevFront;
+        [Header("Types Roads")] 
+        public IRoadType RoadType;
+        
         [Header("Game Objects")] private List<RoadPlaneCntrl> RoadFrontList;
         private List<RoadPlaneCntrl> RoadRightList;
         private List<RoadPlaneCntrl> TurnRightList;
@@ -33,7 +36,14 @@ namespace TestsScript
         public bool withoutBonus;
         void Start()
         {
-            if (Patern == null)
+            RoadType = new SprintType();
+            CollectRoads();
+
+        }
+
+        void CollectRoads()
+        {
+             if (Patern == null)
             {
                 IsPatern = false;
                 if (Params != null)
@@ -63,9 +73,10 @@ namespace TestsScript
                 }
 
                 prevFront = true;
-                StartRoad = Instantiate(RoadFrontList[0], new Vector3(0, 0, 0), Quaternion.identity);
+                StartRoad = Instantiate(RoadFrontList[0], new Vector3(-RoadFrontList[0].Scaler.x/2, 0, -RoadFrontList[0].Scaler.z/2), Quaternion.identity);
                 curPlane = StartRoad;
                 prevRoad = StartRoad;
+                prevRoad.transform.parent = RoadBox;
                 for (int i = 0; i < 12; i++)
                 {
                     CreateNewRoad();
@@ -81,37 +92,17 @@ namespace TestsScript
             }
         }
 
-        /*private void FixedUpdate()
-        {
-            if (!IsPatern)
-            {
-                if (Vector3.Distance(Player.gameObject.transform.position, prevRoad.gameObject.transform.position) < 50)
-                {
-                    CreateNewRoad();
-                }
-            }
-            else
-            {
-                if (Vector3.Distance(Player.gameObject.transform.position, prevRoad.gameObject.transform.position) < 50)
-                {
-                    Debug.Log("enter to patern create");
-                    CreateNewRoadPatern();
-                }
-            }
-        }*/
-
         void CreateNewRoad()
         {
             int rRoad = Random.Range(0, 10);
             if (onlyFront)
-            {
+            { 
+                RoadPlaneCntrl road = RoadFrontList[Random.Range(0, RoadFrontList.Count )];
+                Vector3 newPos = RoadType.GenerateRoadPosition(prevRoad, road);
                 position = prevRoad.transform.position;
-                RoadPlaneCntrl road = RoadFrontList[Random.Range(0, RoadFrontList.Count - 1)];
-                prevRoad = Instantiate(road,
-                    new Vector3(position.x + road.Scaler.x, 0, position.z),
-                    Quaternion.identity);
+                prevRoad = Instantiate(road, newPos, Quaternion.identity);
                 prevRoad.type = 1;
-                prevRoad.SetPlane(true);
+                prevRoad.SetPlane(!withoutBonus);
                 RoadList.Add(prevRoad);
                 prevRoad.transform.parent = RoadBox;
                 return;

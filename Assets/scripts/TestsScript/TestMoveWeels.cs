@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using CyberCar;
 using UnityEngine;
 
 namespace TestsScript
@@ -14,22 +15,24 @@ namespace TestsScript
         private bool rightSwipe;
         public bool onAGround = true;
         public float CurSpeed;
-        
+        public float MaxSpeed;
         
         [Header("WheelsParams")] 
+        public float _steerAngle = 25;
         public WheelCollider front_driverCol, front_passColl;
         public WheelCollider back_driverCol, back_passCol;
         public Transform frontDriver, frontPass;
         public Transform backDriver, backPass;
-        public float _steerAngle = 25;
         public float _motorForce = 1500f;
         public float steerAngl;
         public bool onTransUpdate;
         private float h, v;
+        public float brokeForce;
 
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
+            rb.constraints = RigidbodyConstraints.None;
         }
         void SpeedChanger()
         {
@@ -103,20 +106,27 @@ namespace TestsScript
           
         }
 
+       
+
         void Checkers()
         {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position + new Vector3(0, 0.5f, 0),
-                transform.TransformDirection(Vector3.down), out hit, 2.5f, 1))
+            RaycastHit hit = default;
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.red);
+            if (hit.transform.parent && hit.transform.parent.gameObject.GetComponent<RoadPlaneCntrl>() != null)
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.red);
-                onAGround = true;
+                RoadPlaneCntrl road = hit.transform.parent.gameObject.GetComponent<RoadPlaneCntrl>();
+                road.PingDestroy();
             }
             else
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * 5, Color.yellow);
-                onAGround = false;
+                if (hit.transform.gameObject.GetComponent<RoadPlaneCntrl>() != null)
+                {
+                    RoadPlaneCntrl road = hit.transform.gameObject.GetComponent<RoadPlaneCntrl>();
+
+                    road.PingDestroy();
+                }
             }
+
 
             switch (mooveType)
             {
@@ -137,40 +147,43 @@ namespace TestsScript
 
         void Inputs()
         {
-            if (Input.GetKeyUp(KeyCode.D)&& !isRotating)
-            {
-                RotateRight();
-            }
-            if (Input.GetKeyUp(KeyCode.A)&& !isRotating)
-            {
-                RotateLeft();
-            }
-
-            /*h = Input.GetAxis("Horizontal");
-            v = Input.GetAxis("Vertical");*/
+            h = Input.GetAxis("Horizontal");
+            v = Input.GetAxis("Vertical");
         }
-        public void RotateRight()
-        {
-            if (!isRotating && onAGround)
-            {
-                rightSwipe = true;
-                StartCoroutine(DoRotation(RotationSpeed, 90f, new Vector3(0, 90, 0)));
-            }
-        }
-
-        public void RotateLeft()
-        {
-            if (!isRotating && onAGround)
-            {
-                rightSwipe = false;
-                StartCoroutine(DoRotation(RotationSpeed, 90f, new Vector3(0, -90, 0)));
-            }
-        }
+      
         void Drive()
         {
-            v = 0.5f;
-            back_driverCol.motorTorque = v * _motorForce;
-            back_passCol.motorTorque = v * _motorForce;
+           
+            
+            if ( CurSpeed < MaxSpeed)
+            {
+                Unbroke();
+                front_driverCol.motorTorque = v * _motorForce;
+                front_passColl.motorTorque = v * _motorForce;
+            }
+            
+
+            if (CurSpeed > MaxSpeed)
+            {
+                Broke();
+            }
+
+        }
+
+        void Broke()
+        {
+            back_driverCol.brakeTorque  =brokeForce;
+            back_passCol.brakeTorque  = brokeForce;
+            front_driverCol.brakeTorque  = brokeForce;
+            front_passColl.brakeTorque  = brokeForce;
+        }
+
+        void Unbroke()
+        {
+                back_driverCol.brakeTorque  =0;
+                back_passCol.brakeTorque  = 0;
+                front_driverCol.brakeTorque = 0;
+                front_passColl.brakeTorque  = 0;
         }
 
         void SteerCar()
@@ -189,66 +202,6 @@ namespace TestsScript
             t.rotation = rot;
         }
         
-        IEnumerator DoRotation(float _speed, float amount, Vector3 axis)
-        {
-            isRotating = true;
-            float rot = 0f;
-            if (axis.y > 0)
-            {
-                h = 1;
-            }
-            else
-            {
-                h = -1;
-            }
-
-            while (rot < amount)
-            {
-                yield return null;
-                float delta = Mathf.Min(_speed * Time.deltaTime, amount - rot);
-                transform.RotateAround(transform.position, axis, delta);
-                rot += delta;
-            }
-
-            if (rightSwipe)
-            {
-                switch (mooveType)
-                {
-                    case 1:
-                        rb.velocity = new Vector3(-2, 0, -rb.velocity.x);
-                        break;
-                    case 2:
-                        rb.velocity = new Vector3(rb.velocity.z, 0, 2 * axis.y / 90);
-                        break;
-                    case 3:
-                        rb.velocity = new Vector3(2 * axis.y / 90, 0, -rb.velocity.x);
-                        break;
-                    case 4:
-                        rb.velocity = new Vector3(rb.velocity.z, 0, -2);
-                        break;
-                }
-            }
-            else
-            {
-                switch (mooveType)
-                {
-                    case 1:
-                        rb.velocity = new Vector3(-Inertion, 0, rb.velocity.x);
-                        break;
-                    case 2:
-                        rb.velocity = new Vector3(-rb.velocity.z, 0, Inertion);
-                        break;
-                    case 3:
-                        rb.velocity = new Vector3(-Inertion, 0, rb.velocity.x);
-                        break;
-                    case 4:
-                        rb.velocity = new Vector3(-rb.velocity.z, 0, Inertion);
-                        break;
-                }
-            }
-
-            h = 0;
-            isRotating = false;
-        }
+       
     }
 }

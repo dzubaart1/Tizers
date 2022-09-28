@@ -34,9 +34,6 @@ namespace CyberCar
         {
             if(isTest)
             {
-            /*rb = gameObject.AddComponent<Rigidbody>();
-            rb.useGravity = false;
-            rb.isKinematic = true;*/
             return;
             }
             //transform.position = _targetPos - new Vector3(0, 10, 0);
