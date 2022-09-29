@@ -1251,7 +1251,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: -15.005707, z: 9.29e-43, w: -11.916718}
+  m_BoundingSphereOverride: {x: 9.29e-43, y: 7.1e-44, z: 0, w: -417.0442}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -1612,6 +1612,38 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 478825094, guid: ff2d9b51789a68a4a8d27986ba459798, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 478825095, guid: ff2d9b51789a68a4a8d27986ba459798, type: 3}
+      propertyPath: m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 478825095, guid: ff2d9b51789a68a4a8d27986ba459798, type: 3}
+      propertyPath: m_FarClip
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 478825095, guid: ff2d9b51789a68a4a8d27986ba459798, type: 3}
+      propertyPath: m_BoxSize.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 478825095, guid: ff2d9b51789a68a4a8d27986ba459798, type: 3}
+      propertyPath: m_BoxSize.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 478825095, guid: ff2d9b51789a68a4a8d27986ba459798, type: 3}
+      propertyPath: m_BoxSize.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 478825095, guid: ff2d9b51789a68a4a8d27986ba459798, type: 3}
+      propertyPath: m_RefreshMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 478825095, guid: ff2d9b51789a68a4a8d27986ba459798, type: 3}
+      propertyPath: m_IntensityMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 478825095, guid: ff2d9b51789a68a4a8d27986ba459798, type: 3}
+      propertyPath: m_UseOcclusionCulling
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 881991138, guid: ff2d9b51789a68a4a8d27986ba459798, type: 3}

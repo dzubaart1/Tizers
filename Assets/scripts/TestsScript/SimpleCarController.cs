@@ -17,7 +17,11 @@ namespace TestsScript
         private Rigidbody body;
         [SerializeField] private float CurSpeed;
         public float MaxSpeed;
+        public float MaxNitroSpeed;
         public float maxBrake = 50;
+        public bool onBrake;
+        public bool onNitro;
+        public bool OnAGround;
 
         private void Start()
         {
@@ -34,8 +38,22 @@ namespace TestsScript
         void Checkers()
         {
             RaycastHit hit;
+            RaycastHit hitGround;
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down) , out hitGround,
+                1,
+                1))
+            {
+                OnAGround = true;
+            }
+            else
+            {
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.blue);
+                OnAGround = false;
+            }
+
             // Does the ray intersect any objects excluding the player layer
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity,
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down) * 1000, out hit,
+                Mathf.Infinity,
                 1))
             {
                 if (hit.transform.parent && hit.transform.parent.gameObject.GetComponent<RoadPlaneCntrl>() != null)
@@ -64,41 +82,91 @@ namespace TestsScript
 
         public void FixedUpdate()
         {
-            v = Joystick.Vertical;
-            v = 1;
+            // v = Joystick.Vertical;
+            //   v = 1;
             h = Joystick.Horizontal;
-
-            float motor = maxMotorTorque * v;
-            CurSpeed = body.velocity.magnitude;
-            foreach (WheelMove axleInfo in axleInfos)
+            float motor = maxMotorTorque; //*v;
+            if (onNitro && CurSpeed < MaxNitroSpeed)
             {
-                if (axleInfo.steering)
-                {
-                    axleInfo.CalculateAndApplySteering(h, maxSteeringAngle, axleInfos);
-                }
+                body.AddRelativeForce(Vector3.forward * 10, ForceMode.Acceleration);
+            }
 
-                if (axleInfo.motor && CurSpeed < MaxSpeed)
-                {
-                    axleInfo.leftWheel.motorTorque = motor;
-                    axleInfo.rightWheel.motorTorque = motor;
-                }
 
-                if (CurSpeed > MaxSpeed)
+            CurSpeed = body.velocity.magnitude;
+            if (!onBrake)
+            {
+                foreach (WheelMove axleInfo in axleInfos)
+                {
+                    if (axleInfo.steering)
+                    {
+                        axleInfo.CalculateAndApplySteering(h, maxSteeringAngle, axleInfos);
+                    }
+
+                    if (axleInfo.motor && CurSpeed < MaxSpeed)
+                    {
+                        axleInfo.leftWheel.motorTorque = motor;
+                        axleInfo.rightWheel.motorTorque = motor;
+                    }
+
+                    if (!onNitro)
+                    {
+                        if (CurSpeed > MaxSpeed)
+                        {
+                            axleInfo.leftWheel.brakeTorque = maxBrake;
+                            axleInfo.rightWheel.brakeTorque = maxBrake;
+                        }
+                        else
+                        {
+                            axleInfo.leftWheel.brakeTorque = 0;
+                            axleInfo.rightWheel.brakeTorque = 0;
+                        }
+                    }
+                    else
+                    {
+                        if (CurSpeed > MaxNitroSpeed)
+                        {
+                            axleInfo.leftWheel.brakeTorque = maxBrake;
+                            axleInfo.rightWheel.brakeTorque = maxBrake;
+                        }
+                        else
+                        {
+                            axleInfo.leftWheel.brakeTorque = 0;
+                            axleInfo.rightWheel.brakeTorque = 0;
+                        }
+                    }
+
+                    axleInfo.ApplyLocalPositionToVisuals();
+                    axleInfo.CalculateAndApplyAntiRollForce(body);
+                }
+            }
+            else
+            {
+                foreach (WheelMove axleInfo in axleInfos)
                 {
                     axleInfo.leftWheel.brakeTorque = maxBrake;
                     axleInfo.rightWheel.brakeTorque = maxBrake;
                 }
-                else
-                {
-                    axleInfo.leftWheel.brakeTorque = 0;
-                    axleInfo.rightWheel.brakeTorque = 0;
-                }
-
-                axleInfo.ApplyLocalPositionToVisuals();
-                axleInfo.CalculateAndApplyAntiRollForce(body);
             }
 
             Checkers();
+        }
+
+        public void BrakeTorque(bool inBrake)
+        {
+            onBrake = inBrake;
+        }
+
+        public void Nitro(bool _onNitro)
+        {
+            onNitro = _onNitro;
+            if (_onNitro == false)
+            {
+                foreach (WheelMove axleInfo in axleInfos)
+                {
+                    axleInfo.leftWheel.brakeTorque = maxBrake;
+                    axleInfo.rightWheel.brakeTorque = maxBrake;
+                }
+            }
         }
     }
 }

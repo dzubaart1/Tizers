@@ -9,18 +9,18 @@ namespace TestsScript
 {
     public class TestRoadCntrl : Singleton<TestRoadCntrl>
     {
-        [Header("Control param")] public RoadPatern Patern;
+        [Header("Control param")]
+        public RoadPatern Patern;
         private bool IsPatern;
         public RoadsParams Params;
         private int _curRoadPatern;
         private bool prevFront;
         [Header("Types Roads")] 
         public IRoadType RoadType;
-        
-        [Header("Game Objects")] private List<RoadPlaneCntrl> RoadFrontList;
-        private List<RoadPlaneCntrl> RoadRightList;
-        private List<RoadPlaneCntrl> TurnRightList;
-        private List<RoadPlaneCntrl> TurnFrontList;
+
+        [Header("Game Objects")] 
+        public RoadCollection _roadCollection;
+     
         private List<RoadPlaneCntrl> RoadList = new List<RoadPlaneCntrl>();
         private RoadPlaneCntrl StartRoad;
         private RoadPlaneCntrl prevRoad;
@@ -37,67 +37,30 @@ namespace TestsScript
         void Start()
         {
             RoadType = new SprintType();
-            CollectRoads();
-
+            _roadCollection = new RoadCollection(Patern,Params);
+            _roadCollection.CollectRoads();
+            CreateStartWorld();
         }
 
-        void CollectRoads()
+        void CreateStartWorld()
         {
-             if (Patern == null)
+            StartRoad = Instantiate(_roadCollection.RoadFrontList[0], new Vector3(-_roadCollection.RoadFrontList[0].Scaler.x/2, 0, -_roadCollection.RoadFrontList[0].Scaler.z/2), Quaternion.identity);
+            curPlane = StartRoad;
+            prevRoad = StartRoad;
+            prevRoad.transform.parent = RoadBox;
+            for (int i = 0; i < 12; i++)
             {
-                IsPatern = false;
-                if (Params != null)
-                {
-                    List<RoadPlaneCntrl> RoadList = Resources.LoadAll<RoadPlaneCntrl>(Params.PathToRoads).ToList();
-                    RoadFrontList = new List<RoadPlaneCntrl>();
-                    RoadRightList = new List<RoadPlaneCntrl>();
-                    TurnFrontList = new List<RoadPlaneCntrl>();
-                    TurnRightList = new List<RoadPlaneCntrl>();
-                    foreach (RoadPlaneCntrl road in RoadList)
-                    {
-                        if (!road.IsFinish)
-                        {
-                            if (road.type == 1) RoadFrontList.Add(road);
-                            if (road.type == 2) RoadRightList.Add(road);
-                            if (road.type == 3) TurnFrontList.Add(road);
-                            if (road.type == 4) TurnRightList.Add(road);
-                        }
-                    }
-                }
-                else
-                {
-                    RoadFrontList = Resources.LoadAll<RoadPlaneCntrl>("front").ToList();
-                    RoadRightList = Resources.LoadAll<RoadPlaneCntrl>("right").ToList();
-                    TurnFrontList = Resources.LoadAll<RoadPlaneCntrl>("turnF").ToList();
-                    TurnRightList = Resources.LoadAll<RoadPlaneCntrl>("turnR").ToList();
-                }
-
-                prevFront = true;
-                StartRoad = Instantiate(RoadFrontList[0], new Vector3(-RoadFrontList[0].Scaler.x/2, 0, -RoadFrontList[0].Scaler.z/2), Quaternion.identity);
-                curPlane = StartRoad;
-                prevRoad = StartRoad;
-                prevRoad.transform.parent = RoadBox;
-                for (int i = 0; i < 12; i++)
-                {
-                    CreateNewRoad();
-                }
-            }
-            else
-            {
-                IsPatern = true;
-                prevFront = true;
-                StartRoad = Instantiate(Patern.Roads[0], new Vector3(0, 0, 0), Quaternion.identity);
-                _curRoadPatern = 1;
-                prevRoad = StartRoad;
+                CreateNewRoad();
             }
         }
+
 
         void CreateNewRoad()
         {
             int rRoad = Random.Range(0, 10);
             if (onlyFront)
             { 
-                RoadPlaneCntrl road = RoadFrontList[Random.Range(0, RoadFrontList.Count )];
+                RoadPlaneCntrl road = _roadCollection.RoadFrontList[Random.Range(0, _roadCollection.RoadFrontList.Count )];
                 Vector3 newPos = RoadType.GenerateRoadPosition(prevRoad, road);
                 position = prevRoad.transform.position;
                 prevRoad = Instantiate(road, newPos, Quaternion.identity);
@@ -113,7 +76,7 @@ namespace TestsScript
                 position = prevRoad.transform.position;
                 if (prevFront)
                 {
-                    RoadPlaneCntrl road = TurnRightList[Random.Range(0, TurnRightList.Count - 1)];
+                    RoadPlaneCntrl road = _roadCollection.TurnRightList[Random.Range(0, _roadCollection.TurnRightList.Count - 1)];
                     prevRoad = Instantiate(road,
                         new Vector3(position.x + road.Scaler.x, 0, position.z),
                         Quaternion.identity);
@@ -125,7 +88,7 @@ namespace TestsScript
                 }
                 else
                 {
-                    RoadPlaneCntrl road = RoadRightList[Random.Range(0, RoadRightList.Count - 1)];
+                    RoadPlaneCntrl road = _roadCollection.RoadRightList[Random.Range(0, _roadCollection.RoadRightList.Count - 1)];
                     prevRoad = Instantiate(road,
                         new Vector3(position.x, 0, position.z - road.Scaler.z),
                         Quaternion.identity);
@@ -140,7 +103,7 @@ namespace TestsScript
                 var position = prevRoad.transform.position;
                 if (!prevFront)
                 {
-                    RoadPlaneCntrl road = TurnFrontList[Random.Range(0, TurnFrontList.Count - 1)];
+                    RoadPlaneCntrl road = _roadCollection.TurnFrontList[Random.Range(0, _roadCollection.TurnFrontList.Count - 1)];
                     prevRoad = Instantiate(road,
                         new Vector3(position.x, 0, position.z - road.Scaler.z),
                         Quaternion.identity);
@@ -152,7 +115,7 @@ namespace TestsScript
                 }
                 else
                 {
-                    RoadPlaneCntrl road = RoadFrontList[Random.Range(0, RoadFrontList.Count - 1)];
+                    RoadPlaneCntrl road = _roadCollection.RoadFrontList[Random.Range(0, _roadCollection.RoadFrontList.Count - 1)];
                     prevRoad = Instantiate(road,
                         new Vector3(position.x + road.Scaler.x, 0, position.z),
                         Quaternion.identity);
