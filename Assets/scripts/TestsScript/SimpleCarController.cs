@@ -21,7 +21,6 @@ namespace TestsScript
         public float maxBrake = 50;
         public bool onBrake;
         public bool onNitro;
-        public bool OnAGround;
 
         private void Start()
         {
@@ -35,7 +34,7 @@ namespace TestsScript
             }
         }
 
-
+     
         public void FixedUpdate()
         {
             // v = Joystick.Vertical;
@@ -64,6 +63,8 @@ namespace TestsScript
 
         public override void Moove()
         {
+            if (onFreez) body.isKinematic = true;
+            
               h = Joystick.Horizontal;
             float motor = maxMotorTorque; //*v;
             if (onNitro && CurSpeed < MaxNitroSpeed)

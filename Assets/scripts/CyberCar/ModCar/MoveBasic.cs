@@ -5,6 +5,11 @@ namespace CyberCar
     public abstract class MoveBasic: MonoBehaviour
     {
         private bool OnAGround;
+        public bool canMoove;
+        public bool onFreez;
+
+        public Vector3 SavedVelocity;
+        
         public abstract void Moove();
         public abstract void  Nitro(bool _onNitro);
 
@@ -50,7 +55,16 @@ namespace CyberCar
                 Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.red);
             }
 
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.magenta);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * 10, Color.magenta);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * 2, Color.magenta);
+
+            Quaternion rotationR= Quaternion.AngleAxis(7, Vector3.up);
+            Quaternion rotationL= Quaternion.AngleAxis(-7, Vector3.up);
+            Debug.DrawRay(transform.position, rotationR * Vector3.forward * 40, Color.magenta);
+            Debug.DrawRay(transform.position, rotationL * Vector3.forward * 40, Color.magenta);
+            Debug.DrawRay(transform.position, Vector3.forward * 40, Color.magenta);
+
+
         }
     }
 }

@@ -1118,8 +1118,6 @@ MonoBehaviour:
   PreparedObtacles:
   - {fileID: 5412604796766121056, guid: 5cddeac572485e14b9968007d388b02c, type: 3}
   - {fileID: 4108298465424904618, guid: ad5561186bf77f6468558ac8992a830f, type: 3}
-  - {fileID: 4108298465424904618, guid: ad5561186bf77f6468558ac8992a830f, type: 3}
-  - {fileID: 5412604796766121056, guid: 5cddeac572485e14b9968007d388b02c, type: 3}
   PreparedBonuses: []
   type: 1
 --- !u!65 &4325480593943466202
