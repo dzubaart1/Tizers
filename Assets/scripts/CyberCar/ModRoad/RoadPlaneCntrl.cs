@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CyberCar.Bonuses;
+using GameItems;
+using Obstacles;
 using TestsScript;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -16,11 +18,14 @@ namespace CyberCar
         public GameObject Bonus;
         public GameObject Obstacle;
         public Vector3 Scaler = new Vector3(30, 0, 30);
-        private Rigidbody rb;
         [Header("obtacles and bonus")] 
         public GameObject obtacle;
         public GameObject bonus;
-        
+        [Header("Obstacles in road")] 
+        public List<Transform> ObtaclesPositions;
+        public List<Transform> BonusesPositions;
+        public List<ObstacleCntrl> PreparedObtacles;
+        public List<BonusCntrl> PreparedBonuses;
 
         /// <summary>
         /// 1 - front;
@@ -30,12 +35,25 @@ namespace CyberCar
         /// </summary>
         public int type;
 
-        public void SetPlane(bool isTest =false)
+        public void SetPlane(bool withoutItems = false)
         {
-            if(isTest)
+            if (withoutItems)
             {
-            return;
+                return;
             }
+
+            if (PreparedObtacles.Count > 0)
+            {
+                for (int i = 0; i < PreparedObtacles.Count; i++)
+                {
+                    ObstacleCntrl item = Instantiate(PreparedObtacles[i],ObtaclesPositions[i]);
+                    item.transform.localPosition = Vector3.zero;
+                }
+            }
+
+            return;
+
+
             //transform.position = _targetPos - new Vector3(0, 10, 0);
             if (!obtacle && !bonus)
             {
@@ -68,16 +86,13 @@ namespace CyberCar
             }
         }
 
-        private void OnCollisionEnter(Collision other)
-        {
-            if(RoadCntrl.Instance) RoadCntrl.Instance.DestroyRoad(this);
-            if(TestRoadCntrl.Instance)TestRoadCntrl.Instance.DestroyRoad(this);
-        } 
+
         public void PingDestroy()
         {
-            if(RoadCntrl.Instance) RoadCntrl.Instance.DestroyRoad(this);
-            if(TestRoadCntrl.Instance)TestRoadCntrl.Instance.DestroyRoad(this);
+            if (RoadCntrl.Instance) RoadCntrl.Instance.DestroyRoad(this);
+            if (TestRoadCntrl.Instance) TestRoadCntrl.Instance.DestroyRoad(this);
         }
+
         void GenerateRandomObject()
         {
             int bonus = Random.Range(0, 100);
@@ -118,8 +133,5 @@ namespace CyberCar
                 }
             }
         }
-        
-        
     }
-   
 }

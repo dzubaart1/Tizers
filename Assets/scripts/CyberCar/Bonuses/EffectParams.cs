@@ -1,3 +1,4 @@
+using GameItems;
 using Obstacles;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace CyberCar.Bonuses
         public Sprite DefenceIcon;
         public float EffectTime;
         public float showBtnTime;
-        public ObstacleCntrl.EfectType myType;
+        public IGameItem.EfectType myType;
         public GameObject EfectObj;
 
     }

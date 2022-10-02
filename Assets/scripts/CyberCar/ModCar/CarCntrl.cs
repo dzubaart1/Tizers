@@ -5,6 +5,7 @@ using System.Linq;
 using CyberCar.Bonuses;
 using CyberCar.ModShopItems;
 using DefaultNamespace;
+using GameItems;
 using Obstacles;
 using UnityEngine;
 using Zenject;
@@ -29,8 +30,8 @@ namespace CyberCar
         public Transform ModelTransform;
         SignalBus _signalBus;
         [Header("Game params")] public GameObject efectObj;
-        public List<ObstacleCntrl.EfectType> CurEfects;
-        public ObstacleCntrl.EfectType MyEffect;
+        public List<IGameItem.EfectType> CurEfects;
+        public IGameItem.EfectType MyEffect;
         public bool effectOnActive;
         public float EfectLifeTime;
         [Inject]
@@ -228,7 +229,7 @@ namespace CyberCar
                 EffectParams effect = signalParams.effect;
                 if (efectObj)
                 {
-                    MyEffect = ObstacleCntrl.EfectType.none;
+                    MyEffect = IGameItem.EfectType.none;
                     Destroy(efectObj);
                 }
                 efectObj = Instantiate(effect.EfectObj, CarModel.transform);
@@ -242,12 +243,12 @@ namespace CyberCar
         }
         private void FixedUpdate()
         {
-            if (MyEffect != ObstacleCntrl.EfectType.none && EfectLifeTime > 0)
+            if (MyEffect != IGameItem.EfectType.none && EfectLifeTime > 0)
             {
                 EfectLifeTime -= Time.deltaTime;
                 if (EfectLifeTime <= 0)
                 {
-                    MyEffect = ObstacleCntrl.EfectType.none;
+                    MyEffect = IGameItem.EfectType.none;
                     Destroy(efectObj);
                 }
             }

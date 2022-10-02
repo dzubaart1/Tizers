@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
+using GameItems;
 using UnityEngine;
 
 namespace CyberCar.Bonuses
 {
-    public class BonusCntrl : MonoBehaviour
+    public class BonusCntrl : MonoBehaviour, IGameItem
     {
         public GameObject DestroyEfect;
         [SerializeField] public BonusEfect Effect = new BonusEfect();
@@ -37,6 +38,21 @@ namespace CyberCar.Bonuses
         {
             yield return new WaitForSeconds(20);
             Destroy(gameObject);
+        }
+
+        public void Destroyitem()
+        {
+            return;
+        }
+
+        public void SetEfectItem()
+        {
+            return;
+        }
+
+        public void InteractItem()
+        {
+            return;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace TestsScript
         public IRoadType RoadType;
 
         [Header("Game Objects")] 
-        public RoadCollection _roadCollection;
+      [SerializeField]  public RoadCollection _roadCollection;
      
         private List<RoadPlaneCntrl> RoadList = new List<RoadPlaneCntrl>();
         private RoadPlaneCntrl StartRoad;
@@ -37,7 +37,9 @@ namespace TestsScript
         void Start()
         {
             RoadType = new SprintType();
-            _roadCollection = new RoadCollection(Patern,Params);
+            _roadCollection = gameObject.AddComponent<RoadCollection>();
+            _roadCollection.Params = Params;
+            _roadCollection.Patern = Patern;
             _roadCollection.CollectRoads();
             CreateStartWorld();
         }
@@ -65,7 +67,7 @@ namespace TestsScript
                 position = prevRoad.transform.position;
                 prevRoad = Instantiate(road, newPos, Quaternion.identity);
                 prevRoad.type = 1;
-                prevRoad.SetPlane(!withoutBonus);
+                prevRoad.SetPlane();
                 RoadList.Add(prevRoad);
                 prevRoad.transform.parent = RoadBox;
                 return;
@@ -225,7 +227,6 @@ namespace TestsScript
                 {
                     if (!IsPatern)
                     {
-                        Debug.Log(gameObject.name);
                         CreateNewRoad();
                     }
                     else

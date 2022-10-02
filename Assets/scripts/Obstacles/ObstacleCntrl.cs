@@ -1,22 +1,29 @@
 using System;
 using CyberCar.Bonuses;
+using GameItems;
 using UnityEngine;
 
 namespace Obstacles
 {
-    public class ObstacleCntrl: MonoBehaviour
+    public class ObstacleCntrl: MonoBehaviour, IGameItem
     {
         public EffectParams givenEfect;
-        public EfectType myType;
-       
-        public enum EfectType
+        public IGameItem.ItemType ItemType;
+        public IGameItem.EfectType myType;
+
+        public void Destroyitem()
         {
-            none,
-            shied,
-            prism,
-            fire,
-            whater
+            return;
         }
 
+        public void SetEfectItem()
+        {
+            return;
+        }
+
+        public void InteractItem()
+        {
+            return;
+        }
     }
 }

@@ -1,3 +1,4 @@
+using GameItems;
 using UnityEngine;
 
 namespace Obstacles
@@ -5,6 +6,6 @@ namespace Obstacles
     public class ObstainsBlockCntrl : MonoBehaviour
     {
         public ObstacleCntrl parentCntrl;
-        public ObstacleCntrl.EfectType neededEffect;
+        public IGameItem.EfectType neededEffect;
     }
 }
