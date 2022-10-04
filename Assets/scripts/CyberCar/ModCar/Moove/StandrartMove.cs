@@ -4,10 +4,10 @@ using CyberCar;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace TestsScript
+namespace ModCar
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class SimpleCarController : MoveBasic
+    public class StandrartMove : MoveBasic
     {
         public VariableJoystick Joystick;
         public List<WheelMove> axleInfos;
@@ -15,12 +15,7 @@ namespace TestsScript
         public float maxSteeringAngle;
         private float v, h;
         private Rigidbody body;
-        [SerializeField] private float CurSpeed;
-        public float MaxSpeed;
-        public float MaxNitroSpeed;
-        public float maxBrake = 50;
-        public bool onBrake;
-        public bool onNitro;
+       
 
         private void Start()
         {
@@ -63,9 +58,9 @@ namespace TestsScript
 
         public override void Moove()
         {
-            if (onFreez) body.isKinematic = true;
+            if (start) body.isKinematic = true;
             
-              h = Joystick.Horizontal;
+              h = Joystick.Horizontal/2;
             float motor = maxMotorTorque; //*v;
             if (onNitro && CurSpeed < MaxNitroSpeed)
             {

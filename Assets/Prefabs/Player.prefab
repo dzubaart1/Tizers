@@ -336,10 +336,10 @@ ReflectionProbe:
   m_Mode: 1
   m_RefreshMode: 0
   m_TimeSlicingMode: 0
-  m_Resolution: 256
+  m_Resolution: 128
   m_UpdateFrequency: 0
-  m_BoxSize: {x: 1, y: 1, z: 1}
-  m_BoxOffset: {x: 0, y: 0, z: 0}
+  m_BoxSize: {x: 3.64, y: 1, z: 35.682533}
+  m_BoxOffset: {x: 0, y: 0, z: 13.1}
   m_NearClip: 0.01
   m_FarClip: 10
   m_ShadowDistance: 100
@@ -942,13 +942,12 @@ GameObject:
   - component: {fileID: 3739802389783274325}
   - component: {fileID: 3739802389783274323}
   - component: {fileID: 3739802389783274324}
+  - component: {fileID: 1144559078}
   - component: {fileID: 3739802389783274321}
   - component: {fileID: 3739802389783274322}
   - component: {fileID: 3739802389783274320}
-  - component: {fileID: 1144559075}
   - component: {fileID: 1144559076}
   - component: {fileID: 1144559077}
-  - component: {fileID: 1144559078}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1012,23 +1011,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3739802389783274326}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d76a4a1e610479987efcbf6530b0485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
+  canMoove: 0
+  onFreez: 0
+  SavedVelocity: {x: 0, y: 0, z: 0}
   isRotating: 0
   CurSpeed: 0
   AccelerationSpeed: 500
-  MaxSpeed: 16
   RotationSpeed: 120
   Inertion: 0
   BoostAcceleration: 6
   _onBroke: 0
   mooveType: 0
   start: 0
-  _onNitro: 0
   _carCntrl: {fileID: 3739802389783274323}
   cview: {fileID: 0}
   upperforce: {x: 0, y: 10, z: 0}
@@ -1036,6 +1035,44 @@ MonoBehaviour:
   levitationHeight: 0.52
   FrontWeelR: {fileID: 2109248718}
   FrontWeell: {fileID: 2109248718}
+  axleInfos:
+  - {fileID: 1144559076}
+  - {fileID: 1144559077}
+  maxMotorTorque: 700
+  maxSteeringAngle: 15
+  body: {fileID: 0}
+  onNitro: 0
+  onBrake: 0
+  maxBrake: 900
+  MaxSpeed: 25
+  MaxNitroSpeed: 65
+--- !u!114 &1144559078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3739802389783274326}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2288b9b3d0d04b8d974d2a8f3699f6d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canMoove: 0
+  onFreez: 0
+  SavedVelocity: {x: 0, y: 0, z: 0}
+  Joystick: {fileID: 0}
+  axleInfos:
+  - {fileID: 1144559077}
+  - {fileID: 1144559076}
+  maxMotorTorque: 700
+  maxSteeringAngle: 15
+  CurSpeed: 0
+  MaxSpeed: 25
+  MaxNitroSpeed: 65
+  maxBrake: 900
+  onBrake: 0
+  onNitro: 0
 --- !u!54 &3739802389783274321
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1084,38 +1121,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1144559075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3739802389783274326}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6795f7fcc37545eea9026e07d39c435f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isRotating: 0
-  mooveType: 0
-  RotationSpeed: 0
-  Inertion: 0
-  onAGround: 1
-  CurSpeed: 0
-  MaxSpeed: 5
-  _steerAngle: 25
-  front_driverCol: {fileID: 2109248718}
-  front_passColl: {fileID: 1162571492}
-  back_driverCol: {fileID: 1104348766}
-  back_passCol: {fileID: 881991139}
-  frontDriver: {fileID: 0}
-  frontPass: {fileID: 0}
-  backDriver: {fileID: 0}
-  backPass: {fileID: 0}
-  _motorForce: 1500
-  steerAngl: 0
-  onTransUpdate: 0
-  brokeForce: 300
 --- !u!114 &1144559076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1152,27 +1157,6 @@ MonoBehaviour:
   steering: 1
   Antiroll: 10000
   ackermanSteering: 1
---- !u!114 &1144559078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3739802389783274326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2288b9b3d0d04b8d974d2a8f3699f6d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Joystick: {fileID: 0}
-  axleInfos:
-  - {fileID: 1144559077}
-  - {fileID: 1144559076}
-  maxMotorTorque: 700
-  maxSteeringAngle: 15
-  CurSpeed: 0
-  MaxSpeed: 25
-  maxBrake: 900
 --- !u!1 &5530280009708532729
 GameObject:
   m_ObjectHideFlags: 0

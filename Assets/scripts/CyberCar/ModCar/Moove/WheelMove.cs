@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace TestsScript
+namespace ModCar
 {
     public class WheelMove : MonoBehaviour
     {

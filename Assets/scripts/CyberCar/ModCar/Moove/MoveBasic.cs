@@ -4,10 +4,19 @@ namespace CyberCar
 {
     public abstract class MoveBasic: MonoBehaviour
     {
-        private bool OnAGround;
+        public bool OnAGround;
         public bool canMoove;
-        public bool onFreez;
+        public bool onNitro;
+        public bool onBrake;
+        public bool start;
+        public float AccelerationSpeed = 4;
 
+        [Header("Controll params")]
+        public float CurSpeed;
+        public float MaxSpeed;
+        public float MaxNitroSpeed;
+        public float maxBrake = 50;
+        
         public Vector3 SavedVelocity;
         
         public abstract void Moove();

@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CyberCar.Bonuses;
+using CyberCar.Dictionaries;
 using CyberCar.ModShopItems;
 using DefaultNamespace;
 using GameItems;
+using ModCar;
 using Obstacles;
 using UnityEngine;
 using Zenject;
@@ -21,7 +23,7 @@ namespace CyberCar
         public GameObject ExplodeCar;
         public bool inGame = true;
         public Rigidbody _rb;
-        public CarMoove _moove;
+        public MoveBasic _moove;
         public Animator Anim;
         public CarModelCntrl CarModel;
         private float curspeed;
@@ -34,6 +36,12 @@ namespace CyberCar
         public IGameItem.EfectType MyEffect;
         public bool effectOnActive;
         public float EfectLifeTime;
+
+        [Header("Movers")] 
+        public Dictionary.CarMoveType MoveType;
+        
+        
+        
         [Inject]
         public void Construct(SignalBus signalBus)
         {
@@ -103,7 +111,17 @@ namespace CyberCar
             // CarModel.setData(CarsObjs[0].BackLights[1]);
             _rb = GetComponent<Rigidbody>();
            // _rb.isKinematic = true;
-            _moove = GetComponent<CarMoove>();
+           if (MoveType == Dictionary.CarMoveType.drift)
+           {
+               _moove = GetComponent<DriftMoove>();
+               _moove.enabled = true;
+           }
+           else
+           {
+               _moove = GetComponent<StandrartMove>();
+               _moove.enabled = true;
+           }
+        //    
             Anim = GetComponent<Animator>();
         }
 
@@ -115,12 +133,12 @@ namespace CyberCar
         void NitroCar()
         {
             Debug.Log("Nitro called");
-            _moove._onNitro = true;
+            _moove.onNitro = true;
         }
 
         void StopNitroCar()
         {
-            _moove._onNitro = false;
+            _moove.onNitro = false;
         }
 
         public void StartGame()
@@ -147,10 +165,6 @@ namespace CyberCar
                 ExplodeCar.SetActive(true);
                 GameManager.isDie();
                 Destroy(CarModel.gameObject);
-            }
-            else
-            {
-                _moove.Restart();
             }
         }
         public void Finished()
