@@ -10,81 +10,82 @@ namespace ModCar
     public class DriftMoove : MoveBasic
     {
         [SerializeField] private bool isRotating;
+
         private SwipeControll _swipeCOntroll;
         [Header("Engine move params")] public float RotationSpeed;
-        public float Inertion;
         public float BoostAcceleration;
         [SerializeField] private bool _onBroke;
         [Header("inner params")] public int mooveType;
         [Header("Links params")] public CarCntrl _carCntrl;
         public CanvasView cview;
-        public Vector3 upperforce;
         [Header("Levitation params")] private RaycastHit ground;
         [Range(0, 10)] public float GroundDistance;
         [Range(0, 10)] public float levitationHeight;
         WheelFrictionCurve DefaultFC;
+        WheelFrictionCurve DrifttFC;
         WheelFrictionCurve DefaultSFC;
+        WheelFrictionCurve DriftSFC;
 
         //Swap right
         private bool rightSwipe;
-        [Header("New moove param")] public List<WheelMove> axleInfos;
-        public float maxMotorTorque;
-        public float maxSteeringAngle;
         [SerializeField] private Rigidbody body;
         private float v, h;
         public VariableJoystick Joystick;
+
+        public WheelCollider FrontWeelR, FrontWeell;
+
         private void Start()
         {
             body = GetComponent<Rigidbody>();
-            _swipeCOntroll = gameObject.AddComponent<SwipeControll>(); //GetComponent<SwipeControll>();
+            DriftWheels.SetActive(true);
+            _swipeCOntroll = gameObject.AddComponent<SwipeControll>();
             _swipeCOntroll.leftSwipe = RotateLeft;
             _swipeCOntroll.RightSwipe = RotateRight;
             _swipeCOntroll.UpSwipe = AddNitro;
             _swipeCOntroll.DownSwipe += OfNitro;
             _swipeCOntroll.DownSwipe += brokeDrossel;
-            for (int a = 0; a < axleInfos.Count; a++)
-            {
-                axleInfos[a].leftWheel.ConfigureVehicleSubsteps(5, 12, 15);
-                axleInfos[a].rightWheel.ConfigureVehicleSubsteps(5, 12, 15);
-                
-            }
-            setWheelParams(axleInfos[1].rightWheel);
-            setWheelParams(axleInfos[1].leftWheel);
             Joystick = FindObjectOfType<VariableJoystick>();
-
-           
+            Joystick.enabled = false;
         }
 
-        void setWheelParams(WheelCollider wheel)
-        {
-            DefaultFC = wheel.forwardFriction;
-          //  wheel.forceAppPointDistance = 1.24f;
-           // wheel.mass = 20;
-            wheel.wheelDampingRate = 0.25f;
-            wheel.suspensionDistance = 0.3f;
-            WheelFrictionCurve FC = wheel.forwardFriction;
-            FC.extremumSlip = 200;
-            /*FC.extremumValue = 1;
-            FC.asymptoteSlip = 0.8f;
-            FC.asymptoteValue = 0.5f;*/
-            wheel.forwardFriction =FC;
-
-            WheelFrictionCurve SFC = wheel.sidewaysFriction;
-            SFC.extremumSlip = 0.11f;
-            /*SFC.extremumValue = 1;
-            SFC.asymptoteSlip = 0.5f;
-            SFC.asymptoteValue = 0.75f;*/
-            wheel.sidewaysFriction = SFC;
-
-
-        }
 
         private void FixedUpdate()
         {
             Moove();
             SpeedChanger();
-          //  ParamsCheck();
+            ParamsCheck();
             CheckInfo();
+        }
+
+        #region Moove Logic
+
+        public override void Moove()
+        {
+            CurSpeed = body.velocity.magnitude;
+            if (start && CurSpeed < MaxSpeed && !_onBroke)
+            {
+                //  rb.AddRelativeForce(Vector3.forward * AccelerationSpeed, ForceMode.Acceleration);
+                //  rb.AddRelativeForce(Vector3.forward * AccelerationSpeed, ForceMode.Force);
+                FrontWeelR.motorTorque = AccelerationSpeed * 2;
+                FrontWeell.motorTorque = AccelerationSpeed * 2;
+            }
+
+            if (CurSpeed > MaxSpeed)
+            {
+                FrontWeelR.motorTorque = -AccelerationSpeed * 2;
+                FrontWeell.motorTorque = -AccelerationSpeed * 2;
+            }
+
+            if (onNitro)
+            {
+                body.AddRelativeForce(Vector3.forward * BoostAcceleration, ForceMode.Acceleration);
+            }
+
+
+            if (transform.position.y < -5)
+            {
+                _carCntrl.DeadEnd();
+            }
         }
 
         void brokeDrossel()
@@ -107,6 +108,10 @@ namespace ModCar
             _onBroke = false;
         }
 
+        #endregion
+
+
+        #region AddParams
 
         void ParamsCheck()
         {
@@ -126,43 +131,6 @@ namespace ModCar
                     break;
             }
         }
-
-
-        public void RotateRight()
-        {
-            if (!isRotating && OnAGround)
-            {
-                rightSwipe = true;
-                // StartCoroutine(DoRotation(RotationSpeed, 90f, new Vector3(0, 90, 0)));
-                StartCoroutine(DoRotation(new Vector3(0, 40, 0)));
-            }
-        }
-
-        public void RotateLeft()
-        {
-            if (!isRotating && OnAGround)
-            {
-                rightSwipe = false;
-                // StartCoroutine(DoRotation(RotationSpeed, 90f, new Vector3(0, -90, 0)));
-                StartCoroutine(DoRotation(new Vector3(0, -40, 0)));
-            }
-        }
-
-        public void AddNitro()
-        {
-            Nitro(true);
-        }
-
-        public void OfNitro()
-        {
-            Nitro(false);
-        }
-
-        public override void Nitro(bool _onNitro)
-        {
-            onNitro = _onNitro;
-        }
-
 
         void SpeedChanger()
         {
@@ -213,29 +181,45 @@ namespace ModCar
             }
         }
 
-        IEnumerator DoRotation(Vector3 axis)
+        #endregion
+
+        #region Controll Logic
+
+        public void RotateRight()
         {
-           
-            foreach (WheelMove axleInfo in axleInfos)
+            if (!isRotating && OnAGround)
             {
-                if (axleInfo.steering)
-                {
-                    axleInfo.CalculateAndApplySteering(axis.y, maxSteeringAngle, axleInfos);
-                }
+                rightSwipe = true;
+                StartCoroutine(DoRotation(RotationSpeed, 90f, new Vector3(0, 90, 0)));
             }
-            yield return new WaitForSeconds(1);
-            foreach (WheelMove axleInfo in axleInfos)
+        }
+
+        public void RotateLeft()
+        {
+            if (!isRotating && OnAGround)
             {
-                if (axleInfo.steering)
-                {
-                    axleInfo.CalculateAndApplySteering(0, maxSteeringAngle, axleInfos);
-                }
+                rightSwipe = false;
+                StartCoroutine(DoRotation(RotationSpeed, 90f, new Vector3(0, -90, 0)));
             }
+        }
+
+        public void AddNitro()
+        {
+            Nitro(true);
+        }
+
+        public void OfNitro()
+        {
+            Nitro(false);
+        }
+
+        public override void Nitro(bool _onNitro)
+        {
+            onNitro = _onNitro;
         }
 
         IEnumerator DoRotation(float _speed, float amount, Vector3 axis)
         {
-            body.isKinematic = true;
             isRotating = true;
             float rot = 0f;
             while (rot < amount)
@@ -246,88 +230,15 @@ namespace ModCar
                 rot += delta;
             }
 
-            body.isKinematic = false;
-            body.AddRelativeForce(Vector3.forward * 3, ForceMode.Impulse);
             isRotating = false;
+            body.AddRelativeForce(Vector3.forward * 3, ForceMode.Impulse);
         }
-
-
-        public override void Moove()
-        {
-            h = Joystick.Horizontal;
-            //  if (start) body.isKinematic = true;
-            foreach (WheelMove axleInfo in axleInfos)
-            {
-                if (axleInfo.steering)
-                {
-                    axleInfo.CalculateAndApplySteering(h, maxSteeringAngle, axleInfos);
-                }
-            }
-            float motor = maxMotorTorque;
-            if (onNitro && CurSpeed < MaxNitroSpeed)
-            {
-                body.AddRelativeForce(Vector3.forward * 10, ForceMode.Acceleration);
-            }
-
-            CurSpeed = body.velocity.magnitude;
-            if (!onBrake)
-            {
-                foreach (WheelMove axleInfo in axleInfos)
-                {
-                    if (axleInfo.motor && CurSpeed < MaxSpeed)
-                    {
-                        axleInfo.leftWheel.motorTorque = motor;
-                        axleInfo.rightWheel.motorTorque = motor;
-                    }
-
-                    if (!onNitro)
-                    {
-                        if (CurSpeed > MaxSpeed)
-                        {
-                            axleInfo.leftWheel.brakeTorque = maxBrake;
-                            axleInfo.rightWheel.brakeTorque = maxBrake;
-                        }
-                        else
-                        {
-                            axleInfo.leftWheel.brakeTorque = 0;
-                            axleInfo.rightWheel.brakeTorque = 0;
-                        }
-                    }
-                    else
-                    {
-                        if (CurSpeed > MaxNitroSpeed)
-                        {
-                            axleInfo.leftWheel.brakeTorque = maxBrake;
-                            axleInfo.rightWheel.brakeTorque = maxBrake;
-                        }
-                        else
-                        {
-                            axleInfo.leftWheel.brakeTorque = 0;
-                            axleInfo.rightWheel.brakeTorque = 0;
-                        }
-                    }
-
-                    axleInfo.ApplyLocalPositionToVisuals();
-                    axleInfo.CalculateAndApplyAntiRollForce(body);
-                }
-            }
-            else
-            {
-                foreach (WheelMove axleInfo in axleInfos)
-                {
-                    axleInfo.leftWheel.brakeTorque = maxBrake;
-                    axleInfo.rightWheel.brakeTorque = maxBrake;
-                }
-            }
-        }
-
 
 
         public override void BrakeTorque(bool inBrake)
         {
             throw new NotImplementedException();
         }
-
 
         void Levitation()
         {
@@ -356,5 +267,7 @@ namespace ModCar
 
             Debug.Log(body.velocity);
         }
+
+        #endregion
     }
 }

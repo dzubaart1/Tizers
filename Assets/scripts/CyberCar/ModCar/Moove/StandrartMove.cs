@@ -19,6 +19,7 @@ namespace ModCar
 
         private void Start()
         {
+            DefaultWheels.SetActive(true);
             Joystick = FindObjectOfType<VariableJoystick>();
             body = GetComponent<Rigidbody>();
             body.constraints = RigidbodyConstraints.None;

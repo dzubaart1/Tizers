@@ -1,9 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace CyberCar
 {
     public abstract class MoveBasic: MonoBehaviour
     {
+
+        [Header("Main params")]
+        public CarCntrl Cntrl;
         public bool OnAGround;
         public bool canMoove;
         public bool onNitro;
@@ -11,6 +15,9 @@ namespace CyberCar
         public bool start;
         public float AccelerationSpeed = 4;
 
+        public GameObject DriftWheels;
+        public GameObject DefaultWheels;
+        
         [Header("Controll params")]
         public float CurSpeed;
         public float MaxSpeed;
@@ -18,25 +25,48 @@ namespace CyberCar
         public float maxBrake = 50;
         
         public Vector3 SavedVelocity;
-        
+        public bool lightIsEnable;
         public abstract void Moove();
         public abstract void  Nitro(bool _onNitro);
 
         public abstract void BrakeTorque(bool inBrake);
+
+         void EnableBackLightTrail()
+        {
+            if (CurSpeed >= MaxSpeed - 5 && !lightIsEnable)
+            {
+                foreach (var lights in Cntrl.BackLightsItems)
+                {
+                    lights.SetActive(true);
+                }
+
+                lightIsEnable = true;
+            }
+            
+            else if (CurSpeed <= MaxSpeed - 5 && lightIsEnable)
+            {
+                lightIsEnable = false;
+                foreach (var lights in Cntrl.BackLightsItems)
+                {
+                    lights.SetActive(false);
+                }
+            }
+        }
+
 
         public  void CheckInfo()
         {
             RaycastHit hit;
             RaycastHit hitGround;
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down) , out hitGround,
-                1,
+                2,
                 1))
             {
                 OnAGround = true;
             }
             else
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.blue);
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.up) * 200, Color.red);
                 OnAGround = false;
             }
 
@@ -73,7 +103,8 @@ namespace CyberCar
             Debug.DrawRay(transform.position, rotationL * Vector3.forward * 40, Color.magenta);
             Debug.DrawRay(transform.position, Vector3.forward * 40, Color.magenta);
 
-
+            //Check backLights
+            EnableBackLightTrail();
         }
     }
 }

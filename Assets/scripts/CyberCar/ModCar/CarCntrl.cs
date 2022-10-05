@@ -39,8 +39,10 @@ namespace CyberCar
 
         [Header("Movers")] 
         public Dictionary.CarMoveType MoveType;
-        
-        
+
+        [Header("Model params")]
+        public List<GameObject> BackLightsItems;
+            
         
         [Inject]
         public void Construct(SignalBus signalBus)
@@ -51,7 +53,6 @@ namespace CyberCar
             _signalBus.Subscribe<Signal_stop_nitro>(StopNitroCar);
             _signalBus.Subscribe<SignalSetEfect>(ActivateEffect);
             _signalBus.Subscribe<SignalStopEfect>(DeactivateEffect);
-            //_signalBus.Fire<PlanetIsReady>();
         }
 
 
@@ -92,7 +93,7 @@ namespace CyberCar
                             for (int j = 0; j < BackLists.Count; j++)
                             {
                                 if (BackLists[j].id == savedCar.backlightsId)
-                                    CarModel.setData(BackLists[j].backlight);
+                                    BackLightsItems =  CarModel.setData(BackLists[j]);
                             }
                         }
 
@@ -108,9 +109,8 @@ namespace CyberCar
             CarModel.transform.rotation = Quaternion.identity;
             ;
             CarModel.transform.localPosition = new Vector3(0, 0.241f, 0);
-            // CarModel.setData(CarsObjs[0].BackLights[1]);
             _rb = GetComponent<Rigidbody>();
-           // _rb.isKinematic = true;
+            
            if (MoveType == Dictionary.CarMoveType.drift)
            {
                _moove = GetComponent<DriftMoove>();
@@ -121,6 +121,8 @@ namespace CyberCar
                _moove = GetComponent<StandrartMove>();
                _moove.enabled = true;
            }
+
+           _moove.Cntrl = this;
         //    
             Anim = GetComponent<Animator>();
         }

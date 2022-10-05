@@ -9,5 +9,12 @@ namespace CyberCar.Dictionaries
             standart,
             drift
         }
+        public enum TrassaType
+        {
+            sprint,
+            drift,
+            circle,
+            blended
+        }
     }
 }

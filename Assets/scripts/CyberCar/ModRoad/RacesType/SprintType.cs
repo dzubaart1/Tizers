@@ -17,6 +17,13 @@ namespace CyberCar.RacesType
             return newPosition;
         }
 
+        public Vector3 GenerateRoadPosition(RoadPlaneCntrl prevRoad, RoadPlaneCntrl newRoad, int prevType, int newType)
+        {
+          return Vector3.zero;
+        }
+
+     
+
         public void GetTypeInfo()
         {
             throw new System.NotImplementedException();
