@@ -1,3 +1,4 @@
+using CyberCar.Dictionaries;
 using UnityEngine;
 
 namespace CyberCar
@@ -8,6 +9,6 @@ namespace CyberCar
         public int ParamsId;
         public string PathToRoads;
         public Material SkyBoxMaterial;
-
+        public Dictionaryes.TrassaType _trassaType;
     }
 }

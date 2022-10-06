@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using CyberCar.Dictionaries;
+using CyberCar.RacesType;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -10,20 +12,21 @@ namespace CyberCar
 {
     public class RoadCntrl : Singleton<RoadCntrl>
     {
-      //  public CarCntrl Player;
-        
-        [Header("Control param")] public RoadPatern Patern;
+      [Header("Control param")] public Dictionaryes.TrassaType Trassa;
+        public RoadPatern Patern;
         private bool IsPatern;
         public RoadsParams Params;
         private int _curRoadPatern;
         private bool prevFront;
-        [Header("Game Objects")] private List<RoadPlaneCntrl> RoadFrontList;
-        private List<RoadPlaneCntrl> RoadRightList;
-        private List<RoadPlaneCntrl> TurnRightList;
-        private List<RoadPlaneCntrl> TurnFrontList;
+        [Header("Types Roads")] public IRoadType RoadType;
+
+        [Header("Game Objects")] [SerializeField]
+        public RoadCollection _roadCollection;
+
         private List<RoadPlaneCntrl> RoadList = new List<RoadPlaneCntrl>();
         private RoadPlaneCntrl StartRoad;
         private RoadPlaneCntrl prevRoad;
+        public GameObject Player;
         public Transform RoadBox;
         public Vector3 position;
 
@@ -31,106 +34,114 @@ namespace CyberCar
         private RoadPlaneCntrl prevPlane;
 
         [SerializeField] private RoadPlaneCntrl curPlane;
+        public bool onlyFront;
+        public bool withoutBonus;
+
         void Start()
         {
-            if (Patern == null)
+            switch (Trassa)
             {
-                IsPatern = false;
-                if (Params != null)
-                {
-                    List<RoadPlaneCntrl> RoadList = Resources.LoadAll<RoadPlaneCntrl>(Params.PathToRoads).ToList();
-                    RoadFrontList = new List<RoadPlaneCntrl>();
-                    RoadRightList = new List<RoadPlaneCntrl>();
-                    TurnFrontList = new List<RoadPlaneCntrl>();
-                    TurnRightList = new List<RoadPlaneCntrl>();
-                    foreach (RoadPlaneCntrl road in RoadList)
-                    {
-                        if (!road.IsFinish)
-                        {
-                            if (road.type == 1) RoadFrontList.Add(road);
-                            if (road.type == 2) RoadRightList.Add(road);
-                            if (road.type == 3) TurnFrontList.Add(road);
-                            if (road.type == 4) TurnRightList.Add(road);
-                        }
-                    }
-                }
-                else
-                {
-                    RoadFrontList = Resources.LoadAll<RoadPlaneCntrl>("front").ToList();
-                    RoadRightList = Resources.LoadAll<RoadPlaneCntrl>("right").ToList();
-                    TurnFrontList = Resources.LoadAll<RoadPlaneCntrl>("turnF").ToList();
-                    TurnRightList = Resources.LoadAll<RoadPlaneCntrl>("turnR").ToList();
-                }
-
-                prevFront = true;
-                StartRoad = Instantiate(RoadFrontList[0], new Vector3(0, 0, 0), Quaternion.identity);
-                curPlane = StartRoad;
-                prevRoad = StartRoad;
-                for (int i = 0; i < 12; i++)
-                {
-                    CreateNewRoad();
-                }
+                case Dictionaryes.TrassaType.sprint:
+                    RoadType = new SprintType();
+                    break;
+                case Dictionaryes.TrassaType.circle:
+                    RoadType = new SprintType();
+                    break;
+                case Dictionaryes.TrassaType.drift:
+                    RoadType = new DriftType();
+                    break;
+                case Dictionaryes.TrassaType.blended:
+                    RoadType = new SprintType();
+                    break;
             }
-            else
+
+
+            _roadCollection = gameObject.AddComponent<RoadCollection>();
+            _roadCollection.Params = Params;
+            _roadCollection.Patern = Patern;
+            _roadCollection.CollectRoads();
+            CreateStartWorld();
+        }
+
+        void CreateStartWorld()
+        {
+            StartRoad = Instantiate(_roadCollection.RoadFrontList[0],
+                new Vector3(-_roadCollection.RoadFrontList[0].Scaler.x / 2, 0,
+                    -_roadCollection.RoadFrontList[0].Scaler.z / 2), Quaternion.identity);
+            curPlane = StartRoad;
+            prevRoad = StartRoad;
+            prevRoad.transform.parent = RoadBox;
+            for (int i = 0; i < 12; i++)
             {
-                IsPatern = true;
-                prevFront = true;
-                StartRoad = Instantiate(Patern.Roads[0], new Vector3(0, 0, 0), Quaternion.identity);
-                _curRoadPatern = 1;
-                prevRoad = StartRoad;
-                for (int i = 0; i < 12; i++)
-                {
-                    CreateNewRoad();
-                }
+                CreateNewRoad();
             }
         }
 
-        /*private void FixedUpdate()
-        {
-            if (!IsPatern)
-            {
-                if (Vector3.Distance(Player.gameObject.transform.position, prevRoad.gameObject.transform.position) < 50)
-                {
-                    CreateNewRoad();
-                }
-            }
-            else
-            {
-                if (Vector3.Distance(Player.gameObject.transform.position, prevRoad.gameObject.transform.position) < 50)
-                {
-                    Debug.Log("enter to patern create");
-                    CreateNewRoadPatern();
-                }
-            }
-        }*/
 
         void CreateNewRoad()
         {
             int rRoad = Random.Range(0, 10);
+            if (Trassa == Dictionaryes.TrassaType.sprint)
+            {
+                RoadPlaneCntrl road =
+                    _roadCollection.RoadFrontList[Random.Range(0, _roadCollection.RoadFrontList.Count)];
+                Vector3 newPos = RoadType.GenerateRoadPosition(prevRoad, road);
+                position = prevRoad.transform.position;
+                prevRoad = Instantiate(road, newPos, Quaternion.identity);
+                prevRoad.type = 1;
+                prevRoad.SetPlane();
+                RoadList.Add(prevRoad);
+                prevRoad.transform.parent = RoadBox;
+                return;
+            }
+
+            if (Trassa == Dictionaryes.TrassaType.drift)
+            {
+                RoadPlaneCntrl road = new RoadPlaneCntrl();
+
+                if (rRoad > 5)
+                {
+                    road = _roadCollection.RoadFrontList[Random.Range(0, _roadCollection.RoadFrontList.Count)];
+                }
+                else
+                {
+                    road = _roadCollection.RoadRightList[Random.Range(0, _roadCollection.RoadRightList.Count)];
+                }
+                Debug.Log(road.type);
+                Vector3 newPos = RoadType.GenerateRoadPosition(prevRoad, road, prevRoad.type, road.type);
+                position = prevRoad.transform.position;
+                prevRoad = Instantiate(road, newPos, Quaternion.identity);
+                prevRoad.SetPlane();
+                RoadList.Add(prevRoad);
+                prevRoad.transform.parent = RoadBox;
+                return;
+            }
 
             if (rRoad > 5)
             {
                 position = prevRoad.transform.position;
                 if (prevFront)
                 {
-                    RoadPlaneCntrl road = TurnRightList[Random.Range(0, TurnRightList.Count - 1)];
+                    RoadPlaneCntrl road =
+                        _roadCollection.TurnRightList[Random.Range(0, _roadCollection.TurnRightList.Count - 1)];
                     prevRoad = Instantiate(road,
                         new Vector3(position.x + road.Scaler.x, 0, position.z),
                         Quaternion.identity);
                     prevRoad.type = 4;
-                    prevRoad.SetPlane();
+                    prevRoad.SetPlane(withoutBonus);
                     prevFront = false;
                     RoadList.Add(prevRoad);
                     prevRoad.transform.parent = RoadBox;
                 }
                 else
                 {
-                    RoadPlaneCntrl road = RoadRightList[Random.Range(0, RoadRightList.Count - 1)];
+                    RoadPlaneCntrl road =
+                        _roadCollection.RoadRightList[Random.Range(0, _roadCollection.RoadRightList.Count - 1)];
                     prevRoad = Instantiate(road,
                         new Vector3(position.x, 0, position.z - road.Scaler.z),
                         Quaternion.identity);
                     prevRoad.type = 2;
-                    prevRoad.SetPlane();
+                    prevRoad.SetPlane(withoutBonus);
                     RoadList.Add(prevRoad);
                     prevRoad.transform.parent = RoadBox;
                 }
@@ -140,25 +151,27 @@ namespace CyberCar
                 var position = prevRoad.transform.position;
                 if (!prevFront)
                 {
-                    RoadPlaneCntrl road = TurnFrontList[Random.Range(0, TurnFrontList.Count - 1)];
+                    RoadPlaneCntrl road =
+                        _roadCollection.TurnFrontList[Random.Range(0, _roadCollection.TurnFrontList.Count - 1)];
                     prevRoad = Instantiate(road,
                         new Vector3(position.x, 0, position.z - road.Scaler.z),
                         Quaternion.identity);
                     prevFront = true;
                     prevRoad.type = 3;
-                    prevRoad.SetPlane();
+                    prevRoad.SetPlane(withoutBonus);
                     RoadList.Add(prevRoad);
                     prevRoad.transform.parent = RoadBox;
                 }
                 else
                 {
-                    RoadPlaneCntrl road = RoadFrontList[Random.Range(0, RoadFrontList.Count - 1)];
+                    RoadPlaneCntrl road =
+                        _roadCollection.RoadFrontList[Random.Range(0, _roadCollection.RoadFrontList.Count - 1)];
                     prevRoad = Instantiate(road,
                         new Vector3(position.x + road.Scaler.x, 0, position.z),
                         Quaternion.identity);
                     prevRoad.type = 1;
                     prevFront = true;
-                    prevRoad.SetPlane();
+                    prevRoad.SetPlane(withoutBonus);
                     RoadList.Add(prevRoad);
                     prevRoad.transform.parent = RoadBox;
                 }
@@ -268,6 +281,7 @@ namespace CyberCar
                     {
                         CreateNewRoadPatern();
                     }
+
                     StartCoroutine(DeleteRoad(prevPlane));
                 }
             }
@@ -275,11 +289,10 @@ namespace CyberCar
 
         IEnumerator DeleteRoad(RoadPlaneCntrl road)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(2);
             GameObject roadToDel = road.gameObject;
             RoadList.Remove(road);
             Destroy(roadToDel);
-           
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CyberCar.Dictionaries;
 using UnityEngine;
 
 namespace CyberCar
@@ -14,5 +15,6 @@ namespace CyberCar
         public RoadPlaneCntrl FinishPlane;
         public RoadsParams TypeOfRoad;
         public bool isComplited;
+        public Dictionaryes.TrassaType _trassaType;
     }
 }

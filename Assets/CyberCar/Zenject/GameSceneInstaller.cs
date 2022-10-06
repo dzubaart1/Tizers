@@ -20,14 +20,16 @@ namespace CyberCar.Zenject
         public override void InstallBindings()
         {
         
+            int PaternId = PlayerPrefs.GetInt("PaternGame");
+            RoadPatern PaternGame =  Resources.Load<RoadPatern>(PaternId.ToString());
             /*Подключение сигналов*/
             SignalBusInstaller.Install(Container);
             /*сигналы*/
             InitialSignals();
             /*Контроллеры*/
             manager = Container.InstantiatePrefabForComponent<CarGameManager>(manager_prefab, new Vector3(0,0,0), Quaternion.identity,null);
-            car = Container.InstantiatePrefabForComponent<CarCntrl>(car_prefab, StartPosition.position, Quaternion.identity,null);
             carCanvas = Container.InstantiatePrefabForComponent<CarCanvasCntrl>(carCanvas_prefab, new Vector3(0,0,0), Quaternion.identity,null);
+            car = Container.InstantiatePrefabForComponent<CarCntrl>(car_prefab, StartPosition.position, Quaternion.identity,null);
             carCanvas.GameManager = manager;
             car.GameManager = manager;
             manager.Car = car;

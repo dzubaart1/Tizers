@@ -50,10 +50,13 @@ namespace CyberCar
                         }
 
                         RoadCntrl.Params = _patern.TypeOfRoad;
+                        RoadCntrl.Trassa = _patern._trassaType;
+                        Car.Trassa = _patern._trassaType;
                         RenderSettings.skybox = _roadsParams.SkyBoxMaterial;
                         break;
                     }
                 }
+               
             }
 
            

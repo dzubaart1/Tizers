@@ -43,3 +43,4 @@ MonoBehaviour:
   FinishPlane: {fileID: 8316344234280778434, guid: 3efe127d64a24de4eb89659cbb7a7059,
     type: 3}
   TypeOfRoad: {fileID: 11400000, guid: 96ca8722d980e234cae02e514254678b, type: 2}
+  isComplited: 0

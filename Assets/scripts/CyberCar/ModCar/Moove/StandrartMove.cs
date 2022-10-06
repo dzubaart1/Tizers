@@ -59,8 +59,8 @@ namespace ModCar
 
         public override void Moove()
         {
-            if (start) body.isKinematic = true;
-            
+            if (!start) body.isKinematic = true;
+            else body.isKinematic = false;
               h = Joystick.Horizontal/2;
             float motor = maxMotorTorque; //*v;
             if (onNitro && CurSpeed < MaxNitroSpeed)

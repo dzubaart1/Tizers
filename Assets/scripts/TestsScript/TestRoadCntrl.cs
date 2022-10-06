@@ -10,7 +10,7 @@ namespace TestsScript
 {
     public class TestRoadCntrl : Singleton<TestRoadCntrl>
     {
-        [Header("Control param")] public Dictionary.TrassaType Trassa;
+        [Header("Control param")] public Dictionaryes.TrassaType Trassa;
         public RoadPatern Patern;
         private bool IsPatern;
         public RoadsParams Params;
@@ -39,16 +39,16 @@ namespace TestsScript
         {
             switch (Trassa)
             {
-                case Dictionary.TrassaType.sprint:
+                case Dictionaryes.TrassaType.sprint:
                     RoadType = new SprintType();
                     break;
-                case Dictionary.TrassaType.circle:
+                case Dictionaryes.TrassaType.circle:
                     RoadType = new SprintType();
                     break;
-                case Dictionary.TrassaType.drift:
+                case Dictionaryes.TrassaType.drift:
                     RoadType = new DriftType();
                     break;
-                case Dictionary.TrassaType.blended:
+                case Dictionaryes.TrassaType.blended:
                     RoadType = new SprintType();
                     break;
             }
@@ -93,7 +93,7 @@ namespace TestsScript
                 return;
             }*/
 
-            if (Trassa == Dictionary.TrassaType.drift)
+            if (Trassa == Dictionaryes.TrassaType.drift)
             {
                 RoadPlaneCntrl road = new RoadPlaneCntrl();
 

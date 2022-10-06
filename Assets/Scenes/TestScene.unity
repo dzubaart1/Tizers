@@ -1660,8 +1660,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 7.6565414e+28, y: 9.023931e-33, z: 1.8062397e+28,
-    w: 1.648987e+28}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -1990,15 +1989,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e897eb6a460b4366bb7a603aabfc0cf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Trassa: 1
   Patern: {fileID: 0}
-  Params: {fileID: 11400000, guid: 744ea5546f93bf8438b403f0eb262bba, type: 2}
+  Params: {fileID: 11400000, guid: a37435b677ac11744b062fa71c8f1d77, type: 2}
   _roadCollection: {fileID: 0}
   Player: {fileID: 0}
   RoadBox: {fileID: 310347236}
   position: {x: 0, y: 0, z: 0}
   prevPlane: {fileID: 0}
   curPlane: {fileID: 0}
-  onlyFront: 1
+  onlyFront: 0
   withoutBonus: 1
 --- !u!4 &1794304222
 Transform:

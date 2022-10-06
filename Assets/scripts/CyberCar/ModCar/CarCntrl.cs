@@ -38,7 +38,7 @@ namespace CyberCar
         public float EfectLifeTime;
 
         [Header("Movers")] 
-        public Dictionary.CarMoveType MoveType;
+        public Dictionaryes.TrassaType  Trassa;
 
         [Header("Model params")]
         public List<GameObject> BackLightsItems;
@@ -58,6 +58,7 @@ namespace CyberCar
 
         void Start()
         {
+
             Debug.Log(Application.persistentDataPath + "/MySaveData.dat");
             List<CarParams> CarsObjs = Resources.LoadAll<CarParams>("CustomCars").ToList();
 
@@ -111,7 +112,7 @@ namespace CyberCar
             CarModel.transform.localPosition = new Vector3(0, 0.241f, 0);
             _rb = GetComponent<Rigidbody>();
             
-           if (MoveType == Dictionary.CarMoveType.drift)
+           if (Trassa == Dictionaryes.TrassaType.drift)
            {
                _moove = GetComponent<DriftMoove>();
                _moove.enabled = true;
@@ -127,6 +128,20 @@ namespace CyberCar
             Anim = GetComponent<Animator>();
         }
 
+        private void FixedUpdate()
+        {
+            GameManager._CarCanvas._view.SetSpeed((int)_moove.CurSpeed);
+            if (MyEffect != IGameItem.EfectType.none && EfectLifeTime > 0)
+            {
+                EfectLifeTime -= Time.deltaTime;
+                if (EfectLifeTime <= 0)
+                {
+                    MyEffect = IGameItem.EfectType.none;
+                    Destroy(efectObj);
+                }
+            }
+           
+        }
         void TurnCar()
         {
            // _moove.TurnCar();
@@ -135,12 +150,12 @@ namespace CyberCar
         void NitroCar()
         {
             Debug.Log("Nitro called");
-            _moove.onNitro = true;
+            //_moove.onNitro = true;
         }
 
         void StopNitroCar()
         {
-            _moove.onNitro = false;
+            //_moove.onNitro = false;
         }
 
         public void StartGame()
@@ -257,19 +272,7 @@ namespace CyberCar
                 }
             }
         }
-        private void FixedUpdate()
-        {
-            if (MyEffect != IGameItem.EfectType.none && EfectLifeTime > 0)
-            {
-                EfectLifeTime -= Time.deltaTime;
-                if (EfectLifeTime <= 0)
-                {
-                    MyEffect = IGameItem.EfectType.none;
-                    Destroy(efectObj);
-                }
-            }
-           
-        }
+    
         private void DeactivateEffect()
         {
             throw new NotImplementedException();

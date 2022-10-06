@@ -399,10 +399,10 @@ ReflectionProbe:
   m_TimeSlicingMode: 0
   m_Resolution: 128
   m_UpdateFrequency: 0
-  m_BoxSize: {x: 3.64, y: 1, z: 35.682533}
-  m_BoxOffset: {x: 0, y: 0, z: 13.1}
+  m_BoxSize: {x: 17.51, y: 1.63, z: 60}
+  m_BoxOffset: {x: 0, y: 0, z: 8.05}
   m_NearClip: 0.01
-  m_FarClip: 10
+  m_FarClip: 30
   m_ShadowDistance: 100
   m_ClearFlags: 1
   m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
@@ -779,8 +779,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1245006696}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.000000014901159, y: 0.00000008234186, z: -0.000000041388674,
+    w: 1}
+  m_LocalPosition: {x: 0.00000020742402, y: -0.0000004075569, z: -0.0000008622019}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 535997325}
@@ -1035,8 +1036,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1723320691}
-  m_LocalRotation: {x: 0.21899292, y: -0, z: -0, w: 0.9757265}
-  m_LocalPosition: {x: 0, y: 3.8600001, z: -6.26}
+  m_LocalRotation: {x: 0.21899295, y: 0.00000008940697, z: -0.000000022351742, w: 0.9757265}
+  m_LocalPosition: {x: 0.00000020742402, y: 3.8600001, z: -6.260001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1245006698}
@@ -1406,7 +1407,8 @@ MonoBehaviour:
   MyEffect: 0
   effectOnActive: 0
   EfectLifeTime: 0
-  MoveType: 0
+  Trassa: 0
+  BackLightsItems: []
 --- !u!114 &3739802389783274324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1419,6 +1421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d76a4a1e610479987efcbf6530b0485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Cntrl: {fileID: 0}
   OnAGround: 0
   canMoove: 0
   onNitro: 0
@@ -1432,6 +1435,7 @@ MonoBehaviour:
   MaxNitroSpeed: 65
   maxBrake: 900
   SavedVelocity: {x: 0, y: 0, z: 0}
+  lightIsEnable: 0
   isRotating: 0
   RotationSpeed: 120
   BoostAcceleration: 6
@@ -1457,6 +1461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2288b9b3d0d04b8d974d2a8f3699f6d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Cntrl: {fileID: 0}
   OnAGround: 0
   canMoove: 0
   onNitro: 0
@@ -1470,6 +1475,7 @@ MonoBehaviour:
   MaxNitroSpeed: 65
   maxBrake: 900
   SavedVelocity: {x: 0, y: 0, z: 0}
+  lightIsEnable: 0
   Joystick: {fileID: 0}
   axleInfos:
   - {fileID: 1144559077}

@@ -45,7 +45,7 @@ namespace ModCar
             _swipeCOntroll.DownSwipe += OfNitro;
             _swipeCOntroll.DownSwipe += brokeDrossel;
             Joystick = FindObjectOfType<VariableJoystick>();
-            Joystick.enabled = false;
+            if (Joystick) Joystick.enabled = false;
         }
 
 
@@ -61,6 +61,8 @@ namespace ModCar
 
         public override void Moove()
         {
+            if (!start) body.isKinematic = true;
+            else body.isKinematic = false;
             CurSpeed = body.velocity.magnitude;
             if (start && CurSpeed < MaxSpeed && !_onBroke)
             {

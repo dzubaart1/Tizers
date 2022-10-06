@@ -2,7 +2,7 @@
 
 namespace CyberCar.Dictionaries
 {
-    public static class Dictionary
+    public static class Dictionaryes
     {
         public enum CarMoveType
         {

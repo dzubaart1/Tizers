@@ -9,8 +9,8 @@ namespace CyberCar.ModCanvas
 {
     public class ButtonEvents: MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
     {
-        [SerializeField] UnityEvent PointDown;
-        [SerializeField] UnityEvent PointUp;
+         public UnityEvent PointDown;
+         public UnityEvent PointUp;
         [SerializeField] UnityEvent PointClick;
         
         public void OnPointerDown(PointerEventData eventData)
