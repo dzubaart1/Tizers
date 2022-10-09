@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CyberCar;
@@ -33,7 +33,10 @@ namespace TestsScript
 
         [SerializeField] private RoadPlaneCntrl curPlane;
         public bool onlyFront;
+        public bool сirleRoad;
         public bool withoutBonus;
+
+        public GameObject cube;
         void Start()
         {
             RoadType = new SprintType();
@@ -50,13 +53,45 @@ namespace TestsScript
             curPlane = StartRoad;
             prevRoad = StartRoad;
             prevRoad.transform.parent = RoadBox;
-            for (int i = 0; i < 12; i++)
+            /*for (int i = 0; i < 12; i++)
             {
                 CreateNewRoad();
-            }
+            }*/
+            if(сirleRoad)
+                CreateCircleRoad();
         }
 
+        void CreateCircleRoad()
+        {
+            RoadPlaneCntrl road = _roadCollection.RoadRightList[Random.Range(0, _roadCollection.RoadRightList.Count)];
 
+            //SerializeField
+            Vector3 center = prevRoad.transform.position + new Vector3(160, 0, 0);
+            float spawnRadius = 100;
+            int agentRadius = 40;
+            //
+
+            Vector3 point = center;
+            float distRing = 2 * 3.14f * spawnRadius;
+            var Angle = 360 * Mathf.Deg2Rad;
+
+
+            int possibleCount = (int)(distRing / agentRadius) - 1;
+
+            for (int i = 1; i <= possibleCount; i++)
+            {
+                road = _roadCollection.RoadRightList[Random.Range(0, _roadCollection.RoadRightList.Count)];
+                float _z = center.z + Mathf.Cos(Angle / possibleCount * i) * spawnRadius;
+                float _x = center.x + Mathf.Sin(Angle / possibleCount * i) * spawnRadius;
+                point.x = _x;
+                point.z = _z;
+
+                Vector3 vector3 = Vector3.Cross(road.transform.up, center - point);
+
+                Instantiate(road, point, Quaternion.LookRotation(vector3), RoadBox);
+                Debug.Log(point);
+            }
+        }
         void CreateNewRoad()
         {
             int rRoad = Random.Range(0, 10);

@@ -28,8 +28,8 @@ namespace CyberCar
         public List<BonusCntrl> PreparedBonuses;
 
         /// <summary>
-        /// 1 - front;
-        /// 2 = rigtht
+        /// 1 - front
+        /// 2 = right
         /// 3 - fturn
         /// 4 = rturn
         /// </summary>
